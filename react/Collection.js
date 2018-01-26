@@ -35,7 +35,7 @@ class Collection extends Component {
   }
 
   backToList() {
-    global.browserHistory.push(`/admin/collections/`)
+    window.location.href = '/admin/collections'
   }
 
   render() {

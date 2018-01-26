@@ -17,7 +17,7 @@ class ListPage extends Component {
   }
 
   openCollection = (id) => {
-    global.browserHistory.push(`/admin/collections/${id ? id : 'new'}`)
+    window.location.href = `/admin/collections/${id ? id : 'new'}`
   }
 
   render() {
