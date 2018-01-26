@@ -1,7 +1,7 @@
 {
   "pages": {
     "admin-collections": {
-      "path": "/admin/collections",
+      "path": "/admin-collections",
       "theme": "theme",
       "auth": true
     }
