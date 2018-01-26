@@ -1,14 +1,14 @@
 {
   "pages": {
     "admin-collections": {
-      "path": "/admin-collections",
+      "path": "/admin/collections",
       "theme": "theme",
       "auth": true
     }
   },
   "extensions": {
     "admin-collections": {
-      "component": "ListPage"
+      "component": "ListPageContainer"
     }
   }
 }

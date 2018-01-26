@@ -5,3 +5,7 @@
 "@vtex/styleguide@^2.0.0-rc.1":
   version "2.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@vtex/styleguide/-/styleguide-2.0.0-rc.1.tgz#fe6d1783a8e25a5bef6e5a70a73e5edacedba483"
+
+vtex-tachyons@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-1.0.1.tgz#3abe2162679d54352af19555f425fe4397eed9c2"
