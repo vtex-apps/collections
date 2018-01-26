@@ -13,12 +13,12 @@ class Collection extends Component {
     const { data } = this.props
 
     return (
-      <div className="bg-white">
-        <div className="w-50-l center pv6">
+      <div className="h-100" style={{backgroundColor:'#F2F2F2'}} >
+        <div className="w-40-l center pv6">
           <div className="fw7 f2">
             New collection
           </div>
-          <div className="bg-white pa6 mt6 br3 ba b--silver">
+          <div className="bg-white pa6 mt6 br2 shadow-4">
             <div>
               <label for="name">Collection name</label>
               <div className="pt3">
@@ -58,12 +58,40 @@ class Collection extends Component {
               <span>Searchable</span>
             </div>
           </div>
-          <div className="bg-white mt6 pv5">
-            I want to include products by select
+          <div className="bg-white pa6 mt6 br2 shadow-4">
+            <span className="pr3">I want to</span>
+            <select>
+              <option value="include">Include</option>
+              <option value="include">Exclude</option>
+            </select>
+            <span className="ph3">products by</span>
+            <select>
+              <option value="include">Select</option>
+              <option value="include">Category</option>
+              <option value="include">Brand</option>
+              <option value="include">Specifications</option>
+              <option value="include">SKU</option>
+            </select>
           </div>
-          <Button primary>
-            Save
-          </Button>
+          <div className="flex justify-end pt6">
+            <div clasName="pr3">
+              <Button secondary>
+                Add condition
+              </Button>
+            </div>
+            <div className="mh3"></div>
+            <div clasName="pr3">
+              <Button secondary>
+                Cancel
+              </Button>
+            </div>
+            <div className="mh3"></div>
+            <div>
+              <Button primary>
+                Save
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     )
