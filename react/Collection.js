@@ -6,64 +6,112 @@ import gql from 'graphql-tag'
 import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
+import Toggle from './Toggle'
 
 class Collection extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = props && props.data && props.data.collection
+      ? props.data.collection
+      : {}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const collection = this.props.data.collection
+    this.setState(collection)
+  }
+
+  handleChangeHighlight = () => {
+    this.setState({ highlight: !this.state.highlight })
+  }
+
+  handleChangeSearchable = (searchable) => {
+    this.setState({ searchable: !this.state.searchable })
+  }
+
+  handleChangeName = (name) => {
+    this.setState({ name })
+  }
+
   render() {
-    console.log('Collection', this.props)
-    const { data } = this.props
+    if (this.props.data.loading) {
+      return <FormattedMessage id="store-graphql.loading" />
+    }
+
+    const collection = this.state
 
     return (
-      <div className="bg-white">
-        <div className="w-50-l center pv6">
+      <div className="h-100" style={{backgroundColor:'#F2F2F2'}} >
+        <div className="w-40-l center pv6">
           <div className="fw7 f2">
             New collection
           </div>
-          <div className="bg-white pa6 mt6 br3 ba b--silver">
+          <div className="bg-white pa6 mt6 br2 shadow-4">
             <div>
               <label for="name">Collection name</label>
               <div className="pt3">
-                <Input id="name" htmlProps={{ placeholder: 'Name' }} />
+                <Input
+                  id="name"
+                  onChange={this.handleChangeName}
+                  htmlProps={{ placeholder: 'Name', value: collection.name }} />
               </div>
             </div>
-            <div classNamme="flex">
-              <div className="mt4">
-                <label for="start">From</label>
-                <div className="flex pt3">
-                  <div>
-                    <Input id="start" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
-                  </div>
-                  <div className="ml3">
-                    <Input htmlProps={{ placeholder: '12:00' }} />
-                  </div>
-                </div>
-              </div>
-              <div className="mt4">
-                <label for="end">To</label>
-                <div className="flex pt3">
-                  <div>
-                    <Input id="end" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
-                  </div>
-                  <div className="ml3">
-                    <Input htmlProps={{ placeholder: 'Name' }} />
-                  </div>
-                </div>
+            <div className="flex pt5">
+              <div className="pr2">
+                <Toggle
+                  secondary
+                  onClick={this.handleChangeHighlight}
+                  checked={collection.highlight}>
+                  <span className="pl3">Highlight</span>
+                </Toggle>
               </div>
             </div>
             <div className="flex">
-              <div className="pr2">breno bota o toggle</div>
-              <span>Highlight</span>
-            </div>
-            <div className="flex">
-              <div className="pr2">breno bota o toggle</div>
-              <span>Searchable</span>
+              <div className="pr2 pt5">
+                <Toggle
+                  secondary
+                  onClick={this.handleChangeSearchable}
+                  checked={collection.searchable}>
+                  <span className="pl3">Searchable</span>
+                </Toggle>
+              </div>
             </div>
           </div>
-          <div className="bg-white mt6 pv5">
-            I want to include products by select
+          <div className="bg-white pa6 mt6 br2 shadow-4">
+            <span className="pr3">I want to</span>
+            <select>
+              <option value="include">Include</option>
+              <option value="include">Exclude</option>
+            </select>
+            <span className="ph3">products by</span>
+            <select>
+              <option value="include">Select</option>
+              <option value="include">Category</option>
+              <option value="include">Brand</option>
+              <option value="include">Specifications</option>
+              <option value="include">SKU</option>
+            </select>
           </div>
-          <Button primary>
-            Save
-          </Button>
+          <div className="flex justify-end pt6">
+            <div clasName="pr3">
+              <Button secondary>
+                Add condition
+              </Button>
+            </div>
+            <div className="mh3"></div>
+            <div clasName="pr3">
+              <Button secondary>
+                Cancel
+              </Button>
+            </div>
+            <div className="mh3"></div>
+            <div>
+              <Button primary>
+                Save
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     )
