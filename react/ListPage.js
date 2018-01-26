@@ -39,15 +39,15 @@ class ListPage extends Component {
             New collection
           </Button>
         </div>
-        <div className="flex justify-between pt5">
-          <Input htmlProps={{ placeholder: 'Search by collection name…' }} />
-          <div>
+        <div className="flex justify-between pt6 w-100">
+          <div className="w-90">
+            <Input htmlProps={{ placeholder: 'Search by collection name…' }} />
           </div>
           <div>
             Total of pages: {this.props.data.collections.totalPages}
           </div>
         </div>
-        <table className="w-100 tl pt5">
+        <table className="w-100 tl pt6">
           <thead>
             <tr>
               <th className="fw3 gray pb2 ttu">Name</th>
