@@ -5,8 +5,8 @@
       "theme": "theme",
       "auth": true
     },
-    "admin-collections-create": {
-      "path": "/admin-collections-create",
+    "admin-collections-collection": {
+      "path": "/admin/collections/collection/:id",
       "theme": "theme",
       "auth": true
     }
@@ -15,8 +15,8 @@
     "admin-collections": {
       "component": "ListPageContainer"
     },
-    "admin-collections-create": {
-      "component": "CreateCollection"
+    "admin-collections-collection": {
+      "component": "CollectionContainer"
     }
   }
 }
