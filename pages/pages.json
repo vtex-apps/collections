@@ -4,11 +4,19 @@
       "path": "/admin/collections",
       "theme": "theme",
       "auth": true
+    },
+    "admin-collections-create": {
+      "path": "/admin-collections-create",
+      "theme": "theme",
+      "auth": true
     }
   },
   "extensions": {
     "admin-collections": {
       "component": "ListPageContainer"
+    },
+    "admin-collections-create": {
+      "component": "CreateCollection"
     }
   }
 }
