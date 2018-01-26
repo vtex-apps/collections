@@ -42,10 +42,16 @@ class ListPage extends Component {
         </div>
         <div className="flex justify-between pt6 w-100">
           <div className="w-90">
-            <Input htmlProps={{ placeholder: 'Search by collection name…' }} />
+            <Input htmlProps={{ placeholder: 'Search by collection name…' }}/>
           </div>
           <div>
-            Total of pages: {this.props.data.collections.totalPages}
+            <Button htmlProps={{ onClick: this.handlePreviousPage }}>
+              {'<'}
+            </Button>
+            {this.props.data.collections.page}
+            <Button htmlProps={{ onClick: this.handleNextPage }}>
+              {'>'}
+            </Button>
           </div>
         </div>
         <table className="w-100 tl pt6">
@@ -64,8 +70,8 @@ class ListPage extends Component {
               return (
                 <tr key={collection.id}>
                   <td className="fw7 pv4 bt b--black-10 w-20">{collection.name}</td>
-                  <td className="fw4 pv4 bt b--black-10 w-20">25/06/2018</td>
-                  <td className="fw4 pv4 bt b--black-10 w-20">25/06/2020</td>
+                  <td className="fw4 pv4 bt b--black-10 w-20">{collection.dateFrom}</td>
+                  <td className="fw4 pv4 bt b--black-10 w-20">{collection.dateTo}</td>
                   <td className="fw4 pv4 bt b--black-10 w-10">Active</td>
                   <td className="fw4 pv4 bt b--black-10 w-10">{collection.highlight ? 'Active' : 'Inactive'}</td>
                   <td className="fw4 pv4 bt b--black-10 w-10">{collection.searchable ? 'Active' : 'Inactive'}</td>
