@@ -57,23 +57,23 @@ class Collection extends Component {
                   htmlProps={{ placeholder: 'Name', value: collection.name }} />
               </div>
             </div>
-            <div className="flex">
+            <div className="flex pt5">
               <div className="pr2">
                 <Toggle
                   secondary
                   onClick={this.handleChangeHighlight}
                   checked={collection.highlight}>
-                  <span>Highlight</span>
+                  <span className="pl3">Highlight</span>
                 </Toggle>
               </div>
             </div>
             <div className="flex">
-              <div className="pr2">
+              <div className="pr2 pt5">
                 <Toggle
                   secondary
                   onClick={this.handleChangeSearchable}
                   checked={collection.searchable}>
-                  <span>Searchable</span>
+                  <span className="pl3">Searchable</span>
                 </Toggle>
               </div>
             </div>

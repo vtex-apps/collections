@@ -71,7 +71,6 @@ class Toggle extends Component {
         onClick={this.handleClick}
         {...this.props.htmlProps}
       >
-        {this.props.children}
         <div className={`${classes}`}>
           <div
             style={{
@@ -95,6 +94,7 @@ class Toggle extends Component {
           disabled={disabled}
           checked={checked}
         />
+        {this.props.children}
       </label>
     )
   }

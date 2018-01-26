@@ -66,7 +66,7 @@ class ListPage extends Component {
                   <td className="fw7 pv4 bt b--black-10 w-20">{collection.name}</td>
                   <td className="fw4 pv4 bt b--black-10 w-20">25/06/2018</td>
                   <td className="fw4 pv4 bt b--black-10 w-20">25/06/2020</td>
-                  <td className="fw4 pv4 bt b--black-10 w-10">Active</td>
+                  <td className="fw4 pv4 bt b--black-10 w-10 blue fw7">Active</td>
                   <td className="fw4 pv4 bt b--black-10 w-10">{collection.highlight ? 'Active' : 'Inactive'}</td>
                   <td className="fw4 pv4 bt b--black-10 w-10">{collection.searchable ? 'Active' : 'Inactive'}</td>
                 </tr>
