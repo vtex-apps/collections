@@ -4,8 +4,9 @@ import { getCollection, getCollections, getSubCollections } from './collectionAP
 export const resolvers = {
   Query: {
     collection: async function(_, info, { vtex: ioContext, request }, query) {
-      if (!query.variableValues || !query.variableValues.id)
-        throw new Error('No id was specified to get a collection')
+      if (!query.variableValues || !query.variableValues.id) {
+        return null
+      }
 
       const id = query.variableValues.id
 

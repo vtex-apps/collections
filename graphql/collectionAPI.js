@@ -21,7 +21,7 @@ export function getSubCollections({ioContext, id}) {
       Authorization: `${ioContext.authToken}`,
     },
   }).then(({ data }) => {
-    return fixCondition(data)
+    return data.map(fixCondition)
   })
 }
 
