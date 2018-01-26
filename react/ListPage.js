@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
+import Input from '@vtex/styleguide/lib/Input'
 
 class ListPage extends Component {
   handleNextPage = () => {
@@ -27,7 +28,7 @@ class ListPage extends Component {
     }
 
     return (
-      <div className="pa4 w-90 center">
+      <div className="pv6 ph3 w-90 center">
         <div className="flex justify-between">
           <div className="fw7 f2">
             Collections
@@ -39,8 +40,8 @@ class ListPage extends Component {
           </Button>
         </div>
         <div className="flex justify-between pt5">
+          <Input htmlProps={{ placeholder: 'Search by collection name…' }} />
           <div>
-            Search by collection's name or ID
           </div>
           <div>
             Total of pages: {this.props.data.collections.TotalPage}
