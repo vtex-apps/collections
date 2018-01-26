@@ -6,11 +6,40 @@ import gql from 'graphql-tag'
 import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
+import Toggle from './Toggle'
 
 class Collection extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = props && props.data && props.data.collection
+      ? props.data.collection
+      : {}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const collection = this.props.data.collection
+    this.setState(collection)
+  }
+
+  handleChangeHighlight = () => {
+    this.setState({ highlight: !this.state.highlight })
+  }
+
+  handleChangeSearchable = (searchable) => {
+    this.setState({ searchable: !this.state.searchable })
+  }
+
+  handleChangeName = (name) => {
+    this.setState({ name })
+  }
+
   render() {
-    console.log('Collection', this.props)
-    const { data } = this.props
+    if (this.props.data.loading) {
+      return <FormattedMessage id="store-graphql.loading" />
+    }
+
+    const collection = this.state
 
     return (
       <div className="h-100" style={{backgroundColor:'#F2F2F2'}} >
@@ -22,40 +51,31 @@ class Collection extends Component {
             <div>
               <label for="name">Collection name</label>
               <div className="pt3">
-                <Input id="name" htmlProps={{ placeholder: 'Name' }} />
-              </div>
-            </div>
-            <div classNamme="flex">
-              <div className="mt4">
-                <label for="start">From</label>
-                <div className="flex pt3">
-                  <div>
-                    <Input id="start" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
-                  </div>
-                  <div className="ml3">
-                    <Input htmlProps={{ placeholder: '12:00' }} />
-                  </div>
-                </div>
-              </div>
-              <div className="mt4">
-                <label for="end">To</label>
-                <div className="flex pt3">
-                  <div>
-                    <Input id="end" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
-                  </div>
-                  <div className="ml3">
-                    <Input htmlProps={{ placeholder: 'Name' }} />
-                  </div>
-                </div>
+                <Input
+                  id="name"
+                  onChange={this.handleChangeName}
+                  htmlProps={{ placeholder: 'Name', value: collection.name }} />
               </div>
             </div>
             <div className="flex">
-              <div className="pr2">breno bota o toggle</div>
-              <span>Highlight</span>
+              <div className="pr2">
+                <Toggle
+                  secondary
+                  onClick={this.handleChangeHighlight}
+                  checked={collection.highlight}>
+                  <span>Highlight</span>
+                </Toggle>
+              </div>
             </div>
             <div className="flex">
-              <div className="pr2">breno bota o toggle</div>
-              <span>Searchable</span>
+              <div className="pr2">
+                <Toggle
+                  secondary
+                  onClick={this.handleChangeSearchable}
+                  checked={collection.searchable}>
+                  <span>Searchable</span>
+                </Toggle>
+              </div>
             </div>
           </div>
           <div className="bg-white pa6 mt6 br2 shadow-4">
