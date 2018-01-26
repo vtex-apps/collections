@@ -3,21 +3,30 @@ type Query {
     page: Int
     size: Int
   ): CollectionsList
+  collection(id: Int): Collection
 }
 
 type CollectionsList {
-  Page: Int
-  Size: Int
-  TotalRows: Int
-  TotalPage: Int
-  Data: [Collection]
+  page: Int!
+  size: Int!
+  totalPages: Int!
+  collections: [Collection]!
 }
 
 type Collection {
-  Id: Int
-  Name: String
-  Searchable: Boolean
-  Highlight: Boolean
-  DateFrom: String
-  DateTo: String
+  id: ID!
+  name: String!
+  searchable: Boolean!
+  highlight: Boolean!
+  dateFrom: String!
+  dateTo: String!
+  conditions: [Condition]
+}
+
+type Condition {
+  id: ID
+  name: String
+  type: String
+  preSale: Boolean
+  release: Boolean
 }

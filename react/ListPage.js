@@ -44,7 +44,7 @@ class ListPage extends Component {
           <div>
           </div>
           <div>
-            Total of pages: {this.props.data.collections.TotalPage}
+            Total of pages: {this.props.data.collections.totalPages}
           </div>
         </div>
         <table className="w-100 tl pt5">
@@ -59,15 +59,15 @@ class ListPage extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.data.collections.Data.map((collection) => {
+            {this.props.data.collections.collections.map((collection) => {
               return (
-                <tr key={collection.Id}>
-                  <td className="fw7 pv4 bt b--black-10 w-20">{collection.Name}</td>
+                <tr key={collection.id}>
+                  <td className="fw7 pv4 bt b--black-10 w-20">{collection.name}</td>
                   <td className="fw4 pv4 bt b--black-10 w-20">25/06/2018</td>
                   <td className="fw4 pv4 bt b--black-10 w-20">25/06/2020</td>
                   <td className="fw4 pv4 bt b--black-10 w-10">Active</td>
-                  <td className="fw4 pv4 bt b--black-10 w-10">{collection.Highlight ? 'Active' : 'Inactive'}</td>
-                  <td className="fw4 pv4 bt b--black-10 w-10">{collection.Searchable ? 'Active' : 'Inactive'}</td>
+                  <td className="fw4 pv4 bt b--black-10 w-10">{collection.highlight ? 'Active' : 'Inactive'}</td>
+                  <td className="fw4 pv4 bt b--black-10 w-10">{collection.searchable ? 'Active' : 'Inactive'}</td>
                 </tr>
               )
             })}
@@ -91,17 +91,16 @@ const query = gql`
       page: $page
       size: $size
     ) {
-      Page,
-      Size,
-      TotalRows,
-      TotalPage,
-      Data {
-        Id,
-        Name,
-        Searchable,
-        Highlight,
-        DateFrom,
-        DateTo,
+      page,
+      size,
+      totalPages,
+      collections {
+        id,
+        name,
+        searchable,
+        highlight,
+        dateFrom,
+        dateTo,
       }
     }
   }
