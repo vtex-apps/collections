@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import 'vtex-tachyons'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -6,43 +7,53 @@ import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
 
-class Shelf extends Component {
+class CreateCollection extends Component {
   render() {
     const { data } = this.props
 
     return (
-      <div className="bg-gray">
-        <div className="w-50-l center">
+      <div className="bg-white">
+        <div className="w-50-l center pv6">
           <div className="fw7 f2">
             New collection
           </div>
-          <div className="bg-white pa6">
+          <div className="bg-white pa6 mt6 br3 ba b--silver">
             <div>
               <label for="name">Collection name</label>
               <div className="pt3">
                 <Input id="name" htmlProps={{ placeholder: 'Name' }} />
               </div>
             </div>
-            <div>
-              <div>
+            <div classNamme="flex">
+              <div className="mt4">
                 <label for="start">From</label>
                 <div className="flex pt3">
-                  <Input id="start" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
-                  <Input htmlProps={{ placeholder: '12:00' }} />
+                  <div>
+                    <Input id="start" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
+                  </div>
+                  <div className="ml3">
+                    <Input htmlProps={{ placeholder: '12:00' }} />
+                  </div>
                 </div>
               </div>
-              <div>
+              <div className="mt4">
                 <label for="end">To</label>
                 <div className="flex pt3">
-                  <Input id="end" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
-                  <Input htmlProps={{ placeholder: 'Name' }} />
+                  <div>
+                    <Input id="end" htmlProps={{ placeholder: 'dd/mm/yyyy' }} />
+                  </div>
+                  <div className="ml3">
+                    <Input htmlProps={{ placeholder: 'Name' }} />
+                  </div>
                 </div>
               </div>
             </div>
             <div className="flex">
+              <div className="pr2">breno bota o toggle</div>
               <span>Highlight</span>
             </div>
             <div className="flex">
+              <div className="pr2">breno bota o toggle</div>
               <span>Searchable</span>
             </div>
           </div>
@@ -58,36 +69,8 @@ class Shelf extends Component {
   }
 }
 
-Shelf.propTypes = {
+CreateCollection.propTypes = {
   data: PropTypes.object.isRequired,
 }
 
-const query = gql`
-  {
-    collections {
-      Page,
-      Size,
-      TotalRows,
-      TotalPage,
-      Data {
-        Id,
-        Name,
-        Searchable,
-        Highlight,
-        DateFrom,
-        DateTo,
-      }
-    }
-  }
-`
-
-const options = {
-  options: ({ page = 1, size = 20 }) => ({
-    variables: {
-      page,
-      size,
-    },
-  }),
-}
-
-export default graphql(query, options)(Shelf)
+export default CreateCollection
