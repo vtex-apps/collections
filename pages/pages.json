@@ -6,6 +6,11 @@
       "auth": true
     },
     "admin-collections-collection": {
+      "path": "/admin/collections/collection/",
+      "theme": "theme",
+      "auth": true
+    },
+    "admin-collections-collection-edit": {
       "path": "/admin/collections/collection/:id",
       "theme": "theme",
       "auth": true
@@ -16,6 +21,9 @@
       "component": "ListPageContainer"
     },
     "admin-collections-collection": {
+      "component": "CollectionContainer"
+    },
+    "admin-collections-collection-edit": {
       "component": "CollectionContainer"
     }
   }
