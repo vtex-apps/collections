@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "@vtex/styleguide": "^2.0.0-rc.2",
+    "react-autocomplete-tags": "^1.0.13-alpha",
     "vtex-tachyons": "^1.0.1"
   }
 }

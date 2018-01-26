@@ -82,21 +82,27 @@ class Collection extends Component {
               </div>
             </div>
           </div>
-          <div className="bg-white pa6 mt6 br2 shadow-4">
-            <span className="pr3">I want to</span>
-            <select>
-              <option value="include">Include</option>
-              <option value="include">Exclude</option>
-            </select>
-            <span className="ph3">products by</span>
-            <select>
-              <option value="include">Select</option>
-              <option value="include">Category</option>
-              <option value="include">Brand</option>
-              <option value="include">Specifications</option>
-              <option value="include">SKU</option>
-            </select>
-          </div>
+
+          {collection.conditions.map(condition => {
+            return (
+              <div className="bg-white pa6 mt6 br2 shadow-4">
+                <span className="pr3">I want to</span>
+                <select value={condition.type}>
+                  <option value="Inclusive">Include</option>
+                  <option value="Exclusive">Exclude</option>
+                </select>
+                <span className="ph3">products by</span>
+                <select>
+                  <option value="include">Select</option>
+                  <option value="include">Category</option>
+                  <option value="include">Brand</option>
+                  <option value="include">Specifications</option>
+                  <option value="include">SKU</option>
+                </select>
+              </div>
+            )
+          })}
+
           <div className="flex justify-end pt6">
             <div clasName="pr3">
               <Button secondary>
