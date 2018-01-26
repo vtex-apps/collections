@@ -7,8 +7,9 @@ import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
 
-class CreateCollection extends Component {
+class Collection extends Component {
   render() {
+    console.log('Collection', this.props)
     const { data } = this.props
 
     return (
@@ -69,8 +70,40 @@ class CreateCollection extends Component {
   }
 }
 
-CreateCollection.propTypes = {
+Collection.propTypes = {
   data: PropTypes.object.isRequired,
 }
 
-export default CreateCollection
+const query = gql`
+  query Collection(
+    $id: Int
+  ) {
+    collection(
+      id: $id
+    ) {
+      id
+      name
+      searchable
+      highlight
+      dateFrom
+      dateTo
+      conditions {
+        id
+        name
+        type
+        preSale
+        release
+      }
+    }
+  }
+`
+
+const options = {
+  options: ({ id }) => ({
+    variables: {
+      id,
+    },
+  }),
+}
+
+export default graphql(query, options)(Collection)

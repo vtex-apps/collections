@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, withGraphQl } from 'react-apollo'
-import gql from 'graphql-tag'
-import { FormattedMessage } from 'react-intl'
 import ListPage from './ListPage'
 import 'vtex-tachyons'
 
