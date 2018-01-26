@@ -1,0 +1,21 @@
+{
+  "vendor": "vtex",
+  "name": "render-getting-started",
+  "version": "0.6.3",
+  "title": "Getting Started with VTEX Render",
+  "description": "A hello world app for VTEX Render",
+  "defaultLocale": "pt-BR",
+  "builders": {
+    "pages": "0.x",
+    "react": "1.x"
+  },
+  "mustUpdateAt": "2018-09-05",
+  "categories": [],
+  "registries": [
+    "smartcheckout"
+  ],
+  "settingsSchema": {},
+  "scripts": {
+    "postreleasy": "vtex publish --public"
+  }
+}

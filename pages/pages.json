@@ -1,0 +1,49 @@
+{
+  "pages": {
+    "getting-started": {
+      "path": "/getting-started",
+      "theme": "theme",
+      "extensible": true
+    },
+    "getting-started/nested-a": {
+      "path": "/getting-started/a"
+    },
+    "getting-started/nested-b": {
+      "path": "/getting-started/b"
+    },
+    "legacy-getting-started": {
+      "path": "/legacy-extensions/render-example",
+      "theme": "theme"
+    }
+  },
+  "extensions": {
+    "getting-started": {
+      "component": "index"
+    },
+    "getting-started/nested-a": {
+      "component": "nestedA"
+    },
+    "getting-started/nested-b": {
+      "component": "nestedB"
+    },
+    "getting-started/first-step": {
+      "component": "first"
+    },
+    "getting-started/second-step": {
+      "component": "second",
+      "async": true,
+      "props": {
+        "appName": "VTEX IO"
+      }
+    },
+    "legacy-getting-started/example": {
+      "component": "index"
+    },
+    "legacy-getting-started/example/first-step": {
+      "component": "first"
+    },
+    "legacy-getting-started/example/second-step": {
+      "component": "second"
+    }
+  }
+}
