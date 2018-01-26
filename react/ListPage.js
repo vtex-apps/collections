@@ -16,8 +16,8 @@ class ListPage extends Component {
     this.props.changePage(this.props.data.variables.page - 1)
   }
 
-  handleNewCollectionClick = () => {
-    alert('go to other page')
+  openCollection = (id) => {
+    global.browserHistory.push(`/admin/collections/${id ? id : 'new'}`)
   }
 
   render() {
@@ -35,7 +35,7 @@ class ListPage extends Component {
             Collections
           </div>
           <Button primary htmlProps={{
-            onClick: this.handleNewCollectionClick,
+            onClick: () => this.openCollection(),
           }}>
             New collection
           </Button>
@@ -68,7 +68,10 @@ class ListPage extends Component {
           <tbody>
             {this.props.data.collections.collections.map((collection) => {
               return (
-                <tr key={collection.id}>
+                <tr
+                  key={collection.id}
+                  className="pointer hover-bg-near-white"
+                  onClick={() => this.openCollection(collection.id)}>
                   <td className="fw7 pv4 bt b--black-10 w-20">{collection.name}</td>
                   <td className="fw4 pv4 bt b--black-10 w-20">{collection.dateFrom}</td>
                   <td className="fw4 pv4 bt b--black-10 w-20">{collection.dateTo}</td>

@@ -6,12 +6,12 @@
       "auth": true
     },
     "admin-collections-collection": {
-      "path": "/admin/collections/collection/",
+      "path": "/admin/collections/new/",
       "theme": "theme",
       "auth": true
     },
     "admin-collections-collection-edit": {
-      "path": "/admin/collections/collection/:id",
+      "path": "/admin/collections/:id/",
       "theme": "theme",
       "auth": true
     }

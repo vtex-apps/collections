@@ -18,7 +18,7 @@ class Collection extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const collection = this.props.data.collection
+    const collection = nextProps.data.collection
     this.setState(collection)
   }
 
@@ -34,6 +34,10 @@ class Collection extends Component {
     this.setState({ name })
   }
 
+  backToList() {
+    global.browserHistory.push(`/admin/collections/`)
+  }
+
   render() {
     if (this.props.data.loading) {
       return <FormattedMessage id="store-graphql.loading" />
@@ -45,7 +49,7 @@ class Collection extends Component {
       <div className="h-100" style={{backgroundColor:'#F2F2F2'}} >
         <div className="w-40-l center pv6">
           <div className="fw7 f2">
-            New collection
+            Collection
           </div>
           <div className="bg-white pa6 mt6 br2 shadow-4">
             <div>
@@ -101,7 +105,9 @@ class Collection extends Component {
             </div>
             <div className="mh3"></div>
             <div clasName="pr3">
-              <Button secondary>
+              <Button secondary htmlProps={{
+                onClick: this.backToList,
+              }}>
                 Cancel
               </Button>
             </div>
