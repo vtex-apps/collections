@@ -96,8 +96,14 @@ Shelf.propTypes = {
 }
 
 const query = gql`
-  {
-    collections {
+  query Collections(
+    $page: Int
+    $size: Int
+  ) {
+    collections(
+      page: $page
+      size: $size
+    ) {
       Page,
       Size,
       TotalRows,

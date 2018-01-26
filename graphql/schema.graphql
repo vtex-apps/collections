@@ -1,5 +1,8 @@
 type Query {
-  collections: CollectionsList
+  collections(
+    page: Int
+    size: Int
+  ): CollectionsList
 }
 
 type CollectionsList {
