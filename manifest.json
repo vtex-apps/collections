@@ -7,7 +7,8 @@
   "defaultLocale": "pt-BR",
   "builders": {
     "pages": "0.x",
-    "react": "1.x"
+    "react": "1.x",
+    "graphql": "0.x"
   },
   "mustUpdateAt": "2018-09-05",
   "categories": [],
@@ -17,5 +18,13 @@
   "settingsSchema": {},
   "scripts": {
     "postreleasy": "vtex publish --public"
-  }
+  },
+  "policies": [
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "{{account}}.vtexcommercestable.com.br"
+      }
+    }
+  ]
 }

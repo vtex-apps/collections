@@ -1,7 +1,0 @@
-Query {
-  products: Product
-}
-
-type Product {
-  name: string
-}

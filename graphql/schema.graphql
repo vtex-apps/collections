@@ -1,0 +1,20 @@
+type Query {
+  collections: CollectionsList
+}
+
+type CollectionsList {
+  Page: Int
+  Size: Int
+  TotalRows: Int
+  TotalPage: Int
+  Data: [Collection]
+}
+
+type Collection {
+  Id: Int
+  Name: String
+  Searchable: Boolean
+  Highlight: Boolean
+  DateFrom: String
+  DateTo: String
+}
