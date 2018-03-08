@@ -14,7 +14,11 @@ class ListPage extends Component {
   };
 
   handleOpenCollection = id => {
-    window.location.href = `/admin/collections/${id || 'new'}`
+    window.location.href = `/admin/collections/${id}`
+  };
+
+  handleClickNewCollection = () => {
+    window.location.href = '/admin/collections/new'
   };
 
   render() {
@@ -30,7 +34,7 @@ class ListPage extends Component {
               Collections
             </div>
             <div>
-              <Button primary onClick={this.handleOpenCollection}>
+              <Button primary onClick={this.handleClickNewCollection}>
                 New collection
               </Button>
             </div>
@@ -121,7 +125,7 @@ class ListPage extends Component {
                               `br-pill ${collection.searchable ? 'bg-washed-blue blue' : 'bg-near-white mid-gray'} f6 pv2 ph3 dib fw5`
                             }
                           >
-                            {collection.highlight ? 'Active' : 'Inactive'}
+                            {collection.searchable ? 'Active' : 'Inactive'}
                           </div>
                         </td>
                       </tr>
