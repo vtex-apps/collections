@@ -27,8 +27,8 @@ class ListPage extends Component {
     const { data } = this.props
 
     return (
-      <div className="pv6 ph3 w-90 center near-black">
-        <div className="flex justify-between items-center">
+      <div className="pt8 ph3 w-90 center near-black">
+        <div className="flex justify-between items-center bb b--light-gray pb6">
           <div className="fw7 f2">
             Collections
           </div>
@@ -61,7 +61,7 @@ class ListPage extends Component {
         {data.loading
           ? <FormattedMessage id="loading" />
           : <div className="w-100">
-              <table className="tl pt6 w-100" cellSpacing="0">
+              <table className="tl pt8 w-100" cellSpacing="0">
               <thead className="">
                 <tr>
                   <th className="fw3 gray pb2 ttu f7 w-40">Name</th>
