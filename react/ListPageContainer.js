@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ListPage from './ListPage'
-import 'vtex-tachyons'
 
 class ListPageContainer extends Component {
   constructor(props) {
@@ -13,9 +11,9 @@ class ListPageContainer extends Component {
     }
   }
 
-  handleChangePage = (page) => {
+  handleChangePage = page => {
     this.setState({ page })
-  }
+  };
 
   render() {
     const { page, size } = this.state

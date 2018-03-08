@@ -6,11 +6,13 @@
     },
     "admin-collections-collection": {
       "path": "/admin/collections/new/",
-      "auth": true
+      "auth": true,
+      "theme": "theme"
     },
     "admin-collections-collection-edit": {
       "path": "/admin/collections/:id/",
-      "auth": true
+      "auth": true,
+      "theme": "theme"
     }
   },
   "extensions": {

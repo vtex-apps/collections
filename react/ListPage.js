@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import 'vtex-tachyons'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -25,7 +24,6 @@ class ListPage extends Component {
   };
 
   render() {
-    console.log(this.props)
     const { data } = this.props
 
     return (

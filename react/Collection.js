@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import 'vtex-tachyons'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -8,12 +7,19 @@ import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
 import Toggle from '@vtex/styleguide/lib/Toggle'
 
+import 'react-dates/initialize'
+
+import DatePicker from './components/DatePicker'
+import TimePicker from './components/TimePicker'
+
 class Collection extends Component {
   constructor(props) {
     super(props)
 
     this.state = props && props.data && props.data.collection
-      ? props.data.collection
+      ? {
+        ...props.data.collection,
+      }
       : {}
   }
 
@@ -24,15 +30,15 @@ class Collection extends Component {
 
   handleChangeHighlight = () => {
     this.setState({ highlight: !this.state.highlight })
-  }
+  };
 
   handleChangeSearchable = () => {
     this.setState({ searchable: !this.state.searchable })
-  }
+  };
 
-  handleChangeName = (e) => {
+  handleChangeName = e => {
     this.setState({ name: e.target.value })
-  }
+  };
 
   handleCancel() {
     window.location.href = '/admin/collections'
@@ -51,6 +57,10 @@ class Collection extends Component {
           <div className="fw7 f2">
             Collection
           </div>
+          <DatePicker value={collection.dateFrom} onChange={() => {}} />
+          <TimePicker value={collection.dateFrom} onChange={() => {}} />
+          <DatePicker value={collection.dateTo} onChange={() => {}} />
+          <TimePicker value={collection.dateTo} onChange={() => {}} />
           <div className="bg-white pa6 mt6 br2 shadow-4">
             <div>
               <label htmlFor="name">Collection name</label>
@@ -59,7 +69,8 @@ class Collection extends Component {
                   id="name"
                   onChange={this.handleChangeName}
                   placeholder="Name"
-                  value={collection.name} />
+                  value={collection.name}
+                />
               </div>
             </div>
             <div className="flex pt5">
@@ -68,7 +79,8 @@ class Collection extends Component {
                   secondary
                   id="hightlight-toggle"
                   onClick={this.handleChangeHighlight}
-                  checked={collection.highlight}>
+                  checked={collection.highlight}
+                >
                   <span className="pl3">Highlight</span>
                 </Toggle>
               </div>
@@ -79,7 +91,8 @@ class Collection extends Component {
                   secondary
                   id="searchable-toggle"
                   onClick={this.handleChangeSearchable}
-                  checked={collection.searchable}>
+                  checked={collection.searchable}
+                >
                   <span className="pl3">Searchable</span>
                 </Toggle>
               </div>
@@ -112,13 +125,13 @@ class Collection extends Component {
                 Add condition
               </Button>
             </div>
-            <div className="mh3"></div>
+            <div className="mh3" />
             <div className="pr3">
               <Button secondary onClick={this.handleCancel}>
                 Cancel
               </Button>
             </div>
-            <div className="mh3"></div>
+            <div className="mh3" />
             <div>
               <Button primary>
                 Save
