@@ -6,7 +6,7 @@ import gql from 'graphql-tag'
 import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
-import Toggle from './Toggle'
+import Toggle from '@vtex/styleguide/lib/Toggle'
 
 class Collection extends Component {
   constructor(props) {
@@ -46,14 +46,14 @@ class Collection extends Component {
     const collection = this.state
 
     return (
-      <div className="h-100" style={{backgroundColor:'#F2F2F2'}} >
+      <div className="h-100">
         <div className="w-40-l center pv6">
           <div className="fw7 f2">
             Collection
           </div>
           <div className="bg-white pa6 mt6 br2 shadow-4">
             <div>
-              <label for="name">Collection name</label>
+              <label htmlFor="name">Collection name</label>
               <div className="pt3">
                 <Input
                   id="name"
@@ -65,6 +65,7 @@ class Collection extends Component {
               <div className="pr2">
                 <Toggle
                   secondary
+                  id="hightlight-toggle"
                   onClick={this.handleChangeHighlight}
                   checked={collection.highlight}>
                   <span className="pl3">Highlight</span>
@@ -75,6 +76,7 @@ class Collection extends Component {
               <div className="pr2 pt5">
                 <Toggle
                   secondary
+                  id="searchable-toggle"
                   onClick={this.handleChangeSearchable}
                   checked={collection.searchable}>
                   <span className="pl3">Searchable</span>
@@ -83,11 +85,11 @@ class Collection extends Component {
             </div>
           </div>
 
-          {collection.conditions.map(condition => {
+          {collection.conditions.map((condition, index) => {
             return (
-              <div className="bg-white pa6 mt6 br2 shadow-4">
+              <div className="bg-white pa6 mt6 br2 shadow-4" key={index}>
                 <span className="pr3">I want to</span>
-                <select value={condition.type}>
+                <select value={condition.type} onChange={() => {}}>
                   <option value="Inclusive">Include</option>
                   <option value="Exclusive">Exclude</option>
                 </select>
@@ -104,16 +106,14 @@ class Collection extends Component {
           })}
 
           <div className="flex justify-end pt6">
-            <div clasName="pr3">
+            <div className="pr3">
               <Button secondary>
                 Add condition
               </Button>
             </div>
             <div className="mh3"></div>
-            <div clasName="pr3">
-              <Button secondary htmlProps={{
-                onClick: this.backToList,
-              }}>
+            <div className="pr3">
+              <Button secondary onClick={this.backToList}>
                 Cancel
               </Button>
             </div>

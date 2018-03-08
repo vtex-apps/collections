@@ -2,17 +2,14 @@
   "pages": {
     "admin-collections": {
       "path": "/admin/collections",
-      "theme": "theme",
       "auth": true
     },
     "admin-collections-collection": {
       "path": "/admin/collections/new/",
-      "theme": "theme",
       "auth": true
     },
     "admin-collections-collection-edit": {
       "path": "/admin/collections/:id/",
-      "theme": "theme",
       "auth": true
     }
   },

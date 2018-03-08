@@ -1,6 +1,6 @@
 {
   "vendor": "vtex",
-  "name": "render-getting-started",
+  "name": "collections",
   "version": "0.6.3",
   "title": "Getting Started with VTEX Render",
   "description": "A hello world app for VTEX Render",
