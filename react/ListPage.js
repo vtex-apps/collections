@@ -5,6 +5,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
+import Toggle from '@vtex/styleguide/lib/Toggle'
 import Input from '@vtex/styleguide/lib/Input'
 
 class ListPage extends Component {
@@ -25,14 +26,16 @@ class ListPage extends Component {
     const { data } = this.props
 
     return (
-      <div className="pv6 ph3 w-90 center">
-        <div className="flex justify-between">
+      <div className="pv6 ph3 w-90 center near-black">
+        <div className="flex justify-between items-center">
           <div className="fw7 f2">
             Collections
           </div>
-          <Button primary onClick={this.handleOpenCollection}>
-            New collection
-          </Button>
+          <div>
+            <Button primary onClick={this.handleOpenCollection}>
+              New collection
+            </Button>
+          </div>
         </div>
         <div className="flex justify-between pt6 w-100">
           <div className="w-80">
@@ -67,12 +70,12 @@ class ListPage extends Component {
           : <table className="w-100 tl pt6">
             <thead>
               <tr>
-                <th className="fw3 gray pb2 ttu">Name</th>
-                <th className="fw3 gray pb2 ttu">Start</th>
-                <th className="fw3 gray pb2 ttu">End</th>
-                <th className="fw3 gray pb2 ttu">Status</th>
-                <th className="fw3 gray pb2 ttu">Highlight</th>
-                <th className="fw3 gray pb2 ttu">Searchable</th>
+                <th className="fw3 gray pb2 ttu f7">Name</th>
+                <th className="fw3 gray pb2 ttu f7">Start</th>
+                <th className="fw3 gray pb2 ttu f7">End</th>
+                <th className="fw3 gray pb2 ttu f7">Status</th>
+                <th className="fw3 gray pb2 ttu f7">Highlight</th>
+                <th className="fw3 gray pb2 ttu f7">Searchable</th>
               </tr>
             </thead>
             <tbody>
@@ -83,10 +86,10 @@ class ListPage extends Component {
                     className="pointer hover-bg-near-white"
                     onClick={() => this.handleOpenCollection(collection.id)}
                   >
-                    <td className="fw7 pv4 bt b--black-10 w-20">
+                    <td className="fw7 pv6 bt b--light-gray">
                       {collection.name}
                     </td>
-                    <td className="fw4 pv4 bt b--black-10 w-20">
+                    <td className="fw4 pv6 bt b--light-gray">
                       <FormattedDate
                         value={new Date(collection.dateFrom)}
                         day="2-digit"
@@ -96,7 +99,7 @@ class ListPage extends Component {
                         minute="2-digit"
                       />
                     </td>
-                    <td className="fw4 pv4 bt b--black-10 w-20">
+                    <td className="fw4 pv6 bt b--light-gray">
                       <FormattedDate
                         value={new Date(collection.dateTo)}
                         day="2-digit"
@@ -106,12 +109,18 @@ class ListPage extends Component {
                         minute="2-digit"
                       />
                     </td>
-                    <td className="fw4 pv4 bt b--black-10 w-10">Active</td>
-                    <td className="fw4 pv4 bt b--black-10 w-10">
-                      {collection.highlight ? 'Active' : 'Inactive'}
+                    <td className="fw4 pv6 bt b--light-gray">
+                      <div>
+                        <div className="br-pill bg-washed-blue blue f6 pa2">
+                          Active
+                        </div>
+                      </div>
                     </td>
-                    <td className="fw4 pv4 bt b--black-10 w-10">
-                      {collection.searchable ? 'Active' : 'Inactive'}
+                    <td className="fw4 pv6 bt b--light-gray">
+                      <Toggle checked={collection.highlight} />
+                    </td>
+                    <td className="fw4 pv6 bt b--light-gray">
+                      <Toggle checked={collection.searchable} />
                     </td>
                   </tr>
                 )
