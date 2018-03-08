@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { fixCollection, fixCollections, fixCondition } from './fixCamelCase'
 
-export function getCollection({ioContext, id}) {
+export function getCollection({ ioContext, id }) {
   return axios({
     url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog/pvt/collection/${id}`,
     method: 'get',
@@ -13,7 +13,7 @@ export function getCollection({ioContext, id}) {
   })
 }
 
-export function getSubCollections({ioContext, id}) {
+export function getSubCollections({ ioContext, id }) {
   return axios({
     url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog/pvt/collection/${id}/subcollection`,
     method: 'get',
@@ -25,7 +25,7 @@ export function getSubCollections({ioContext, id}) {
   })
 }
 
-export function getCollections({ioContext, page, size}) {
+export function getCollections({ ioContext, page, size }) {
   return axios({
     url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog/pvt/collection`,
     method: 'get',
@@ -35,7 +35,7 @@ export function getCollections({ioContext, page, size}) {
     params: {
       page: page == null ? 1 : page,
       size: size == null ? 20 : size,
-    }
+    },
   }).then(({ data }) => {
     return fixCollections(data)
   })
