@@ -37,9 +37,7 @@ class ListPage extends Component {
           </div>
           <div className="flex justify-between pt6 w-100">
             <div className="w-80">
-              <Input
-                htmlProps={{ placeholder: 'Search by collection name…' }}
-              />
+              <Input placeholder="Search by collection name…" />
             </div>
             <Pagination
               currentPage={parseInt(data.variables.page, 10)}
