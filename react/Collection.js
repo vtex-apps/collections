@@ -52,8 +52,8 @@ class Collection extends Component {
     const collection = this.state
 
     return (
-      <div className="h-100">
-        <div className="w-40-l center pv6">
+      <div className="h-100 w-100 bg-near-white">
+        <div className="w-90 center pv6">
           <div className="fw7 f2">
             Collection
           </div>
@@ -61,7 +61,7 @@ class Collection extends Component {
           <TimePicker value={collection.dateFrom} onChange={() => {}} />
           <DatePicker value={collection.dateTo} onChange={() => {}} />
           <TimePicker value={collection.dateTo} onChange={() => {}} />
-          <div className="bg-white pa6 mt6 br2 shadow-4">
+          <div className="pa6 mt6 br2 shadow-4">
             <div>
               <label htmlFor="name">Collection name</label>
               <div className="pt3">
@@ -118,7 +118,7 @@ class Collection extends Component {
               </div>
             )
           })}
-
+          <div>Hello World!</div>
           <div className="flex justify-end pt6">
             <div className="pr3">
               <Button secondary>
