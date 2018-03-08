@@ -52,7 +52,7 @@ class Collection extends Component {
     const collection = this.state
 
     return (
-      <div className="h-100 w-100 bg-near-white">
+      <div className="w-100 bg-near-white h-100">
         <div className="w-90 center pv6">
           <div className="fw7 f2">
             Collection

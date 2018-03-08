@@ -4,7 +4,7 @@ import Collection from './Collection'
 
 class CollectionContainer extends Component {
   render() {
-    return <Collection id={this.props.params.id} />
+    return <Collection id={this.props.params.id} className="h-100" />
   }
 }
 

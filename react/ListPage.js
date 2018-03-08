@@ -25,7 +25,7 @@ class ListPage extends Component {
     const { data } = this.props
 
     return (
-      <div className="pv8 ph3 near-black bg-near-white w-100">
+      <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
         <div className="w-90 center">
           <div
             className="flex justify-between items-center bb b--light-gray pb6"

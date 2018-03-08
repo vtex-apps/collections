@@ -1,2 +1,7 @@
 @import "./react-dates.css";
 @import "./rc-time-picker.css";
+
+body {
+  background-color: #f7f9fa;
+  height: 100%;
+}

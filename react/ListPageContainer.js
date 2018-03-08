@@ -19,7 +19,7 @@ class ListPageContainer extends Component {
     const { page, size } = this.state
 
     return (
-      <ListPage page={page} size={size} changePage={this.handleChangePage} />
+      <ListPage page={page} size={size} changePage={this.handleChangePage} className="h-100" />
     )
   }
 }

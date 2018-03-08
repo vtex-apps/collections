@@ -2,7 +2,8 @@
   "pages": {
     "admin-collections": {
       "path": "/admin/collections",
-      "auth": true
+      "auth": true,
+      "theme": "theme"
     },
     "admin-collections-collection": {
       "path": "/admin/collections/new/",
