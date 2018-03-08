@@ -26,15 +26,15 @@ class Collection extends Component {
     this.setState({ highlight: !this.state.highlight })
   }
 
-  handleChangeSearchable = (searchable) => {
+  handleChangeSearchable = () => {
     this.setState({ searchable: !this.state.searchable })
   }
 
-  handleChangeName = (name) => {
-    this.setState({ name })
+  handleChangeName = (e) => {
+    this.setState({ name: e.target.value })
   }
 
-  backToList() {
+  handleCancel() {
     window.location.href = '/admin/collections'
   }
 
@@ -58,7 +58,8 @@ class Collection extends Component {
                 <Input
                   id="name"
                   onChange={this.handleChangeName}
-                  htmlProps={{ placeholder: 'Name', value: collection.name }} />
+                  placeholder="Name"
+                  value={collection.name} />
               </div>
             </div>
             <div className="flex pt5">
@@ -113,7 +114,7 @@ class Collection extends Component {
             </div>
             <div className="mh3"></div>
             <div className="pr3">
-              <Button secondary onClick={this.backToList}>
+              <Button secondary onClick={this.handleCancel}>
                 Cancel
               </Button>
             </div>

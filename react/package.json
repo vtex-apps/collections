@@ -2,7 +2,7 @@
   "name": "vtex.collections",
   "version": "0.0.0",
   "dependencies": {
-    "@vtex/styleguide": "^2.0.0-rc.19",
+    "@vtex/styleguide": "^2.0.0-rc.22",
     "moment": "^2.21.0",
     "rc-time-picker": "^3.3.1",
     "react": "^16.2.0",

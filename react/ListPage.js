@@ -39,7 +39,7 @@ class ListPage extends Component {
         </div>
         <div className="flex justify-between pt6 w-100">
           <div className="w-80">
-            <Input htmlProps={{ placeholder: 'Search by collection name…' }} />
+            <Input placeholder="Search by collection name…" />
           </div>
           <div>
             <div
@@ -112,7 +112,7 @@ class ListPage extends Component {
                     <td className="fw4 pv6 bt b--light-gray">
                       <div>
                         <div className="br-pill bg-washed-blue blue f6 pa2">
-                          Active
+                            Active
                         </div>
                       </div>
                     </td>
