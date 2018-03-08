@@ -28,5 +28,25 @@ type Condition {
   name: String
   type: String
   preSale: Boolean
-  release: Boolean
+  release: Boolean,
+  brands: [Brand],
+  categories: [Category],
+  skus: [Sku],
+  products: [Product]
+}
+
+type Brand {
+  id: ID,
+}
+
+type Category {
+  id: ID,
+}
+
+type Sku {
+  id: ID,
+}
+
+type Product {
+  id: ID,
 }
