@@ -20,11 +20,24 @@ export const resolvers = {
     },
 
     collections: async function(_, info, { vtex: ioContext, request }, query) {
-      const collections = await getCollections({
-        ioContext,
-        page: query.variableValues.page,
-        size: query.variableValues.size,
-      })
+      let collections
+      try {
+        collections = await getCollections({
+          ioContext,
+          page: query.variableValues.page,
+          size: query.variableValues.size,
+        })
+      } catch (e) {
+        console.log({
+          statusText: e.response.statusText,
+          headers: e.response.headers,
+          request: {
+            method: e.request.method,
+            path: e.request.path,
+          }
+        })
+        return e
+      }
 
       return collections
     },

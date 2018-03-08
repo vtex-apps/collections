@@ -6,9 +6,10 @@
   "description": "A hello world app for VTEX Render",
   "defaultLocale": "pt-BR",
   "builders": {
+    "graphql": "1.x",
+    "node": "3.x",
     "pages": "0.x",
-    "react": "1.x",
-    "graphql": "0.x"
+    "react": "2.x"
   },
   "mustUpdateAt": "2018-09-05",
   "categories": [],
@@ -23,7 +24,8 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "{{account}}.vtexcommercestable.com.br"
+        "host": "{{account}}.vtexcommercestable.com.br",
+        "path": "/*"
       }
     }
   ]

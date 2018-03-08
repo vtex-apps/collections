@@ -30,7 +30,7 @@ export function getCollections({ioContext, page, size}) {
     url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog/pvt/collection`,
     method: 'get',
     headers: {
-      Authorization: `${ioContext.authToken}`,
+      Authorization: ioContext.authToken,
     },
     params: {
       page: page == null ? 1 : page,

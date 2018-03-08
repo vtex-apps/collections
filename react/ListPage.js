@@ -41,7 +41,7 @@ class ListPage extends Component {
           </Button>
         </div>
         <div className="flex justify-between pt6 w-100">
-          <div className="w-90">
+          <div className="w-80">
             <Input htmlProps={{ placeholder: 'Search by collection name…' }}/>
           </div>
           <div>
