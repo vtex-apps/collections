@@ -81,7 +81,7 @@ class ListPage extends Component {
                   <tr
                     key={collection.id}
                     className="pointer hover-bg-near-white"
-                    onClick={() => this.openCollection(collection.id)}
+                    onClick={() => this.handleOpenCollection(collection.id)}
                   >
                     <td className="fw7 pv4 bt b--black-10 w-20">
                       {collection.name}
