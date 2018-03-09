@@ -4,13 +4,8 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
-import Input from '@vtex/styleguide/lib/Input'
-import Toggle from '@vtex/styleguide/lib/Toggle'
-
-import 'react-dates/initialize'
-
-import DatePicker from '../components/DatePicker/index'
-import TimePicker from '../components/TimePicker/index'
+import Config from '../components/Config'
+import Items from '../components/Items'
 
 class Collection extends Component {
   constructor(props) {
@@ -54,7 +49,9 @@ class Collection extends Component {
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
         <div className="w-90 center">
-          <div className="flex justify-between items-center bb b--light-gray pb6">
+          <div
+            className="flex justify-between items-center bb b--light-gray pb6"
+          >
             <div className="fw7 f2">
               Collections
             </div>
@@ -69,36 +66,8 @@ class Collection extends Component {
               </Button>
             </div>
           </div>
-          <div className="bg-white pa6 mt6 br2 shadow-4">
-            <DatePicker value={collection.dateFrom} onChange={() => {}} />
-            <TimePicker value={collection.dateFrom} onChange={() => {}} />
-            <DatePicker value={collection.dateTo} onChange={() => {}} />
-            <TimePicker value={collection.dateTo} onChange={() => {}} />
-            <div className="flex pt5">
-              <div className="pr2">
-                <Toggle
-                  secondary
-                  id="hightlight-toggle"
-                  onClick={this.handleChangeHighlight}
-                  checked={collection.highlight}
-                >
-                  <span className="pl3">Highlight</span>
-                </Toggle>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="pr2 pt5">
-                <Toggle
-                  secondary
-                  id="searchable-toggle"
-                  onClick={this.handleChangeSearchable}
-                  checked={collection.searchable}
-                >
-                  <span className="pl3">Searchable</span>
-                </Toggle>
-              </div>
-            </div>
-          </div>
+          <Config collection={collection} />
+          <Items />
         </div>
       </div>
     )
