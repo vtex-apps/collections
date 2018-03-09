@@ -19,6 +19,7 @@ body {
 .DateInput input[type=text] {
   font-size: 14px;
   letter-spacing: -0.4px; 
+  font-weight: 400;
   padding: 4px 8px;
 }
 
@@ -37,14 +38,33 @@ body {
 }
 
 /* Time Picker */
-.rc-time-picker input[type=text]{
-	padding:8px;
-	font-size: 14px;
-	letter-spacing: -0.4px; 
+.rc-time-picker input[type=text] {
+  padding: 8px;
+  font-size: 14px;
+  top: 2px;
+  height: 38px;
+  border: 2px solid #e3e4e6;
+  letter-spacing: -0.4px;
 }
 
-.rc-time-picker-input{
-	padding:8px;
-	font-size: 14px;
-	letter-spacing: -0.4px; 
+.rc-time-picker-panel-inner {
+	width: 13.9em;
+  display: inline-block;
+  position: relative;
+  outline: none;
+  list-style: none;
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  border-radius: 4px;
+  background-clip: padding-box;
+  border: 1px solid #e3e4e6;
+  line-height: 1.5;
+}
+
+.rc-time-picker-panel-input-wrap {
+    box-sizing: border-box;
+    position: relative;
+    padding: 8px;
+    border-bottom: 1px solid #e3e4e6;
 }
