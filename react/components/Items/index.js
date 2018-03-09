@@ -11,6 +11,8 @@ import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
 import EmptyCollection from './Result/EmptyCollection'
+import Loading from './Result/Loading'
+
 import EmptySearch from './Result/EmptySearch'
 
 class Items extends Component {
@@ -134,7 +136,10 @@ class Items extends Component {
           </div>
           <div className="pt6">
             {this.props.data.loading
-              ? <div>Loading</div>
+              ?
+              <div className="flex flex-column items-center pa10">
+                <Loading />
+              </div>
               : this.state.query
                 ? this.props.data.products.items.length === 0
                   ? <EmptySearch />
