@@ -7,7 +7,10 @@ class Sku extends Component {
 
     return (
       <div className="flex items-center" style={{ paddingLeft: '3.75rem' }}>
-        <input type="checkbox" className="mr5" />
+        <label className="container">
+          <input type="checkbox"></input>
+          <span className="checkmark" style={{ width: '12px', height: '12px'}}></span>
+        </label>
         <div
           className="bl br b--light-gray ph4 pv5 flex items-center f6 flex-grow-1 justify-between bg-near-white"
         >
