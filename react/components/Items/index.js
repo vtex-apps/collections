@@ -20,12 +20,16 @@ class Items extends Component {
                 <Search />
               </div>
               <div className="pl4">
-                <Dropdown
-                  placeholder='Filter by'
-                  options={['Selected', 'Not selected', 'All']}
-                  onChange={() => {}}
-                  value=""
-                />
+                <label htmlFor="filter" className="f7 fw3">Filter by</label>
+                <div className="pt3">
+                  <Dropdown
+                    placeholder='All'
+                    options={['Selected', 'Not selected', 'All']}
+                    onChange={() => {}}
+                    value=""
+                    id="filter"
+                  />
+                </div>
               </div>
             </div>
             <div className="pt6">
