@@ -1,42 +1,39 @@
 import axios from 'axios'
-import { fixCollection, fixCollections, fixCondition } from './fixCamelCase'
 
 export function getCollection({ ioContext, id }) {
   return axios({
-    url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog/pvt/collection/${id}`,
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/${id}`,
     method: 'get',
     headers: {
       Authorization: `${ioContext.authToken}`,
     },
-  }).then(({ data }) => {
-    return fixCollection(data)
-  })
+  }).then(({ data }) => data)
 }
 
-export function getSubCollections({ ioContext, id }) {
+export function getConditions({ ioContext, id, page, pageSize }) {
   return axios({
-    url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog/pvt/collection/${id}/subcollection`,
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/${id}/conditions`,
     method: 'get',
     headers: {
       Authorization: `${ioContext.authToken}`,
     },
-  }).then(({ data }) => {
-    return data.map(fixCondition)
-  })
+    params: {
+      page: page == null ? 1 : page,
+      pageSize: pageSize == null ? 20 : pageSize,
+    },
+  }).then(({ data }) => data)
 }
 
-export function getCollections({ ioContext, page, size }) {
+export function getCollections({ ioContext, key = '', page, pageSize }) {
   return axios({
-    url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog/pvt/collection`,
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/search/${key}`,
     method: 'get',
     headers: {
       Authorization: ioContext.authToken,
     },
     params: {
       page: page == null ? 1 : page,
-      size: size == null ? 20 : size,
+      pageSize: pageSize == null ? 20 : pageSize,
     },
-  }).then(({ data }) => {
-    return fixCollections(data)
-  })
+  }).then(({ data }) => data)
 }

@@ -54,7 +54,9 @@ class Collection extends Component {
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
         <div className="w-90 center pv6">
-          <div className="flex justify-between items-center bb b--light-gray pb6">
+          <div
+            className="flex justify-between items-center bb b--light-gray pb6"
+          >
             <div className="fw7 f2">
               Collections
             </div>
@@ -69,7 +71,7 @@ class Collection extends Component {
               </Button>
             </div>
           </div>
-          <div className="bg-white pa6 mt6 br2 shadow-4"> 
+          <div className="bg-white pa6 mt6 br2 shadow-4">
             <DatePicker value={collection.dateFrom} onChange={() => {}} />
             <TimePicker value={collection.dateFrom} onChange={() => {}} />
             <DatePicker value={collection.dateTo} onChange={() => {}} />
@@ -99,42 +101,6 @@ class Collection extends Component {
               </div>
             </div>
           </div>
-
-          <div className="bg-white pa6 mt6 br2 shadow-4">
-            <div>
-              <label htmlFor="name">Collection name</label>
-              <div className="pt3">
-                <Input
-                  id="name"
-                  onChange={this.handleChangeName}
-                  placeholder="Name"
-                  value={collection.name}
-                />
-              </div>
-            </div>
-
-            
-          </div>
-
-          {collection.conditions.map((condition, index) => {
-            return (
-              <div className="bg-white pa6 mt6 br2 shadow-4" key={index}>
-                <span className="pr3">I want to</span>
-                <select value={condition.type} onChange={() => {}}>
-                  <option value="Inclusive">Include</option>
-                  <option value="Exclusive">Exclude</option>
-                </select>
-                <span className="ph3">products by</span>
-                <select>
-                  <option value="include">Select</option>
-                  <option value="include">Category</option>
-                  <option value="include">Brand</option>
-                  <option value="include">Specifications</option>
-                  <option value="include">SKU</option>
-                </select>
-              </div>
-            )
-          })}
         </div>
       </div>
     )
@@ -147,10 +113,14 @@ Collection.propTypes = {
 
 const query = gql`
   query Collection(
-    $id: Int
+    $id: Int,
+    $page: Int,
+    $pageSize: Int,
   ) {
     collection(
-      id: $id
+      id: $id,
+      page: $page,
+      pageSize: $pageSize,
     ) {
       id
       name
@@ -159,20 +129,34 @@ const query = gql`
       dateFrom
       dateTo
       conditions {
-        id
-        name
-        type
-        preSale
-        release
+        paging {
+          page
+          perPage
+          total
+          pages
+        }
+        items {
+          id
+          name
+          type
+          preSale
+          release
+          brands
+          categories
+          skus
+          products
+        }
       }
     }
   }
 `
 
 const options = {
-  options: ({ id }) => ({
+  options: ({ id, page, pageSize }) => ({
     variables: {
       id,
+      page,
+      pageSize,
     },
   }),
 }

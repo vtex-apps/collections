@@ -1,16 +1,26 @@
 type Query {
   collections(
+    key: String
     page: Int
-    size: Int
+    pageSize: Int
   ): CollectionsList
-  collection(id: Int): Collection
+  collection(
+    id: Int
+    page: Int
+    pageSize: Int
+  ): Collection
 }
 
 type CollectionsList {
+  paging: Paging!
+  items: [Collection]!
+}
+
+type Paging {
   page: Int!
-  size: Int!
-  totalPages: Int!
-  collections: [Collection]!
+  perPage: Int!
+  total: Int!
+  pages: Int!
 }
 
 type Collection {
@@ -20,33 +30,23 @@ type Collection {
   highlight: Boolean!
   dateFrom: String!
   dateTo: String!
-  conditions: [Condition]
+  conditions: ConditionsList
+}
+
+type ConditionsList {
+  paging: Paging!,
+  items: [Condition]!
 }
 
 type Condition {
   id: ID
+  collectionId: Int
   name: String
   type: String
   preSale: Boolean
-  release: Boolean,
-  brands: [Brand],
-  categories: [Category],
-  skus: [Sku],
-  products: [Product]
-}
-
-type Brand {
-  id: ID,
-}
-
-type Category {
-  id: ID,
-}
-
-type Sku {
-  id: ID,
-}
-
-type Product {
-  id: ID,
+  release: Boolean
+  brands: [Int]
+  categories: [Int]
+  skus: [Int]
+  products: [Int]
 }

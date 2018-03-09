@@ -25,7 +25,7 @@ class ListPage extends Component {
   };
 
   render() {
-    const { data } = this.props
+    const { data: { variables, collections, loading } } = this.props
 
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
@@ -47,12 +47,17 @@ class ListPage extends Component {
               <Input placeholder="Search by collection name…" />
             </div>
             <Pagination
-              currentPage={parseInt(data.variables.page, 10)}
-              pages={parseInt(data.collections.totalPages, 10)}
+              currentPage={parseInt(variables.page, 10)}
+              pages={
+                (collections &&
+                  collections.paging &&
+                  parseInt(collections.paging.pages, 10)) ||
+                  undefined
+              }
               onChange={this.handlePageChange}
             />
           </div>
-          {data.loading
+          {loading
             ? <FormattedMessage id="loading" />
             : <Card>
               <table className="tl pt4 w-90 center" cellSpacing="0">
@@ -74,63 +79,64 @@ class ListPage extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.data.collections.collections.map(collection => {
-                    return (
-                      <tr
-                        key={collection.id}
-                        className="pointer hover-bg-near-white"
-                        onClick={() =>
-                          this.handleOpenCollection(collection.id)}
-                      >
-                        <td className="fw7 pv6 bt b--light-gray pl4">
-                          <div className="flex items-center">
-                            <div>
-                              <Status type="active" />
-                            </div>
-                            <div className="pl3">{collection.name}</div>
-                          </div>
-                        </td>
-                        <td className="fw4 pv6 bt b--light-gray">
-                          <FormattedDate
-                            value={new Date(collection.dateFrom)}
-                            day="2-digit"
-                            month="2-digit"
-                            year="2-digit"
-                            hour="2-digit"
-                            minute="2-digit"
-                          />
-                        </td>
-                        <td className="fw4 pv6 bt b--light-gray">
-                          <FormattedDate
-                            value={new Date(collection.dateTo)}
-                            day="2-digit"
-                            month="2-digit"
-                            year="2-digit"
-                            hour="2-digit"
-                            minute="2-digit"
-                          />
-                        </td>
-                        <td className="fw4 pv6 bt b--light-gray">
-                          <Badge
-                            type={
-                              collection.highlight ? 'active' : 'inactive'
-                            }
+                  {collections &&
+                      collections.items.map(collection => {
+                        return (
+                          <tr
+                            key={collection.id}
+                            className="pointer hover-bg-near-white"
+                            onClick={() =>
+                              this.handleOpenCollection(collection.id)}
                           >
-                            {collection.highlight ? 'Active' : 'Inactive'}
-                          </Badge>
-                        </td>
-                        <td className="fw4 pv6 bt b--light-gray">
-                          <Badge
-                            type={
-                              collection.searchable ? 'active' : 'inactive'
-                            }
-                          >
-                            {collection.searchable ? 'Active' : 'Inactive'}
-                          </Badge>
-                        </td>
-                      </tr>
-                    )
-                  })}
+                            <td className="fw7 pv6 bt b--light-gray pl4">
+                              <div className="flex items-center">
+                                <div>
+                                  <Status type="active" />
+                                </div>
+                                <div className="pl3">{collection.name}</div>
+                              </div>
+                            </td>
+                            <td className="fw4 pv6 bt b--light-gray">
+                              <FormattedDate
+                                value={new Date(collection.dateFrom)}
+                                day="2-digit"
+                                month="2-digit"
+                                year="2-digit"
+                                hour="2-digit"
+                                minute="2-digit"
+                              />
+                            </td>
+                            <td className="fw4 pv6 bt b--light-gray">
+                              <FormattedDate
+                                value={new Date(collection.dateTo)}
+                                day="2-digit"
+                                month="2-digit"
+                                year="2-digit"
+                                hour="2-digit"
+                                minute="2-digit"
+                              />
+                            </td>
+                            <td className="fw4 pv6 bt b--light-gray">
+                              <Badge
+                                type={
+                                  collection.highlight ? 'active' : 'inactive'
+                                }
+                              >
+                                {collection.highlight ? 'Active' : 'Inactive'}
+                              </Badge>
+                            </td>
+                            <td className="fw4 pv6 bt b--light-gray">
+                              <Badge
+                                type={
+                                  collection.searchable ? 'active' : 'inactive'
+                                }
+                              >
+                                {collection.searchable ? 'Active' : 'Inactive'}
+                              </Badge>
+                            </td>
+                          </tr>
+                        )
+                      })}
                 </tbody>
               </table>
             </Card>}
@@ -147,17 +153,22 @@ ListPage.propTypes = {
 
 const query = gql`
   query Collections(
+    $key: String
     $page: Int
-    $size: Int
+    $pageSize: Int
   ) {
     collections(
+      key: $key
       page: $page
-      size: $size
+      pageSize: $pageSize
     ) {
-      page,
-      size,
-      totalPages,
-      collections {
+      paging {
+        page
+        perPage
+        total
+        pages
+      }
+      items {
         id,
         name,
         searchable,
@@ -170,10 +181,11 @@ const query = gql`
 `
 
 const options = {
-  options: ({ page = 1, size = 20 }) => ({
+  options: ({ key = 'a', page = 1, pageSize = 20 }) => ({
     variables: {
+      key,
       page,
-      size,
+      pageSize,
     },
   }),
 }

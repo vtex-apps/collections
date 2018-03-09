@@ -1,32 +1,34 @@
-
-import { getCollection, getCollections, getSubCollections } from './collectionAPI'
+import { getCollection, getConditions, getCollections } from './collectionAPI';
 
 export const resolvers = {
   Query: {
     collection: async function(_, info, { vtex: ioContext, request }, query) {
       if (!query.variableValues || !query.variableValues.id) {
-        return null
+        return null;
       }
 
-      const id = query.variableValues.id
+      const id = query.variableValues.id;
+      const page = query.variableValues.page;
+      const pageSize = query.variableValues.pageSize;
 
-      const collection = await getCollection({ioContext, id})
-      const conditions = await getSubCollections({ioContext, id})
+      const collection = await getCollection({ ioContext, id });
+      const conditions = await getConditions({ ioContext, id, page, pageSize });
 
       return {
         ...collection,
         conditions,
-      }
+      };
     },
 
     collections: async function(_, info, { vtex: ioContext, request }, query) {
-      let collections
+      let collections;
       try {
         collections = await getCollections({
           ioContext,
+          key: query.variableValues.key,
           page: query.variableValues.page,
-          size: query.variableValues.size,
-        })
+          pageSize: query.variableValues.pageSize,
+        });
       } catch (e) {
         console.log({
           statusText: e.response.statusText,
@@ -34,14 +36,12 @@ export const resolvers = {
           request: {
             method: e.request.method,
             path: e.request.path,
-          }
-        })
-        return e
+          },
+        });
+        return e;
       }
 
-      return collections
+      return collections;
     },
-  }
-}
-
-
+  },
+};
