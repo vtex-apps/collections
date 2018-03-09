@@ -11,6 +11,7 @@ import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
 import EmptyCollection from './Result/EmptyCollection'
+import EmptySearch from './Result/EmptySearch'
 
 class Items extends Component {
   constructor(props) {
