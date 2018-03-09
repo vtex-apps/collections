@@ -9,7 +9,7 @@ class Result extends Component {
     return (
       <div>
         <div className="flex items-center">
-          <input type="checkbox" className="mr5"></input>
+          <input type="checkbox" className="mr5 o-0 pointer absolute"></input>
           <div className="bt bl bb br b--light-gray pa4 flex items-center f6 flex-grow-1 justify-between relative bg-near-white">
             <div className="flex items-center">
               <img src="http://lojavans.vteximg.com.br/arquivos/ids/168921-1000-1000/IMG_0087.jpg?v=636465293966800000" style={{ width: '3rem', height: '3rem' }} />

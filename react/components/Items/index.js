@@ -68,7 +68,6 @@ class Items extends Component {
                     </div>
                   </div>
                   */}
-                  <Result />
                 </div>
                 {loading ? <div>Loading</div> : <Result products={products} />}
               </div>

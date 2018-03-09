@@ -6,7 +6,6 @@ import Input from '@vtex/styleguide/lib/Input'
 import Pagination from './components/Pagination/index'
 import Badge from './components/Badge'
 import Card from './components/Card'
-import EmptyStateIcon from './components/EmptyStateIcon'
 import Status from './components/Status'
 import SearchCollections from './components/graphql/SearchCollections'
 
