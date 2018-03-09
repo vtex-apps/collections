@@ -18,13 +18,13 @@
   },
   "extensions": {
     "admin-collections": {
-      "component": "ListPageContainer"
+      "component": "ListPage"
     },
     "admin-collections-collection": {
-      "component": "CollectionContainer"
+      "component": "NewCollection"
     },
     "admin-collections-collection-edit": {
-      "component": "CollectionContainer"
+      "component": "EditCollection"
     }
   }
 }

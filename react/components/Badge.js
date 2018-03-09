@@ -22,7 +22,7 @@ Badge.propTypes = {
 
 Badge.propTypes = {
   children: PropTypes.node.isRequired,
-  type: PropTypes.oneOfType(['active', 'inactive']),
+  type: PropTypes.oneOf(['active', 'inactive']),
 }
 
 export default Badge

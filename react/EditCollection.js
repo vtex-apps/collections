@@ -2,25 +2,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { FormattedMessage } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
-import Config from '../components/Config'
-import Items from '../components/Items'
+import Config from './components/Config'
+import Items from './components/Items'
+import SearchCatalog from './components/graphql/SearchCatalog'
 
-class Collection extends Component {
+class EditCollection extends Component {
   constructor(props) {
     super(props)
 
-    this.state = props && props.data && props.data.collection
-      ? {
-        ...props.data.collection,
-      }
-      : {}
+    this.state = {
+      collection: props.collection,
+      loading: props.loading,
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const collection = nextProps.data.collection
-    this.setState(collection)
+    this.setState({
+      collection: nextProps.collection,
+      loading: nextProps.loading,
+    })
   }
 
   handleChangeHighlight = () => {
@@ -40,11 +41,7 @@ class Collection extends Component {
   }
 
   render() {
-    if (this.props.data.loading) {
-      return <FormattedMessage id="store-graphql.loading" />
-    }
-
-    const collection = this.state
+    const { loading, collection } = this.state
 
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
@@ -66,16 +63,33 @@ class Collection extends Component {
               </Button>
             </div>
           </div>
-          <Config collection={collection} />
-          <Items />
+
+          {loading
+            ? <div>Loading</div>
+            : <div>
+              <Config collection={collection} />
+              <Items />
+
+              <SearchCatalog collection="138">
+                {({ loading, products }) => {
+                  return loading
+                    ? 'loading'
+                    : <div>
+                      <strong>Total: {products.length}</strong>
+                      <pre>{JSON.stringify(products, null, 2)}</pre>
+                    </div>
+                }}
+              </SearchCatalog>
+            </div>}
         </div>
       </div>
     )
   }
 }
 
-Collection.propTypes = {
-  data: PropTypes.object.isRequired,
+EditCollection.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  collection: PropTypes.object,
 }
 
 const query = gql`
@@ -119,13 +133,17 @@ const query = gql`
 `
 
 const options = {
-  options: ({ id, page, pageSize }) => ({
+  options: ({ params }) => ({
     variables: {
-      id,
-      page,
-      pageSize,
+      id: params.id,
     },
   }),
+  props: ({ data: { loading, collection } }) => {
+    return {
+      loading,
+      collection,
+    }
+  },
 }
 
-export default graphql(query, options)(Collection)
+export default graphql(query, options)(EditCollection)
