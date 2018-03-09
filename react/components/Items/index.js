@@ -48,15 +48,9 @@ class Items extends Component {
     return (
       <Card>
         <div className="w-90 center">
-          <div className="f4 fw7">
-            Items
-          </div>
-          <div className="flex items-baseline w-100 justify-between">
-            <div className="pt6 w-80">
-              <Search
-                value={this.state.query}
-                onChange={this.handleChangeSearch}
-              />
+          <div className="flex justify-between items-center">
+            <div className="f4 fw7">
+              Items
             </div>
             <div>
               <Pagination
@@ -83,6 +77,14 @@ class Items extends Component {
                     : this.props.data.collection.paging._to
                 }
                 onChange={this.handleChangePage}
+              />
+            </div>
+          </div>
+          <div className="flex items-baseline w-100 justify-between">
+            <div className="pt6 flex-auto">
+              <Search
+                value={this.state.query}
+                onChange={this.handleChangeSearch}
               />
             </div>
             <div className="pl4">

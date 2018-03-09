@@ -15,7 +15,7 @@ class Config extends Component {
 
     return (
       <Card>
-        <div className="ph7">
+        <div className="w-90 center">
           <div className="mb5">
             <input
               className="w-auto bn f4 fw7 near-black"
