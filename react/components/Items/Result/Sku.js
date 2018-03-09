@@ -21,7 +21,9 @@ class Sku extends Component {
             onChange={this.handleChange}
           />
           <span
-            className="checkmark"
+            className={
+              `checkmark ba bw1 ${inCollection ? 'b--blue' : 'b--light-gray'}`
+            }
             style={{ width: '12px', height: '12px' }}
           />
         </label>

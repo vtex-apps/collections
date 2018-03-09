@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import filter from 'lodash/filter'
 
 import IconArrowDown from './IconArrowDown'
 import IconArrowUp from './IconArrowUp'
@@ -12,38 +13,83 @@ class Product extends Component {
     this.state = {
       open: false,
       allSkusChecked: this.areAllSkusSelected(props),
+      hasOneChecked: this.hasOneChecked(props),
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      allSkusChecked: this.areAllSkusSelected(nextProps),
+      hasOneChecked: this.hasOneChecked(nextProps),
+    })
+  }
+
   areAllSkusSelected = props => {
-    return props.productInCollection &&
-      props.product.items.filter(
-        item =>
-          !!props.productInCollection.items.find(
-            sku => sku.itemId === item.itemId
-          )
-      ).length === props.product.items.length
+    return props.productState
+      ? filter(props.productState.skus, sku => sku.checked).length ===
+          props.product.items.length
+      : props.productInCollection &&
+          props.product.items.filter(
+            item =>
+              !!props.productInCollection.items.find(
+                sku => sku.itemId === item.itemId
+              )
+          ).length === props.product.items.length
+  };
+
+  hasOneChecked = props => {
+    return props.productState
+      ? filter(props.productState.skus, sku => sku.checked).length > 0
+      : props.productInCollection &&
+          props.product.items.filter(
+            item =>
+              !!props.productInCollection.items.find(
+                sku => sku.itemId === item.itemId
+              )
+          ).length > 0
   };
 
   handleClickArrow = () => {
     this.setState(prevState => ({ open: !prevState.open }))
   };
 
-  handleChangeSelection = ({ skuId, checked }) => {
-    console.log({ skuId, checked })
+  handleChangeSkuSelection = ({ skuId, checked }) => {
+    this.props.onChangeSelection([
+      {
+        type: 'SKU',
+        productId: this.props.product.productId,
+        skuId,
+        checked,
+      },
+    ])
+  };
+
+  handleChangeProductSelection = () => {
+    this.props.onChangeSelection(
+      this.props.product.items.map(item => ({
+        type: 'SKU',
+        productId: this.props.product.productId,
+        skuId: item.itemId,
+        checked: !this.state.allSkusChecked,
+      }))
+    )
   };
 
   render() {
-    const { product, productInCollection } = this.props
-    const { open, allSkusChecked } = this.state
+    const { product, productState, productInCollection } = this.props
+    const { open, allSkusChecked, hasOneChecked } = this.state
 
     return (
       <Fragment>
         <div className="flex items-center">
           <label className="container">
-            <input type="checkbox" checked={allSkusChecked} />
+            <input
+              type="checkbox"
+              checked={allSkusChecked}
+              onChange={this.handleChangeProductSelection}
+            />
             <span
-              className="checkmark"
+              className={`checkmark ba bw1 ${hasOneChecked ? 'b--blue' : 'b--light-gray'}`}
               style={{ width: '12px', height: '12px' }}
             />
           </label>
@@ -79,11 +125,14 @@ class Product extends Component {
             <Sku
               key={item.itemId}
               sku={item}
-              onChange={this.handleChangeSelection}
+              onChange={this.handleChangeSkuSelection}
               inCollection={
-                !!productInCollection.items.find(
-                  sku => sku.itemId === item.itemId
-                )
+                productState && productState.skus[item.itemId]
+                  ? productState.skus[item.itemId].checked
+                  : productInCollection &&
+                        !!productInCollection.items.find(
+                    sku => sku.itemId === item.itemId
+                  )
               }
             />
           ))
@@ -95,7 +144,9 @@ class Product extends Component {
 
 Product.propTypes = {
   product: PropTypes.object.isRequired,
+  productState: PropTypes.object,
   productInCollection: PropTypes.object,
+  onChangeSelection: PropTypes.func.isRequired,
 }
 
 export default Product

@@ -6,7 +6,7 @@ import debounce from 'debounce'
 
 import Card from '../Card'
 import Search from './Search'
-import Result from './Result/index'
+import Product from './Result/Product'
 import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
@@ -17,7 +17,7 @@ class Items extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { query: props.query }
+    this.state = { query: props.query, selections: { product: {} } }
     this.refetch = debounce(this.refetch.bind(this), 400)
   }
 
@@ -43,6 +43,35 @@ class Items extends Component {
         ? { queryFrom: from, queryTo: to }
         : { collectionFrom: from, collectionTo: to }),
     })
+  };
+
+  handleChangeSelection = changes => {
+    this.setState(prevState => {
+      const newState = changes.reduce(this.doChange, prevState)
+      return newState
+    })
+  };
+
+  doChange = (prevState, change) => {
+    return {
+      ...prevState,
+      selections: {
+        ...prevState.selections,
+        product: {
+          ...prevState.selections.product,
+          [change.productId]: {
+            ...(prevState.selections.product[change.productId] || {}),
+            skus: {
+              ...((prevState.selections.product[change.productId] &&
+                prevState.selections.product[change.productId].skus) || {}),
+              ...(change.type === 'SKU'
+                ? { [change.skuId]: { checked: change.checked } }
+                : {}),
+            },
+          },
+        },
+      },
+    }
   };
 
   render() {
@@ -108,17 +137,39 @@ class Items extends Component {
               ? <div>Loading</div>
               : this.state.query
                 ? this.props.data.products.items.length === 0
-                  ? <div>Empty</div>
-                  : <Result
-                    products={this.props.data.products.items}
-                    collection={this.props.data.collection.items}
-                  />
-                : this.props.data.collection.items.length === 0
-                  ? <EmptyCollection />
-                  : <Result
-                    products={this.props.data.collection.items}
-                    collection={this.props.data.collection.items}
-                  />}
+                  ? <EmptySearch />
+                  : this.props.data.products.items.map(product => (
+                    <Product
+                      product={product}
+                      key={product.productId}
+                      onChangeSelection={this.handleChangeSelection}
+                      productState={
+                        this.state.selections.product[product.productId]
+                      }
+                      productInCollection={
+                        this.props.collectionId &&
+                                this.props.data.collection.items.find(
+                                  item => item.productId === product.productId
+                                )
+                      }
+                    />
+                  ))
+                : this.props.collectionId &&
+                      this.props.data.collection.items.length > 0
+                  ? this.props.data.collection.items.map(product => (
+                    <Product
+                      product={product}
+                      key={product.productId}
+                      onChangeSelection={this.handleChangeSelection}
+                      productState={
+                        this.state.selections.product[product.productId]
+                      }
+                      productInCollection={this.props.data.collection.items.find(
+                        item => item.productId === product.productId
+                      )}
+                    />
+                  ))
+                  : <EmptyCollection />}
           </div>
         </div>
       </Card>
