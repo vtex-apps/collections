@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Button from '@vtex/styleguide/lib/Button'
 import Config from './components/Config'
 import Items from './components/Items'
-import SearchCatalog from './components/graphql/SearchCatalog'
 
 class Collection extends Component {
   constructor(props) {
@@ -58,17 +57,6 @@ class Collection extends Component {
           <div>
             <Config collection={collection} />
             <Items />
-
-            <SearchCatalog collection="138">
-              {({ loading, products }) => {
-                return loading
-                  ? 'loading'
-                  : <div>
-                    <strong>Total: {products.length}</strong>
-                    <pre>{JSON.stringify(products, null, 2)}</pre>
-                  </div>
-              }}
-            </SearchCatalog>
           </div>
         </div>
       </div>

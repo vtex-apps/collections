@@ -4,12 +4,18 @@ import Product from './Product'
 
 class Result extends Component {
   render() {
-    const { products } = this.props
+    const { products, collection } = this.props
 
     return (
       <div>
         {products.map(product => (
-          <Product product={product} key={product.productId} />
+          <Product
+            product={product}
+            key={product.productId}
+            productInCollection={collection.find(
+              item => item.productId === product.productId
+            )}
+          />
         ))}
       </div>
     )
@@ -18,6 +24,7 @@ class Result extends Component {
 
 Result.propTypes = {
   products: PropTypes.array.isRequired,
+  collection: PropTypes.array.isRequired,
 }
 
 export default Result

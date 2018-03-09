@@ -11,25 +11,42 @@ class Product extends Component {
 
     this.state = {
       open: false,
+      allSkusChecked: this.areAllSkusSelected(props),
     }
   }
+
+  areAllSkusSelected = props => {
+    return props.productInCollection &&
+      props.product.items.filter(
+        item =>
+          !!props.productInCollection.items.find(
+            sku => sku.itemId === item.itemId
+          )
+      ).length === props.product.items.length
+  };
 
   handleClickArrow = () => {
     this.setState(prevState => ({ open: !prevState.open }))
   };
 
+  handleChangeSelection = ({ skuId, checked }) => {
+    console.log({ skuId, checked })
+  };
+
   render() {
-    const { product } = this.props
-    const { open } = this.state
+    const { product, productInCollection } = this.props
+    const { open, allSkusChecked } = this.state
 
     return (
       <Fragment>
         <div className="flex items-center">
           <label className="container">
-            <input type="checkbox"></input>
-            <span className="checkmark" style={{ width: '12px', height: '12px'}}></span>
+            <input type="checkbox" checked={allSkusChecked} />
+            <span
+              className="checkmark"
+              style={{ width: '12px', height: '12px' }}
+            />
           </label>
-          {/*<input type="checkbox" className="mr5" />*/}
           <div
             className={
               `bt bl bb br b--light-gray pa4 flex items-center f6 flex-grow-1 justify-between relative ${open ? 'bg-near-white' : ''}`
@@ -58,7 +75,18 @@ class Product extends Component {
           </div>
         </div>
         {open
-          ? product.items.map(item => <Sku key={item.itemId} sku={item} />)
+          ? product.items.map(item => (
+            <Sku
+              key={item.itemId}
+              sku={item}
+              onChange={this.handleChangeSelection}
+              inCollection={
+                !!productInCollection.items.find(
+                  sku => sku.itemId === item.itemId
+                )
+              }
+            />
+          ))
           : null}
       </Fragment>
     )
@@ -67,6 +95,7 @@ class Product extends Component {
 
 Product.propTypes = {
   product: PropTypes.object.isRequired,
+  productInCollection: PropTypes.object,
 }
 
 export default Product

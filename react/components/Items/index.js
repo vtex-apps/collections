@@ -1,104 +1,233 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import EmptyStateIcon from '../EmptyStateIcon'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
+import debounce from 'debounce'
 
-import SearchCatalog from '../graphql/SearchCatalog'
 import Card from '../Card'
 import Search from './Search'
 import Result from './Result/index'
 import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
+import EmptyCollection from './Result/EmptyCollection'
 
 class Items extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      search: '',
-      from: 0,
-      to: 9,
-    }
+    this.state = { query: props.query }
+    this.refetch = debounce(this.refetch.bind(this), 400)
   }
 
   handleChangeSearch = e => {
-    const value = e.target.value
-    this.setState({ search: value })
+    const query = e.target.value
+    this.refetch({
+      ...this.props.data.variables,
+      query: query,
+    })
+    this.setState({ query })
   };
 
+  refetch(variables) {
+    this.props.data.refetch(variables)
+  }
+
   handleChangePage = (page, from, to) => {
-    this.setState({ page, from, to })
+    const query = this.state.query
+
+    this.props.data.refetch({
+      ...this.props.data.variables,
+      ...(query
+        ? { queryFrom: from, queryTo: to }
+        : { collectionFrom: from, collectionTo: to }),
+    })
   };
 
   render() {
-    const { collectionId } = this.props
-    const { search, from, to } = this.state
-    const params = search
-      ? { query: search, from, to }
-      : { collection: collectionId, from, to }
-
     return (
       <Card>
-        <SearchCatalog {...params}>
-          {({ loading, products }) => (
-            <div className="w-90 center">
-              <div className="f4 fw7">
-                Items
-              </div>
-              <div className="flex items-baseline w-100 justify-between">
-                <div className="pt6 w-80">
-                  <Search value={search} onChange={this.handleChangeSearch} />
-                </div>
-                <div>
-                  <Pagination
-                    pages={loading ? Infinity : products.paging.pages}
-                    currentPage={this.state.page || 1}
-                    from={from}
-                    to={to}
-                    onChange={this.handleChangePage}
-                  />
-                </div>
-                <div className="pl4">
-                  <label htmlFor="filter" className="f7 fw3">
-                    Filter by
-                  </label>
-                  <div className="pt3">
-                    <Dropdown
-                      placeholder="All"
-                      options={['Selected', 'Not selected', 'All']}
-                      onChange={() => {}}
-                      value=""
-                      id="filter"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="pt6">
-                <div className="pt6">
-                  {/*
-                  <div className="pa10 tc flex flex-column items-center justify-center mw7 center">
-                    <EmptyStateIcon />
-                    <div className="pt5 f4">
-                      Your collection is empty!
-                    </div>
-                    <div className="pt4 f6">
-                      Search and select some products to compose your collection
-                    </div>
-                  </div>
-                  */}
-                </div>
-                {loading ? <div>Loading</div> : <Result products={products} />}
+        <div className="w-90 center">
+          <div className="f4 fw7">
+            Items
+          </div>
+          <div className="flex items-baseline w-100 justify-between">
+            <div className="pt6 w-80">
+              <Search
+                value={this.state.query}
+                onChange={this.handleChangeSearch}
+              />
+            </div>
+            <div>
+              <Pagination
+                pages={
+                  this.props.data.loading
+                    ? Infinity
+                    : this.state.query
+                      ? this.props.data.products.paging.pages
+                      : this.props.data.collection.paging.pages
+                }
+                currentPage={
+                  this.state.query
+                    ? this.props.data.products.paging.page
+                    : this.props.data.collection.paging.page
+                }
+                from={
+                  this.state.query
+                    ? this.props.data.products.paging._from
+                    : this.props.data.collection.paging._from
+                }
+                to={
+                  this.state.query
+                    ? this.props.data.products.paging._to
+                    : this.props.data.collection.paging._to
+                }
+                onChange={this.handleChangePage}
+              />
+            </div>
+            <div className="pl4">
+              <label htmlFor="filter" className="f7 fw3">
+                Filter by
+              </label>
+              <div className="pt3">
+                <Dropdown
+                  placeholder="All"
+                  options={['Selected', 'Not selected', 'All']}
+                  onChange={() => {}}
+                  value=""
+                  id="filter"
+                />
               </div>
             </div>
-          )}
-        </SearchCatalog>
+          </div>
+          <div className="pt6">
+            {this.props.data.loading
+              ? <div>Loading</div>
+              : this.state.query
+                ? this.props.data.products.items.length === 0
+                  ? <div>Empty</div>
+                  : <Result
+                    products={this.props.data.products.items}
+                    collection={this.props.data.collection.items}
+                  />
+                : this.props.data.collection.items.length === 0
+                  ? <EmptyCollection />
+                  : <Result
+                    products={this.props.data.collection.items}
+                    collection={this.props.data.collection.items}
+                  />}
+          </div>
+        </div>
       </Card>
     )
   }
 }
 
 Items.propTypes = {
-  collectionId: PropTypes.string.isRequired,
+  collectionId: PropTypes.string,
+  query: PropTypes.string,
+  data: PropTypes.object,
 }
 
-export default Items
+const query = gql`
+  query Products(
+    $query: String,
+    $queryFrom: Int,
+    $queryTo: Int,
+    $collectionId: String,
+    $collectionFrom: Int,
+    $collectionTo: Int,
+  ) {
+    collection: products(
+      collection: $collectionId,
+      from: $collectionFrom,
+      to: $collectionTo,
+    ) {
+      items {
+        productId
+        productName
+        productReference
+        items {
+          images {
+            imageUrl
+          }
+          itemId
+          name
+          nameComplete
+          complementName
+          referenceId {
+            Key
+            Value
+          }
+        }
+      }
+      paging {
+        pages
+        perPage
+        total
+        page
+        _to
+        _from
+      }
+    }
+    products: products(
+      query: $query,
+      from: $queryFrom,
+      to: $queryTo,
+    ) {
+      items {
+        productId
+        productName
+        productReference
+        items {
+          images {
+            imageUrl
+          }
+          itemId
+          name
+          nameComplete
+          complementName
+          referenceId {
+            Key
+            Value
+          }
+        }
+      }
+      paging {
+        pages
+        perPage
+        total
+        page
+        _to
+        _from
+      }
+    }
+  }
+`
+
+const options = {
+  options: (
+    { collectionId, collectionFrom, collectionTo, query, queryFrom, queryTo }
+  ) => ({
+    variables: {
+      collectionId,
+      collectionFrom,
+      collectionTo,
+      query,
+      queryFrom,
+      queryTo,
+    },
+  }),
+}
+
+const ItemsContainer = graphql(query, options)(Items)
+
+ItemsContainer.defaultProps = {
+  collectionFrom: 0,
+  collectionTo: 9,
+  query: '',
+  queryFrom: 0,
+  queryTo: 9,
+}
+
+export default ItemsContainer

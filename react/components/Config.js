@@ -78,7 +78,6 @@ class Config extends Component {
 
 Config.propTypes = {
   collection: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
 }
 
 export default Config

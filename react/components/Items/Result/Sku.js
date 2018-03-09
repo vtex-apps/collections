@@ -2,14 +2,28 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Sku extends Component {
+  handleChange = () => {
+    this.props.onChange({
+      skuId: this.props.sku.itemId,
+      checked: !this.props.inCollection,
+    })
+  };
+
   render() {
-    const { sku } = this.props
+    const { sku, inCollection } = this.props
 
     return (
       <div className="flex items-center" style={{ paddingLeft: '3.75rem' }}>
         <label className="container">
-          <input type="checkbox"></input>
-          <span className="checkmark" style={{ width: '12px', height: '12px'}}></span>
+          <input
+            type="checkbox"
+            checked={inCollection}
+            onChange={this.handleChange}
+          />
+          <span
+            className="checkmark"
+            style={{ width: '12px', height: '12px' }}
+          />
         </label>
         <div
           className="bl br b--light-gray ph4 pv5 flex items-center f6 flex-grow-1 justify-between bg-near-white"
@@ -29,6 +43,8 @@ class Sku extends Component {
 
 Sku.propTypes = {
   sku: PropTypes.object.isRequired,
+  inCollection: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default Sku

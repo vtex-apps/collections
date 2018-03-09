@@ -13,18 +13,21 @@ class EmptyStateIcon extends Component {
         viewBox="0 0 64 64"
         xmlSpace="preserve"
         width="64"
-        height="64">
-          <g class="nc-icon-wrapper" fill="#368df7">
-            <polyline data-cap="butt"
-              fill="none" stroke={this.props.stroke}
-              stroke-width="2"
-              stroke-miterlimit="10"
-              points="48,18 48,11 24,11 18,5 2,5 2,59 49,59 61,23 14,23 2,59 "
-              transform="translate(0, 0)"
-              stroke-linejoin="round"
-              stroke-linecap="round">
-            </polyline>
-          </g>
+        height="64"
+      >
+        <g className="nc-icon-wrapper" fill="#368df7">
+          <polyline
+            data-cap="butt"
+            fill="none"
+            stroke={this.props.stroke}
+            strokeWidth="2"
+            strokeMiterlimit="10"
+            points="48,18 48,11 24,11 18,5 2,5 2,59 49,59 61,23 14,23 2,59 "
+            transform="translate(0, 0)"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+          />
+        </g>
       </svg>
     )
   }
@@ -35,6 +38,7 @@ EmptyStateIcon.defaultProps = {
 }
 
 EmptyStateIcon.propTypes = {
+  stroke: PropTypes.string.isRequired,
   fill: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
