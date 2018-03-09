@@ -53,10 +53,8 @@ class Collection extends Component {
 
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
-        <div className="w-90 center pv6">
-          <div
-            className="flex justify-between items-center bb b--light-gray pb6"
-          >
+        <div className="w-90 center">
+          <div className="flex justify-between items-center bb b--light-gray pb6">
             <div className="fw7 f2">
               Collections
             </div>
