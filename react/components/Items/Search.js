@@ -9,13 +9,16 @@ class Search extends Component {
       <div>
         <label htmlFor="search" className="f7 fw3">Search</label>
         <div className="pt3">
-          <Input placeholder="Search by collection name…" id="search" />
+          <Input placeholder="Search by collection name…" id="search" value={this.props.value} onChange={this.props.onChange} />
         </div>
       </div>
     )
   }
 }
 
-Search.propTypes = {}
+Search.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+}
 
 export default Search

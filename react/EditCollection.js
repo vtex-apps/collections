@@ -5,7 +5,6 @@ import gql from 'graphql-tag'
 import Button from '@vtex/styleguide/lib/Button'
 import Config from './components/Config'
 import Items from './components/Items'
-import SearchCatalog from './components/graphql/SearchCatalog'
 
 class EditCollection extends Component {
   constructor(props) {
@@ -68,18 +67,7 @@ class EditCollection extends Component {
             ? <div>Loading</div>
             : <div>
               <Config collection={collection} />
-              <Items />
-
-              <SearchCatalog collection="138">
-                {({ loading, products }) => {
-                  return loading
-                    ? 'loading'
-                    : <div>
-                      <strong>Total: {products.length}</strong>
-                      <pre>{JSON.stringify(products, null, 2)}</pre>
-                    </div>
-                }}
-              </SearchCatalog>
+              <Items collectionId={collection.id} />
             </div>}
         </div>
       </div>
