@@ -39,7 +39,7 @@ class Config extends Component {
                 <TimePicker value={collection.dateTo} onChange={() => {}} />
               </div>
             </div>
-            <div className="bl bw1 b--silver pl5 dib near-black">
+            <div className="bl b--light-gray pl7 dib near-black">
               <div className="flex dib pb3">
                 <Toggle
                   semantic
