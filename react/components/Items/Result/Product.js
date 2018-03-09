@@ -25,7 +25,11 @@ class Product extends Component {
     return (
       <Fragment>
         <div className="flex items-center">
-          <input type="checkbox" className="mr5" />
+          <label className="container">
+            <input type="checkbox"></input>
+            <span className="checkmark" style={{ width: '12px', height: '12px'}}></span>
+          </label>
+          {/*<input type="checkbox" className="mr5" />*/}
           <div
             className={
               `bt bl bb br b--light-gray pa4 flex items-center f6 flex-grow-1 justify-between relative ${open ? 'bg-near-white' : ''}`
