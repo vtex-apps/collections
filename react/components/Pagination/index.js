@@ -24,14 +24,24 @@ class Pagination extends PureComponent {
 
   handlePreviousPage = () => {
     const newValue = this.props.currentPage - 1
-    this.props.onChange(newValue)
+    this.props.onChange.apply(this, this.getNewState(newValue))
     this.setState({ currentPage: newValue })
   };
 
   handleNextPage = () => {
     const newValue = this.props.currentPage + 1
-    this.props.onChange(newValue)
+    this.props.onChange.apply(this, this.getNewState(newValue))
     this.setState({ currentPage: newValue })
+  };
+
+  getNewState = newCurrentPage => {
+    if (this.props.from && this.props.to) {
+      const pageSize = this.props.to - this.props.from + 1
+      const from = (newCurrentPage - 1) * pageSize
+      const to = from + pageSize - 1
+      return [newCurrentPage, from, to]
+    }
+    return [newCurrentPage]
   };
 
   handleInputChange = e => {
@@ -49,7 +59,7 @@ class Pagination extends PureComponent {
 
   handleKeyDown = ({ key }) => {
     if (key === 'Enter' && !this.state.error) {
-      this.props.onChange(this.state.currentPage)
+      this.props.onChange.apply(this, this.getNewState(this.state.currentPage))
     }
   };
 
@@ -108,6 +118,8 @@ Pagination.defaultProps = {
 }
 
 Pagination.propTypes = {
+  from: PropTypes.number,
+  to: PropTypes.number,
   currentPage: PropTypes.number.isRequired,
   pages: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,

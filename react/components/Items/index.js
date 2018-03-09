@@ -6,6 +6,7 @@ import SearchCatalog from '../graphql/SearchCatalog'
 import Card from '../Card'
 import Search from './Search'
 import Result from './Result/index'
+import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
 
@@ -15,6 +16,8 @@ class Items extends Component {
 
     this.state = {
       search: '',
+      from: 0,
+      to: 9,
     }
   }
 
@@ -23,10 +26,16 @@ class Items extends Component {
     this.setState({ search: value })
   };
 
+  handleChangePage = (page, from, to) => {
+    this.setState({ page, from, to })
+  };
+
   render() {
     const { collectionId } = this.props
-    const { search } = this.state
-    const params = search ? { query: search } : { collection: collectionId }
+    const { search, from, to } = this.state
+    const params = search
+      ? { query: search, from, to }
+      : { collection: collectionId, from, to }
 
     return (
       <Card>
@@ -39,6 +48,15 @@ class Items extends Component {
               <div className="flex items-baseline w-100 justify-between">
                 <div className="pt6 w-80">
                   <Search value={search} onChange={this.handleChangeSearch} />
+                </div>
+                <div>
+                  <Pagination
+                    pages={loading ? Infinity : products.paging.pages}
+                    currentPage={this.state.page || 1}
+                    from={from}
+                    to={to}
+                    onChange={this.handleChangePage}
+                  />
                 </div>
                 <div className="pl4">
                   <label htmlFor="filter" className="f7 fw3">

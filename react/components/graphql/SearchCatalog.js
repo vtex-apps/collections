@@ -53,21 +53,31 @@ const query = gql`
       from: $from,
       to: $to,
     ) {
-      productId
-      productName
-      productReference
       items {
-        images {
-          imageUrl
+        productId
+        productName
+        productReference
+        items {
+          images {
+            imageUrl
+          }
+          itemId
+          name
+          nameComplete
+          complementName
+          referenceId {
+            Key
+            Value
+          }
         }
-        itemId
-        name
-        nameComplete
-        complementName
-        referenceId {
-          Key
-          Value
-        }
+      }
+      paging {
+        pages
+        perPage
+        total
+        page
+        _to
+        _from
       }
     }
   }
@@ -84,7 +94,7 @@ const options = {
       salesChannel,
       orderBy,
       from = 0,
-      to = 10,
+      to = 9,
     }
   ) => ({
     variables: {
