@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+// import EmptyStateIcon from '../EmptyStateIcon'
 
 import SearchCatalog from '../graphql/SearchCatalog'
 import Card from '../Card'
@@ -55,6 +56,20 @@ class Items extends Component {
                 </div>
               </div>
               <div className="pt6">
+                <div className="pt6">
+                  {/*
+                  <div className="pa10 tc flex flex-column items-center justify-center mw7 center">
+                    <EmptyStateIcon />
+                    <div className="pt5 f4">
+                      Your collection is empty!
+                    </div>
+                    <div className="pt4 f6">
+                      Search and select some products to compose your collection
+                    </div>
+                  </div>
+                  */}
+                  <Result />
+                </div>
                 {loading ? <div>Loading</div> : <Result products={products} />}
               </div>
             </div>

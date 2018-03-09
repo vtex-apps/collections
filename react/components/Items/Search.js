@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Input from '@vtex/styleguide/lib/Input'
-
 class Search extends Component {
   render() {
     return (
-      <div>
+      <div className="">
         <label htmlFor="search" className="f7 fw3">Search</label>
-        <div className="pt3">
-          <Input placeholder="Search by collection name…" id="search" value={this.props.value} onChange={this.props.onChange} />
+        <div className="pt3 flex flex-auto">
+          <input placeholder="Search by collection name…" id="search" value={this.props.value} onChange={this.props.onChange} className="flex flex-auto ba b--light-gray bw1 pa4 f6 br2 ma0 border-box outline-0 near-black bg-white "/>
         </div>
       </div>
     )
