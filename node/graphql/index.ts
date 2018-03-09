@@ -25,7 +25,7 @@ export const resolvers = {
       try {
         collections = await getCollections({
           ioContext,
-          key: query.variableValues.key,
+          searchKey: query.variableValues.searchKey,
           page: query.variableValues.page,
           pageSize: query.variableValues.pageSize,
         });

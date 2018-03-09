@@ -1,6 +1,6 @@
 type Query {
   collections(
-    key: String
+    searchKey: String
     page: Int
     pageSize: Int
   ): CollectionsList
