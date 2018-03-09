@@ -18,7 +18,7 @@ class Config extends Component {
         <div className="ph7">
           <div className="mb3">
             <input className="w-auto bn f4 fw7 near-black" type="text" placeholder="Name your collection" style={{width: '10em'}}></input>
-            <Button><Icon type="edit" fill="#368DF7" width={12} /></Button> 
+            {/*<Button><Icon type="edit" fill="#368DF7" width={12} /></Button> */}
           </div>
           <div className="flex justify-between">
             <div className="flex">
