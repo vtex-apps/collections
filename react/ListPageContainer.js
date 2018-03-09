@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ListPage from './ListPage'
+import ListPage from './pages/ListPage'
 
 class ListPageContainer extends Component {
   constructor(props) {

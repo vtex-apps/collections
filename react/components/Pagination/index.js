@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import IconArrowLeft from './IconArrowLeft'
 import IconArrowRight from './IconArrowRight'
 import config from 'vtex-tachyons/config.json'
 
-class Pagination extends Component {
+class Pagination extends PureComponent {
   constructor(props) {
     super(props)
 

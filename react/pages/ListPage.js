@@ -6,7 +6,10 @@ import { FormattedMessage, FormattedDate } from 'react-intl'
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
 
-import Pagination from './components/Pagination/index'
+import Pagination from '../components/Pagination/index'
+import Badge from '../components/Badge'
+import Card from '../components/Card'
+import Status from '../components/Status'
 
 class ListPage extends Component {
   handlePageChange = page => {
@@ -51,10 +54,7 @@ class ListPage extends Component {
           </div>
           {data.loading
             ? <FormattedMessage id="loading" />
-            : <div
-              className="w-100 bg-white mt7 pv7 br2"
-              style={{ boxShadow: '0 3px 9px 0 rgba(61, 62, 64, 0.2)' }}
-            >
+            : <Card>
               <table className="tl pt4 w-90 center" cellSpacing="0">
                 <thead className="">
                   <tr>
@@ -85,7 +85,7 @@ class ListPage extends Component {
                         <td className="fw7 pv6 bt b--light-gray pl4">
                           <div className="flex items-center">
                             <div>
-                              <div className="bg-green dib pa2 br-100" />
+                              <Status type="active" />
                             </div>
                             <div className="pl3">{collection.name}</div>
                           </div>
@@ -111,29 +111,29 @@ class ListPage extends Component {
                           />
                         </td>
                         <td className="fw4 pv6 bt b--light-gray">
-                          <div
-                            className={
-                              `br-pill ${collection.highlight ? 'bg-washed-blue blue' : 'bg-near-white mid-gray'} f6 pv2 ph3 dib fw5`
+                          <Badge
+                            type={
+                              collection.highlight ? 'active' : 'inactive'
                             }
                           >
                             {collection.highlight ? 'Active' : 'Inactive'}
-                          </div>
+                          </Badge>
                         </td>
                         <td className="fw4 pv6 bt b--light-gray">
-                          <div
-                            className={
-                              `br-pill ${collection.searchable ? 'bg-washed-blue blue' : 'bg-near-white mid-gray'} f6 pv2 ph3 dib fw5`
+                          <Badge
+                            type={
+                              collection.searchable ? 'active' : 'inactive'
                             }
                           >
                             {collection.searchable ? 'Active' : 'Inactive'}
-                          </div>
+                          </Badge>
                         </td>
                       </tr>
                     )
                   })}
                 </tbody>
               </table>
-            </div>}
+            </Card>}
         </div>
       </div>
     )

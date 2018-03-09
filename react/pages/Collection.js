@@ -9,8 +9,8 @@ import Toggle from '@vtex/styleguide/lib/Toggle'
 
 import 'react-dates/initialize'
 
-import DatePicker from './components/DatePicker'
-import TimePicker from './components/TimePicker'
+import DatePicker from '../components/DatePicker/index'
+import TimePicker from '../components/TimePicker/index'
 
 class Collection extends Component {
   constructor(props) {
