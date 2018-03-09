@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import SearchCatalog from '../graphql/SearchCatalog'
 import Card from '../Card'
 import Search from './Search'
-import Result from './Result'
+import Result from './Result/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
 
