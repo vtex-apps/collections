@@ -30,7 +30,6 @@ class Result extends Component {
 Result.propTypes = {
   selectedSkus: PropTypes.array,
   products: PropTypes.array.isRequired,
-  productsCollection: PropTypes.array.isRequired,
   selectionState: PropTypes.object,
   onChangeSelection: PropTypes.func.isRequired,
 }

@@ -28,7 +28,7 @@ class ListPage extends Component {
 
   handleChangeSearchKey = e => {
     const value = e.target.value
-    this.setState({ searchKey: value })
+    this.setState({ searchKey: value, page: 1 })
   };
 
   handleOpenCollection = id => {

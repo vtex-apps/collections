@@ -22,11 +22,12 @@ class Collection extends Component {
 
   handleChangeSearch = e => {
     const searchQuery = e.target.value
+    const newState = { searchQuery, queryFrom: 0, queryTo: 9 }
     this.productsRefetch({
       ...this.props.products.variables,
-      searchQuery: searchQuery,
+      ...newState,
     })
-    this.setState({ searchQuery })
+    this.setState(newState)
   };
 
   productsRefetch(variables) {
