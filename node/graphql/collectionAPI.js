@@ -37,3 +37,54 @@ export function getCollections({ ioContext, searchKey = '', page, pageSize }) {
     },
   }).then(({ data }) => data)
 }
+
+export function createCollection(
+  { ioContext, name, searchable, highlight, dateFrom, dateTo }
+) {
+  return axios({
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/`,
+    method: 'post',
+    headers: {
+      Authorization: ioContext.authToken,
+    },
+    data: {
+      name,
+      searchable,
+      highlight,
+      dateFrom,
+      dateTo,
+    },
+  }).then(({ data }) => data)
+}
+
+export function createCondition(
+  {
+    ioContext,
+    collectionId,
+    name,
+    type,
+    preSale,
+    release,
+    brands,
+    categories,
+    skus,
+  }
+) {
+  return axios({
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/condition`,
+    method: 'post',
+    headers: {
+      Authorization: ioContext.authToken,
+    },
+    data: {
+      collectionId,
+      name,
+      type,
+      preSale,
+      release,
+      brands,
+      categories,
+      skus,
+    },
+  }).then(({ data }) => data)
+}

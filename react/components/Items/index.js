@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
-import debounce from 'debounce'
 
 import Card from '../Card'
 import Search from './Search'
-import Product from './Result/Product'
+import Result from './Result/index'
 import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
@@ -16,66 +13,6 @@ import Loading from './Result/Loading'
 import EmptySearch from './Result/EmptySearch'
 
 class Items extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = { query: props.query, selections: { product: {} } }
-    this.refetch = debounce(this.refetch.bind(this), 400)
-  }
-
-  handleChangeSearch = e => {
-    const query = e.target.value
-    this.refetch({
-      ...this.props.data.variables,
-      query: query,
-    })
-    this.setState({ query })
-  };
-
-  refetch(variables) {
-    this.props.data.refetch(variables)
-  }
-
-  handleChangePage = (page, from, to) => {
-    const query = this.state.query
-
-    this.props.data.refetch({
-      ...this.props.data.variables,
-      ...(query
-        ? { queryFrom: from, queryTo: to }
-        : { collectionFrom: from, collectionTo: to }),
-    })
-  };
-
-  handleChangeSelection = changes => {
-    this.setState(prevState => {
-      const newState = changes.reduce(this.doChange, prevState)
-      return newState
-    })
-  };
-
-  doChange = (prevState, change) => {
-    return {
-      ...prevState,
-      selections: {
-        ...prevState.selections,
-        product: {
-          ...prevState.selections.product,
-          [change.productId]: {
-            ...(prevState.selections.product[change.productId] || {}),
-            skus: {
-              ...((prevState.selections.product[change.productId] &&
-                prevState.selections.product[change.productId].skus) || {}),
-              ...(change.type === 'SKU'
-                ? { [change.skuId]: { checked: change.checked } }
-                : {}),
-            },
-          },
-        },
-      },
-    }
-  };
-
   render() {
     return (
       <Card>
@@ -87,36 +24,36 @@ class Items extends Component {
             <div>
               <Pagination
                 pages={
-                  this.props.data.loading
+                  this.props.loading
                     ? Infinity
-                    : this.state.query
-                      ? this.props.data.products.paging.pages
-                      : this.props.data.collection.paging.pages
+                    : this.props.query
+                      ? this.props.productsSearch.paging.pages
+                      : this.props.productsCollection.paging.pages
                 }
                 currentPage={
-                  this.state.query
-                    ? this.props.data.products.paging.page
-                    : this.props.data.collection.paging.page
+                  this.props.query
+                    ? this.props.productsSearch.paging.page
+                    : this.props.productsCollection.paging.page
                 }
                 from={
-                  this.state.query
-                    ? this.props.data.products.paging._from
-                    : this.props.data.collection.paging._from
+                  this.props.query
+                    ? this.props.productsSearch.paging._from
+                    : this.props.productsCollection.paging._from
                 }
                 to={
-                  this.state.query
-                    ? this.props.data.products.paging._to
-                    : this.props.data.collection.paging._to
+                  this.props.query
+                    ? this.props.productsSearch.paging._to
+                    : this.props.productsCollection.paging._to
                 }
-                onChange={this.handleChangePage}
+                onChange={this.props.onChangePage}
               />
             </div>
           </div>
           <div className="flex items-baseline w-100 justify-between">
             <div className="pt6 flex-auto">
               <Search
-                value={this.state.query}
-                onChange={this.handleChangeSearch}
+                value={this.props.query}
+                onChange={this.props.onChangeSearch}
               />
             </div>
             <div className="pl4">
@@ -135,45 +72,29 @@ class Items extends Component {
             </div>
           </div>
           <div className="pt6">
-            {this.props.data.loading
-              ?
-              <div className="flex flex-column items-center pa10">
+            {this.props.loading
+              ? <div className="flex flex-column items-center pa10">
                 <Loading />
               </div>
-              : this.state.query
-                ? this.props.data.products.items.length === 0
+              : this.props.query && this.props.query.length > 0
+                ? this.props.productsSearch.items.length === 0
                   ? <EmptySearch />
-                  : this.props.data.products.items.map(product => (
-                    <Product
-                      product={product}
-                      key={product.productId}
-                      onChangeSelection={this.handleChangeSelection}
-                      productState={
-                        this.state.selections.product[product.productId]
-                      }
-                      productInCollection={
-                        this.props.collectionId &&
-                                this.props.data.collection.items.find(
-                                  item => item.productId === product.productId
-                                )
-                      }
-                    />
-                  ))
-                : this.props.collectionId &&
-                      this.props.data.collection.items.length > 0
-                  ? this.props.data.collection.items.map(product => (
-                    <Product
-                      product={product}
-                      key={product.productId}
-                      onChangeSelection={this.handleChangeSelection}
-                      productState={
-                        this.state.selections.product[product.productId]
-                      }
-                      productInCollection={this.props.data.collection.items.find(
-                        item => item.productId === product.productId
-                      )}
-                    />
-                  ))
+                  : <Result
+                    isSearch
+                    products={this.props.productsSearch.items}
+                    selectedSkus={this.props.selectedSkus}
+                    selectionState={this.props.selections}
+                    onChangeSelection={this.props.onChangeSelection}
+                  />
+                : this.props.selectedSkus.length > 0 &&
+                      this.props.productsCollection.items.length > 0
+                  ? <Result
+                    isCollection
+                    products={this.props.productsCollection.items}
+                    selectedSkus={this.props.selectedSkus}
+                    selectionState={this.props.selections}
+                    onChangeSelection={this.props.onChangeSelection}
+                  />
                   : <EmptyCollection />}
           </div>
         </div>
@@ -183,110 +104,19 @@ class Items extends Component {
 }
 
 Items.propTypes = {
-  collectionId: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
+  selectedSkus: PropTypes.array,
+  selections: PropTypes.object,
   query: PropTypes.string,
-  data: PropTypes.object,
+  queryFrom: PropTypes.number,
+  queryTo: PropTypes.number,
+  collectionFrom: PropTypes.number,
+  collectionTo: PropTypes.number,
+  productsCollection: PropTypes.object.isRequired,
+  productsSearch: PropTypes.object.isRequired,
+  onChangeSelection: PropTypes.func.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  onChangeSearch: PropTypes.func.isRequired,
 }
 
-const query = gql`
-  query Products(
-    $query: String,
-    $queryFrom: Int,
-    $queryTo: Int,
-    $collectionId: String,
-    $collectionFrom: Int,
-    $collectionTo: Int,
-  ) {
-    collection: products(
-      collection: $collectionId,
-      from: $collectionFrom,
-      to: $collectionTo,
-    ) {
-      items {
-        productId
-        productName
-        productReference
-        items {
-          images {
-            imageUrl
-          }
-          itemId
-          name
-          nameComplete
-          complementName
-          referenceId {
-            Key
-            Value
-          }
-        }
-      }
-      paging {
-        pages
-        perPage
-        total
-        page
-        _to
-        _from
-      }
-    }
-    products: products(
-      query: $query,
-      from: $queryFrom,
-      to: $queryTo,
-    ) {
-      items {
-        productId
-        productName
-        productReference
-        items {
-          images {
-            imageUrl
-          }
-          itemId
-          name
-          nameComplete
-          complementName
-          referenceId {
-            Key
-            Value
-          }
-        }
-      }
-      paging {
-        pages
-        perPage
-        total
-        page
-        _to
-        _from
-      }
-    }
-  }
-`
-
-const options = {
-  options: (
-    { collectionId, collectionFrom, collectionTo, query, queryFrom, queryTo }
-  ) => ({
-    variables: {
-      collectionId,
-      collectionFrom,
-      collectionTo,
-      query,
-      queryFrom,
-      queryTo,
-    },
-  }),
-}
-
-const ItemsContainer = graphql(query, options)(Items)
-
-ItemsContainer.defaultProps = {
-  collectionFrom: 0,
-  collectionTo: 9,
-  query: '',
-  queryFrom: 0,
-  queryTo: 9,
-}
-
-export default ItemsContainer
+export default Items

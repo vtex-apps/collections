@@ -11,6 +11,27 @@ type Query {
   ): Collection
 }
 
+type Mutation {
+  collection(
+    name: String
+    searchable: Boolean
+    highlight: Boolean
+    dateFrom: String
+    dateTo: String
+    conditions: [ConditionInput]
+  ) : Boolean
+}
+
+input ConditionInput {
+  name: String
+  type: String
+  preSale: Boolean
+  release: Boolean
+  brands: [Int]
+  categories: [Int]
+  skus: [Int]
+}
+
 type CollectionsList {
   paging: Paging!
   items: [Collection]!

@@ -1,8 +1,15 @@
-import { getCollection, getConditions, getCollections } from './collectionAPI';
+import {
+  getCollection,
+  getConditions,
+  getCollections,
+  createCollection,
+  createCondition,
+} from './collectionAPI';
 
 export const resolvers = {
   Query: {
     collection: async function(_, info, { vtex: ioContext, request }, query) {
+      console.log({ info });
       if (!query.variableValues || !query.variableValues.id) {
         return null;
       }
@@ -42,6 +49,34 @@ export const resolvers = {
       }
 
       return collections;
+    },
+  },
+  Mutation: {
+    collection: async function(_, info, { vtex: ioContext, request }, input) {
+      const {
+        name,
+        searchable,
+        highlight,
+        dateFrom,
+        dateTo,
+        conditions,
+      } = info;
+
+      const collectionId = await createCollection({
+        ioContext,
+        name,
+        searchable,
+        highlight,
+        dateFrom,
+        dateTo,
+      });
+
+      await Promise.all(
+        conditions.map(condition =>
+          createCondition({ ioContext, collectionId, ...condition }))
+      );
+
+      return true;
     },
   },
 };

@@ -3,15 +3,13 @@ import PropTypes from 'prop-types'
 import 'react-dates/initialize'
 
 import Toggle from './Toggle/index'
-import Button from '@vtex/styleguide/lib/Button'
-import Icon from '@vtex/styleguide/lib/Icon'
 import DatePicker from './DatePicker/index'
 import TimePicker from './TimePicker/index'
 import Card from './Card'
 
 class Config extends Component {
   render() {
-    const { collection } = this.props
+    const collection = this.props.collection || {}
 
     return (
       <Card>
@@ -21,22 +19,33 @@ class Config extends Component {
               className="w-auto bn f4 fw7 near-black"
               type="text"
               placeholder="Name your collection"
-              value={collection.name}
+              defaultValue={collection.name || 'Type a name'}
               style={{ width: '10em' }}
             />
-            {/* <Button><Icon type="edit" fill="#368DF7" width={12} /></Button> */}
           </div>
           <div className="flex justify-between">
             <div className="flex">
               <div className="pr5">
                 <span className="f6 fw7 near-black pr5 ">Start</span>
-                <DatePicker value={collection.dateFrom} onChange={() => {}} />
-                <TimePicker value={collection.dateFrom} onChange={() => {}} />
+                <DatePicker
+                  value={collection.dateFrom || new Date()}
+                  onChange={() => {}}
+                />
+                <TimePicker
+                  value={collection.dateFrom || new Date()}
+                  onChange={() => {}}
+                />
               </div>
               <div>
                 <span className="f6 fw7 near-black pr5 ">End</span>
-                <DatePicker value={collection.dateTo} onChange={() => {}} />
-                <TimePicker value={collection.dateTo} onChange={() => {}} />
+                <DatePicker
+                  value={collection.dateTo || new Date()}
+                  onChange={() => {}}
+                />
+                <TimePicker
+                  value={collection.dateTo || new Date()}
+                  onChange={() => {}}
+                />
               </div>
             </div>
             <div className="bl b--light-gray pl7 dib near-black">

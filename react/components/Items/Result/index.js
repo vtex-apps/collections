@@ -4,17 +4,22 @@ import Product from './Product'
 
 class Result extends Component {
   render() {
-    const { products, collection } = this.props
+    const {
+      selectedSkus,
+      products,
+      selectionState,
+      onChangeSelection,
+    } = this.props
 
     return (
       <div>
         {products.map(product => (
           <Product
-            product={product}
             key={product.productId}
-            productInCollection={collection.find(
-              item => item.productId === product.productId
-            )}
+            product={product}
+            selectedSkus={selectedSkus}
+            productState={selectionState.product[product.productId]}
+            onChangeSelection={onChangeSelection}
           />
         ))}
       </div>
@@ -23,8 +28,11 @@ class Result extends Component {
 }
 
 Result.propTypes = {
+  selectedSkus: PropTypes.array,
   products: PropTypes.array.isRequired,
-  collection: PropTypes.array.isRequired,
+  productsCollection: PropTypes.array.isRequired,
+  selectionState: PropTypes.object,
+  onChangeSelection: PropTypes.func.isRequired,
 }
 
 export default Result

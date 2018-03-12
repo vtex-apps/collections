@@ -28,25 +28,17 @@ class Product extends Component {
     return props.productState
       ? filter(props.productState.skus, sku => sku.checked).length ===
           props.product.items.length
-      : props.productInCollection &&
-          props.product.items.filter(
-            item =>
-              !!props.productInCollection.items.find(
-                sku => sku.itemId === item.itemId
-              )
-          ).length === props.product.items.length
+      : props.selectedSkus.filter(
+        skuId => !!props.product.items.find(sku => sku.itemId === `${skuId}`)
+      ).length === props.product.items.length
   };
 
   hasOneChecked = props => {
     return props.productState
       ? filter(props.productState.skus, sku => sku.checked).length > 0
-      : props.productInCollection &&
-          props.product.items.filter(
-            item =>
-              !!props.productInCollection.items.find(
-                sku => sku.itemId === item.itemId
-              )
-          ).length > 0
+      : props.selectedSkus.filter(
+        skuId => !!props.product.items.find(sku => sku.itemId === `${skuId}`)
+      ).length > 0
   };
 
   handleClickArrow = () => {
@@ -76,7 +68,7 @@ class Product extends Component {
   };
 
   render() {
-    const { product, productState, productInCollection } = this.props
+    const { product, productState, selectedSkus } = this.props
     const { open, allSkusChecked, hasOneChecked } = this.state
 
     return (
@@ -89,7 +81,9 @@ class Product extends Component {
               onChange={this.handleChangeProductSelection}
             />
             <span
-              className={`checkmark ba bw1 ${hasOneChecked ? 'b--blue' : 'b--light-gray'}`}
+              className={
+                `checkmark ba bw1 ${hasOneChecked ? 'b--blue' : 'b--light-gray'}`
+              }
               style={{ width: '12px', height: '12px' }}
             />
           </label>
@@ -129,10 +123,7 @@ class Product extends Component {
               inCollection={
                 productState && productState.skus[item.itemId]
                   ? productState.skus[item.itemId].checked
-                  : productInCollection &&
-                        !!productInCollection.items.find(
-                    sku => sku.itemId === item.itemId
-                  )
+                  : !!selectedSkus.find(skuId => item.itemId === `${skuId}`)
               }
             />
           ))
@@ -142,10 +133,14 @@ class Product extends Component {
   }
 }
 
+Product.defaultProps = {
+  selectedSkus: [],
+}
+
 Product.propTypes = {
   product: PropTypes.object.isRequired,
+  selectedSkus: PropTypes.array.isRequired,
   productState: PropTypes.object,
-  productInCollection: PropTypes.object,
   onChangeSelection: PropTypes.func.isRequired,
 }
 

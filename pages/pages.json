@@ -21,10 +21,10 @@
       "component": "ListPage"
     },
     "admin-collections-collection": {
-      "component": "NewCollection"
+      "component": "Collection"
     },
     "admin-collections-collection-edit": {
-      "component": "EditCollection"
+      "component": "Collection"
     }
   }
 }
