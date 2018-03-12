@@ -13,15 +13,18 @@ class Result extends Component {
 
     return (
       <div>
-        {products.map(product => (
-          <Product
-            key={product.productId}
-            product={product}
-            selectedSkus={selectedSkus}
-            productState={selectionState.product[product.productId]}
-            onChangeSelection={onChangeSelection}
-          />
-        ))}
+        {products.map(product => {
+          const productState = selectionState.product[product.productId]
+          return (
+            <Product
+              key={`${product.productId}-${JSON.stringify(productState) || ''}`}
+              product={product}
+              selectedSkus={selectedSkus}
+              productState={selectionState.product[product.productId]}
+              onChangeSelection={onChangeSelection}
+            />
+          )
+        })}
       </div>
     )
   }
