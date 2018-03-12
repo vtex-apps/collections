@@ -7,10 +7,9 @@ import Result from './Result/index'
 import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
-import EmptyCollection from './Result/EmptyCollection'
-import Loading from './Result/Loading'
-
-import EmptySearch from './Result/EmptySearch'
+import EmptyCollection from '../EmptyStates/EmptyCollection'
+import EmptySearch from '../EmptyStates/EmptySearch'
+import Loading from '../Loading'
 
 class Items extends Component {
   render() {
