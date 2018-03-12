@@ -13,6 +13,7 @@ import Loading from '../Loading'
 
 class Items extends Component {
   render() {
+    const { products } = this.props
     return (
       <Card>
         <div className="w-90 center">
@@ -23,26 +24,20 @@ class Items extends Component {
             <div>
               <Pagination
                 pages={
-                  this.props.loading
-                    ? Infinity
-                    : this.props.query
-                      ? this.props.productsSearch.paging.pages
-                      : this.props.productsCollection.paging.pages
-                }
-                currentPage={
                   this.props.query
-                    ? this.props.productsSearch.paging.page
-                    : this.props.productsCollection.paging.page
+                    ? products.search.paging.pages
+                    : products.collection.paging.pages
                 }
+                currentPage={this.props.currentPage}
                 from={
                   this.props.query
-                    ? this.props.productsSearch.paging._from
-                    : this.props.productsCollection.paging._from
+                    ? products.search.paging._from
+                    : products.collection.paging._from
                 }
                 to={
                   this.props.query
-                    ? this.props.productsSearch.paging._to
-                    : this.props.productsCollection.paging._to
+                    ? products.search.paging._to
+                    : products.collection.paging._to
                 }
                 onChange={this.props.onChangePage}
               />
@@ -75,21 +70,23 @@ class Items extends Component {
               ? <div className="flex flex-column items-center pa10">
                 <Loading />
               </div>
-              : this.props.query && this.props.query.length > 0
-                ? this.props.productsSearch.items.length === 0
+              : this.props.query &&
+                  this.props.query.length > 0 &&
+                  this.props.products.variables.searchQuery === this.props.query
+                ? products.search.items.length === 0
                   ? <EmptySearch />
                   : <Result
                     isSearch
-                    products={this.props.productsSearch.items}
+                    products={products.search.items}
                     selectedSkus={this.props.selectedSkus}
                     selectionState={this.props.selections}
                     onChangeSelection={this.props.onChangeSelection}
                   />
                 : this.props.selectedSkus.length > 0 &&
-                      this.props.productsCollection.items.length > 0
+                      products.collection.items.length > 0
                   ? <Result
                     isCollection
-                    products={this.props.productsCollection.items}
+                    products={products.collection.items}
                     selectedSkus={this.props.selectedSkus}
                     selectionState={this.props.selections}
                     onChangeSelection={this.props.onChangeSelection}
@@ -104,15 +101,11 @@ class Items extends Component {
 
 Items.propTypes = {
   loading: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
   selectedSkus: PropTypes.array,
   selections: PropTypes.object,
   query: PropTypes.string,
-  queryFrom: PropTypes.number,
-  queryTo: PropTypes.number,
-  collectionFrom: PropTypes.number,
-  collectionTo: PropTypes.number,
-  productsCollection: PropTypes.object.isRequired,
-  productsSearch: PropTypes.object.isRequired,
+  products: PropTypes.object.isRequired,
   onChangeSelection: PropTypes.func.isRequired,
   onChangePage: PropTypes.func.isRequired,
   onChangeSearch: PropTypes.func.isRequired,

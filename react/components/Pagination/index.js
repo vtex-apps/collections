@@ -35,7 +35,7 @@ class Pagination extends PureComponent {
   };
 
   getNewState = newCurrentPage => {
-    if (this.props.from && this.props.to) {
+    if (this.props.from !== null && this.props.to !== null) {
       const pageSize = this.props.to - this.props.from + 1
       const from = (newCurrentPage - 1) * pageSize
       const to = from + pageSize - 1

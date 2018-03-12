@@ -14,6 +14,7 @@ class Collection extends Component {
     super(props)
 
     this.state = {
+      currentPage: 1,
       searchQuery: props.searchQuery,
       selections: { product: {} },
     }
@@ -23,10 +24,12 @@ class Collection extends Component {
   handleChangeSearch = e => {
     const searchQuery = e.target.value
     const newState = { searchQuery, queryFrom: 0, queryTo: 9 }
+
     this.productsRefetch({
       ...this.props.products.variables,
       ...newState,
     })
+
     this.setState(newState)
   };
 
@@ -41,6 +44,7 @@ class Collection extends Component {
         ? { queryFrom: from, queryTo: to }
         : { collectionFrom: from, collectionTo: to }),
     })
+    this.setState({ currentPage: page })
   };
 
   handleChangeSelection = changes => {
@@ -170,12 +174,8 @@ class Collection extends Component {
               }
               selections={this.state.selections}
               query={this.state.searchQuery}
-              queryFrom={this.props.products.variables.queryFrom}
-              queryTo={this.props.products.variables.queryTo}
-              collectionFrom={this.props.products.variables.collectionFrom}
-              collectionTo={this.props.products.variables.collectionTo}
-              productsCollection={this.props.products.collection}
-              productsSearch={this.props.products.search}
+              currentPage={this.state.currentPage}
+              products={this.props.products}
               onChangeSelection={this.handleChangeSelection}
               onChangePage={this.handleChangePage}
               onChangeSearch={this.handleChangeSearch}
