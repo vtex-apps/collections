@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Checkbox from '../../Checkbox'
 
 class Sku extends Component {
   handleChange = () => {
@@ -14,19 +15,7 @@ class Sku extends Component {
 
     return (
       <div className="flex items-center" style={{ paddingLeft: '3.75rem' }}>
-        <label className="container">
-          <input
-            type="checkbox"
-            checked={inCollection}
-            onChange={this.handleChange}
-          />
-          <span
-            className={
-              `checkmark ba bw1 ${inCollection ? 'b--blue' : 'b--light-gray'}`
-            }
-            style={{ width: '12px', height: '12px' }}
-          />
-        </label>
+        <Checkbox checked={inCollection} onChange={this.handleChange} />
         <div
           className="bl br b--light-gray ph4 pv5 flex items-center f6 flex-grow-1 justify-between bg-near-white"
         >

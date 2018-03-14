@@ -5,6 +5,7 @@ import filter from 'lodash/filter'
 import IconArrowDown from './IconArrowDown'
 import IconArrowUp from './IconArrowUp'
 import Sku from './Sku'
+import Checkbox from '../../Checkbox'
 
 class Product extends Component {
   constructor(props) {
@@ -74,19 +75,11 @@ class Product extends Component {
     return (
       <Fragment>
         <div className="flex items-center">
-          <label className="container">
-            <input
-              type="checkbox"
-              checked={allSkusChecked}
-              onChange={this.handleChangeProductSelection}
-            />
-            <span
-              className={
-                `checkmark ba bw1 ${hasOneChecked ? 'b--blue' : 'b--light-gray'}`
-              }
-              style={{ width: '12px', height: '12px' }}
-            />
-          </label>
+          <Checkbox
+            checked={allSkusChecked}
+            semiChecked={hasOneChecked}
+            onChange={this.handleChangeProductSelection}
+          />
           <div
             className={
               `bt bl bb br b--light-gray pa4 flex items-center f6 flex-grow-1 justify-between relative ${open ? 'bg-near-white' : ''}`
