@@ -8,6 +8,7 @@ import reduce from 'lodash/reduce'
 import Button from '@vtex/styleguide/lib/Button'
 import Config from './components/Config'
 import Items from './components/Items'
+import withNavigate from './components/withNavigate'
 
 class Collection extends Component {
   constructor(props) {
@@ -121,8 +122,8 @@ class Collection extends Component {
     this.setState({ name: e.target.value })
   };
 
-  handleCancel() {
-    window.location.href = '/admin/collections'
+  handleCancel = () => {
+    this.props.navigate({ to: '/admin/collections' })
   }
 
   handleSave = () => {
@@ -192,6 +193,7 @@ Collection.propTypes = {
   collectionData: PropTypes.object,
   products: PropTypes.object,
   params: PropTypes.object.isRequired,
+  navigate: PropTypes.func.isRequired,
   saveCollection: PropTypes.func.isRequired,
 }
 
@@ -378,7 +380,8 @@ const CollectionContainer = compose(
       }
     },
   }),
-  graphql(collectionMutation, { name: 'saveCollection' })
+  graphql(collectionMutation, { name: 'saveCollection' }),
+  withNavigate(),
 )(Collection)
 
 CollectionContainer.defaultProps = {

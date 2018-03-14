@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { FormattedDate } from 'react-intl'
+import withNavigate from './components/withNavigate'
+
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
 
@@ -32,11 +35,11 @@ class ListPage extends Component {
   };
 
   handleOpenCollection = id => {
-    window.location.href = `/admin/collections/${id}`
+    this.props.navigate({ to: `/admin/collections/${id}` })
   };
 
   handleClickNewCollection = () => {
-    window.location.href = '/admin/collections/new'
+    this.props.navigate({ to: '/admin/collections/new' })
   };
 
   render() {
@@ -197,4 +200,9 @@ class ListPage extends Component {
   }
 }
 
-export default ListPage
+ListPage.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  query: PropTypes.object,
+}
+
+export default withNavigate()(ListPage)
