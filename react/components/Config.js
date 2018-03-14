@@ -130,11 +130,10 @@ class Config extends Component {
             <div className="bl b--light-gray pl7 dib near-black">
               <div className="flex dib pb3">
                 <Toggle
-                  semantic
                   secondary
-                  id="hightlight-toggle"
+                  id="active-toggle"
                   onClick={this.handleChangeActive}
-                  checked={collection.highlight}
+                  checked={collection.active}
                 />
                 <span className="pl3">Active</span>
               </div>

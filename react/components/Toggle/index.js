@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import config from 'vtex-tachyons/config.json'
-
 const noop = () => {}
 
 class Toggle extends Component {
