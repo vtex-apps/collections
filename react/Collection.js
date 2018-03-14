@@ -18,23 +18,37 @@ class Collection extends Component {
       currentPage: 1,
       searchQuery: props.searchQuery,
       selections: { product: {} },
-      config: props.collectionData &&
-        !props.collectionData.loading &&
-        props.collectionData.collection,
+      config: this.mapCollectionConfig(props),
     }
     this.productsRefetch = debounce(this.productsRefetch.bind(this), 400)
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      config: nextProps.collectionData &&
-        !nextProps.collectionData.loading &&
-        nextProps.collectionData.collection,
+      config: this.mapCollectionConfig(nextProps),
     })
   }
 
+  mapCollectionConfig(props) {
+    const collection = props.collectionData && !props.collectionData.loading
+      ? props.collectionData.collection || {}
+      : {}
+
+    return {
+      name: collection.name || '',
+      dateFrom: collection.dateFrom || new Date(),
+      dateTo: collection.dateTo || new Date(),
+      highlight: collection.highlight !== undefined
+        ? collection.highlight
+        : false,
+      searchable: collection.searchable !== undefined
+        ? collection.searchable
+        : false,
+    }
+  }
+
   handleChangeConfig = ({ field, value }) => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       config: {
         ...prevState.config,
         [field]: value,
@@ -98,11 +112,7 @@ class Collection extends Component {
     this.props
       .saveCollection({
         variables: {
-          name: 'teste 1',
-          searchable: false,
-          highlight: false,
-          dateFrom: '2018-01-26T10:57:00',
-          dateTo: '2018-01-26T10:57:00',
+          ...this.state.config,
           conditions: [
             {
               name: 'Foobar I',
@@ -130,21 +140,9 @@ class Collection extends Component {
       })
   };
 
-  handleChangeHighlight = () => {
-    this.setState({ highlight: !this.state.highlight })
-  };
-
-  handleChangeSearchable = () => {
-    this.setState({ searchable: !this.state.searchable })
-  };
-
-  handleChangeName = e => {
-    this.setState({ name: e.target.value })
-  };
-
   handleCancel = () => {
     this.props.navigate({ to: '/admin/collections' })
-  }
+  };
 
   handleSave = () => {
     this.save()
@@ -404,7 +402,7 @@ const CollectionContainer = compose(
     },
   }),
   graphql(collectionMutation, { name: 'saveCollection' }),
-  withNavigate(),
+  withNavigate()
 )(Collection)
 
 CollectionContainer.defaultProps = {
