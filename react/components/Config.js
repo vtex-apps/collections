@@ -97,7 +97,7 @@ class Config extends Component {
               className="w-auto bn f4 fw7 near-black"
               type="text"
               placeholder="Name your collection"
-              defaultValue={collection.name || 'Type a name'}
+              defaultValue={collection.name || ''}
               style={{ width: '10em' }}
               onChange={this.handleChangeName}
             />
