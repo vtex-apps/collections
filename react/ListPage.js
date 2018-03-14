@@ -16,22 +16,19 @@ import EmptyCollectionSearch
   from './components/EmptyStates/EmptyCollectionSearch'
 
 class ListPage extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      searchKey: '',
-      page: 1,
-    }
-  }
-
   handleChangePage = page => {
-    this.setState({ page })
+    this.props.navigate({
+      to: '/admin/collections',
+      query: `?q=${this.props.query.q}&page=${page}`,
+    })
   };
 
   handleChangeSearchKey = e => {
     const value = e.target.value
-    this.setState({ searchKey: value, page: 1 })
+    this.props.navigate({
+      to: '/admin/collections',
+      query: `?q=${value}&page=1`,
+    })
   };
 
   handleOpenCollection = id => {
@@ -45,8 +42,8 @@ class ListPage extends Component {
   render() {
     return (
       <SearchCollections
-        searchKey={this.state.searchKey}
-        page={this.state.page}
+        searchKey={this.props.query.q || ''}
+        page={parseInt(this.props.query.page, 10) || 1}
       >
         {({ loading, collections }) => {
           return (
@@ -69,16 +66,16 @@ class ListPage extends Component {
                     <Input
                       type="search"
                       placeholder="Search by collection's name or ID…"
-                      value={this.state.searchKey}
+                      value={this.props.query.q}
                       onChange={this.handleChangeSearchKey}
                     />
                   </div>
                   <Pagination
                     onChange={this.handleChangePage}
-                    currentPage={parseInt(this.state.page, 10)}
+                    currentPage={parseInt(this.props.query.page, 10)}
                     pages={
                       collections && collections.paging
-                        ? parseInt(collections.paging, 10)
+                        ? parseInt(collections.paging.pages, 10)
                         : Infinity
                     }
                   />
