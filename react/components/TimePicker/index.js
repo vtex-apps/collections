@@ -9,13 +9,17 @@ class TimePicker extends Component {
 
     this.state = {
       focused: false,
-      value: moment(props.value || new Date()),
+      value: props.value
+        ? moment(moment.utc(props.value).local().format())
+        : moment(),
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      value: moment(nextProps.value || new Date()),
+      value: nextProps.value
+        ? moment(moment.utc(nextProps.value).local().format())
+        : moment(),
     })
   }
 
