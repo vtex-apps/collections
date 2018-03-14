@@ -50,7 +50,14 @@ class Items extends Component {
         <div className="w-100 center">
           <div>
             <div className="f3 fw7 w-50">
-              Name this group
+              <input
+                className="w-auto bn f3 fw7 near-black"
+                type="text"
+                placeholder="Name your collection"
+                defaultValue="Type a name"
+                style={{ width: '10em' }}
+                onChange={()=>{}}
+              />
             </div>
           </div>
           <div className="flex items-end w-100 justify-between pt6">

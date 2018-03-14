@@ -10,7 +10,9 @@ import Config from './components/Config'
 import Items from './components/Items'
 import NewGroup from './components/NewGroup'
 import DynamicGroup from './components/DynamicGroup'
+import CollapsedGroup from './components/CollapsedGroup'
 import withNavigate from './components/withNavigate'
+import Alert from '@vtex/styleguide/lib/Alert';
 
 class Collection extends Component {
   constructor(props) {
@@ -165,7 +167,7 @@ class Collection extends Component {
                 </Button>
               </div>
               <Button primary onClick={this.handleSave}>
-                save
+                save collection
               </Button>
             </div>
           </div>
@@ -180,6 +182,11 @@ class Collection extends Component {
               />}
             </div>
             <div className="w-75 ml5">
+              <div className="mb5 ba b--blue br2">
+                <Alert>
+                  Products are added to the collection by groups of conditions.
+                </Alert>
+              </div>
               <div className="mb5">
                 <Items
                   loading={
@@ -212,6 +219,9 @@ class Collection extends Component {
               </div>
               <div className="mb5">
                 <DynamicGroup />
+              </div>
+              <div className="mb5">
+                <CollapsedGroup />
               </div>
             </div>
           </div>

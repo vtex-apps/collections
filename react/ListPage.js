@@ -56,7 +56,7 @@ class ListPage extends Component {
               </Button>
             </div>
           </div>
-          <div className="flex justify-between pt6 w-100">
+          <div className="flex justify-between pt6 w-100 mb7 items-center">
             <div className="w-80">
               <Input
                 type="search"
