@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import 'react-dates/initialize'
+import moment from 'moment'
 
 import Toggle from './Toggle/index'
 import DatePicker from './DatePicker/index'
@@ -13,19 +14,55 @@ class Config extends Component {
   };
 
   handleChangeDateFrom = date => {
-    this.props.onChange({ field: 'dateFrom', value: date })
+    const dateFrom = moment(new Date(date))
+    const timeFrom = moment(new Date(this.props.collection.dateFrom))
+
+    const newDate = dateFrom
+      .hour(timeFrom.hour())
+      .minute(timeFrom.minute())
+      .toDate()
+      .toISOString()
+
+    this.props.onChange({ field: 'dateFrom', value: newDate })
   };
 
   handleChangeDateTo = date => {
-    this.props.onChange({ field: 'dateTo', value: date })
+    const dateTo = moment(new Date(date))
+    const timeTo = moment(new Date(this.props.collection.dateTo))
+
+    const newDate = dateTo
+      .hour(timeTo.hour())
+      .minute(timeTo.minute())
+      .toDate()
+      .toISOString()
+
+    this.props.onChange({ field: 'dateTo', value: newDate })
   };
 
   handleChangeTimeFrom = time => {
-    console.log('timeFrom', time)
+    const dateFrom = moment(new Date(this.props.collection.dateFrom))
+    const timeFrom = moment(new Date(time))
+
+    const newDate = dateFrom
+      .hour(timeFrom.hour())
+      .minute(timeFrom.minute())
+      .toDate()
+      .toISOString()
+
+    this.props.onChange({ field: 'dateFrom', value: newDate })
   };
 
   handleChangeTimeTo = time => {
-    console.log('timeTo', time)
+    const dateTo = moment(new Date(this.props.collection.dateTo))
+    const timeTo = moment(new Date(time))
+
+    const newDate = dateTo
+      .hour(timeTo.hour())
+      .minute(timeTo.minute())
+      .toDate()
+      .toISOString()
+
+    this.props.onChange({ field: 'dateTo', value: newDate })
   };
 
   handleChangeActive = () => {
@@ -70,22 +107,22 @@ class Config extends Component {
               <div className="pr5">
                 <span className="f6 fw7 near-black pr5 ">Start</span>
                 <DatePicker
-                  value={collection.dateFrom || new Date()}
+                  value={collection.dateFrom}
                   onChange={this.handleChangeDateFrom}
                 />
                 <TimePicker
-                  value={collection.dateFrom || new Date()}
+                  value={collection.dateFrom}
                   onChange={this.handleChangeTimeFrom}
                 />
               </div>
               <div>
                 <span className="f6 fw7 near-black pr5 ">End</span>
                 <DatePicker
-                  value={collection.dateTo || new Date()}
+                  value={collection.dateTo}
                   onChange={this.handleChangeDateTo}
                 />
                 <TimePicker
-                  value={collection.dateTo || new Date()}
+                  value={collection.dateTo}
                   onChange={this.handleChangeTimeTo}
                 />
               </div>

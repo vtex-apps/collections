@@ -34,7 +34,12 @@ class Collection extends Component {
   }
 
   handleChangeConfig = ({ field, value }) => {
-    console.log({ field, value })
+    this.setState((prevState) => ({
+      config: {
+        ...prevState.config,
+        [field]: value,
+      },
+    }))
   };
 
   handleChangeSearch = e => {
@@ -171,7 +176,7 @@ class Collection extends Component {
             {this.props.collectionData.loading
               ? null
               : <Config
-                collection={this.props.collectionData.collection}
+                collection={this.state.config}
                 onChange={this.handleChangeConfig}
               />}
             <Items

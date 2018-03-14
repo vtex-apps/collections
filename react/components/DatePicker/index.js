@@ -30,8 +30,9 @@ class DatePicker extends Component {
   render() {
     return (
       <SingleDatePicker
+        showDefaultInputIcon
         numberOfMonths={1}
-        date={this.state.date}
+        date={this.state.value}
         focused={this.state.focused}
         onDateChange={this.handleChange}
         onFocusChange={this.handleFocusChange}
