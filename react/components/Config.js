@@ -8,6 +8,47 @@ import TimePicker from './TimePicker/index'
 import Card from './Card'
 
 class Config extends Component {
+  handleChangeName = e => {
+    this.props.onChange({ field: 'name', value: e.target.value })
+  };
+
+  handleChangeDateFrom = date => {
+    this.props.onChange({ field: 'dateFrom', value: date })
+  };
+
+  handleChangeDateTo = date => {
+    this.props.onChange({ field: 'dateTo', value: date })
+  };
+
+  handleChangeTimeFrom = time => {
+    console.log('timeFrom', time)
+  };
+
+  handleChangeTimeTo = time => {
+    console.log('timeTo', time)
+  };
+
+  handleChangeActive = () => {
+    this.props.onChange({
+      field: 'active',
+      value: !this.props.collection.active,
+    })
+  };
+
+  handleChangeHighlight = () => {
+    this.props.onChange({
+      field: 'highlight',
+      value: !this.props.collection.highlight,
+    })
+  };
+
+  handleChangeSearchable = () => {
+    this.props.onChange({
+      field: 'searchable',
+      value: !this.props.collection.searchable,
+    })
+  };
+
   render() {
     const collection = this.props.collection || {}
 
@@ -21,6 +62,7 @@ class Config extends Component {
               placeholder="Name your collection"
               defaultValue={collection.name || 'Type a name'}
               style={{ width: '10em' }}
+              onChange={this.handleChangeName}
             />
           </div>
           <div className="flex justify-between">
@@ -29,22 +71,22 @@ class Config extends Component {
                 <span className="f6 fw7 near-black pr5 ">Start</span>
                 <DatePicker
                   value={collection.dateFrom || new Date()}
-                  onChange={() => {}}
+                  onChange={this.handleChangeDateFrom}
                 />
                 <TimePicker
                   value={collection.dateFrom || new Date()}
-                  onChange={() => {}}
+                  onChange={this.handleChangeTimeFrom}
                 />
               </div>
               <div>
                 <span className="f6 fw7 near-black pr5 ">End</span>
                 <DatePicker
                   value={collection.dateTo || new Date()}
-                  onChange={() => {}}
+                  onChange={this.handleChangeDateTo}
                 />
                 <TimePicker
                   value={collection.dateTo || new Date()}
-                  onChange={() => {}}
+                  onChange={this.handleChangeTimeTo}
                 />
               </div>
             </div>
@@ -54,8 +96,8 @@ class Config extends Component {
                   semantic
                   secondary
                   id="hightlight-toggle"
-                  onClick={this.handleChangeHighlight}
-                  checked
+                  onClick={this.handleChangeActive}
+                  checked={collection.highlight}
                 />
                 <span className="pl3">Active</span>
               </div>
@@ -64,7 +106,7 @@ class Config extends Component {
                   secondary
                   id="hightlight-toggle"
                   onClick={this.handleChangeHighlight}
-                  checked
+                  checked={collection.highlight}
                 />
                 <span className="pl3">Highlight</span>
               </div>
@@ -87,6 +129,7 @@ class Config extends Component {
 
 Config.propTypes = {
   collection: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default Config

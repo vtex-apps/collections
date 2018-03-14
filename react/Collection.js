@@ -18,9 +18,24 @@ class Collection extends Component {
       currentPage: 1,
       searchQuery: props.searchQuery,
       selections: { product: {} },
+      config: props.collectionData &&
+        !props.collectionData.loading &&
+        props.collectionData.collection,
     }
     this.productsRefetch = debounce(this.productsRefetch.bind(this), 400)
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      config: nextProps.collectionData &&
+        !nextProps.collectionData.loading &&
+        nextProps.collectionData.collection,
+    })
+  }
+
+  handleChangeConfig = ({ field, value }) => {
+    console.log({ field, value })
+  };
 
   handleChangeSearch = e => {
     const searchQuery = e.target.value
@@ -155,7 +170,10 @@ class Collection extends Component {
           <div>
             {this.props.collectionData.loading
               ? null
-              : <Config collection={this.props.collectionData.collection} />}
+              : <Config
+                collection={this.props.collectionData.collection}
+                onChange={this.handleChangeConfig}
+              />}
             <Items
               loading={
                 this.props.products.loading || this.props.collectionData.loading

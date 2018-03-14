@@ -12,8 +12,38 @@ import EmptySearch from '../EmptyStates/EmptySearch'
 import Loading from '../Loading'
 
 class Items extends Component {
+  getPages() {
+    return this.hasData()
+      ? this.props.query
+        ? this.props.products.search.paging.pages
+        : this.props.products.collection.paging.pages
+      : Infinity
+  }
+
+  getFrom() {
+    return this.hasData()
+      ? this.props.query
+        ? this.props.products.search.paging._from
+        : this.props.products.collection.paging._from
+      : null
+  }
+
+  getTo() {
+    return this.hasData()
+      ? this.props.query
+        ? this.props.products.search.paging._to
+        : this.props.products.collection.paging._to
+      : null
+  }
+
+  hasData() {
+    return this.props.products &&
+      (this.props.products.search || this.props.products.collection)
+  }
+
   render() {
     const { products } = this.props
+
     return (
       <Card>
         <div className="w-90 center">
@@ -23,22 +53,10 @@ class Items extends Component {
             </div>
             <div>
               <Pagination
-                pages={
-                  this.props.query
-                    ? products.search.paging.pages
-                    : products.collection.paging.pages
-                }
+                pages={this.getPages()}
+                from={this.getFrom()}
+                to={this.getTo()}
                 currentPage={this.props.currentPage}
-                from={
-                  this.props.query
-                    ? products.search.paging._from
-                    : products.collection.paging._from
-                }
-                to={
-                  this.props.query
-                    ? products.search.paging._to
-                    : products.collection.paging._to
-                }
                 onChange={this.props.onChangePage}
               />
             </div>

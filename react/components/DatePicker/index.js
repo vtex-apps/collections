@@ -30,10 +30,11 @@ class DatePicker extends Component {
   render() {
     return (
       <SingleDatePicker
-        date={this.state.date} // momentPropTypes.momentObj or null
-        onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
-        focused={this.state.focused} // PropTypes.bool
-        onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+        numberOfMonths={1}
+        date={this.state.date}
+        focused={this.state.focused}
+        onDateChange={this.handleChange}
+        onFocusChange={this.handleFocusChange}
       />
     )
   }

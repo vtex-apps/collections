@@ -19,10 +19,6 @@ class TimePicker extends Component {
     })
   }
 
-  handleFocusChange = ({ focused }) => {
-    this.setState({ focused })
-  };
-
   handleChange = date => {
     this.props.onChange(date.toISOString())
   };
@@ -30,9 +26,10 @@ class TimePicker extends Component {
   render() {
     return (
       <RcTimePicker
-        value={this.state.value}
         showSecond={false}
         minuteStep={10}
+        value={this.state.value}
+        onChange={this.handleChange}
       />
     )
   }
