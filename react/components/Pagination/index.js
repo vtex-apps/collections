@@ -75,7 +75,7 @@ class Pagination extends PureComponent {
             onClick={this.handlePreviousPage}
             disabled={previousDisabled}
             className={
-              `bn f6 pv3 ph4 flex items-center ${previousDisabled ? '' : 'pointer hover-bg-washed-blue'}`
+              `bn f6 pv4 ph4 flex items-center ${previousDisabled ? '' : 'pointer hover-bg-washed-blue'}`
             }
           >
             <IconArrowLeft
@@ -86,7 +86,7 @@ class Pagination extends PureComponent {
         <div className="dib">
           <input
             className={
-              `ba ${this.state.error ? 'b--washed-red' : 'b--light-gray'} f6 pa3 bw1 dib w2 tc`
+              `ba ${this.state.error ? 'b--washed-red' : 'b--light-gray'} f6 pa4 bw1 dib w2 tc`
             }
             value={this.state.currentPage}
             onBlur={this.handleBlur}
@@ -99,7 +99,7 @@ class Pagination extends PureComponent {
             onClick={this.handleNextPage}
             disabled={nextDisabled}
             className={
-              `bn f6 pv3 ph4 flex items-center ${nextDisabled ? '' : 'pointer hover-bg-washed-blue'}`
+              `bn f6 pv4 ph4 flex items-center ${nextDisabled ? '' : 'pointer hover-bg-washed-blue'}`
             }
           >
             <IconArrowRight

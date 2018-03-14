@@ -7,6 +7,7 @@ import Result from './Result/index'
 import Pagination from '../Pagination/index'
 
 import Dropdown from '@vtex/styleguide/lib/Dropdown'
+import Button from '@vtex/styleguide/lib/Button'
 import EmptyCollection from '../EmptyStates/EmptyCollection'
 import EmptySearch from '../EmptyStates/EmptySearch'
 import Loading from '../Loading'
@@ -46,12 +47,20 @@ class Items extends Component {
 
     return (
       <Card>
-        <div className="w-90 center">
-          <div className="flex justify-between items-center">
-            <div className="f4 fw7">
-              Items
+        <div className="w-100 center">
+          <div>
+            <div className="f3 fw7 w-50">
+              Name this group
             </div>
-            <div>
+          </div>
+          <div className="flex items-end w-100 justify-between pt6">
+            <div className="flex-auto">
+              <Search
+                value={this.props.query}
+                onChange={this.props.onChangeSearch}
+              />
+            </div>
+            <div className="ml4">
               <Pagination
                 pages={this.getPages()}
                 from={this.getFrom()}
@@ -59,28 +68,6 @@ class Items extends Component {
                 currentPage={this.props.currentPage}
                 onChange={this.props.onChangePage}
               />
-            </div>
-          </div>
-          <div className="flex items-baseline w-100 justify-between">
-            <div className="pt6 flex-auto">
-              <Search
-                value={this.props.query}
-                onChange={this.props.onChangeSearch}
-              />
-            </div>
-            <div className="pl4">
-              <label htmlFor="filter" className="f7 fw3">
-                Filter by
-              </label>
-              <div className="pt3">
-                <Dropdown
-                  placeholder="All"
-                  options={['Selected', 'Not selected', 'All']}
-                  onChange={() => {}}
-                  value=""
-                  id="filter"
-                />
-              </div>
             </div>
           </div>
           <div className="pt6">
@@ -110,6 +97,12 @@ class Items extends Component {
                     onChangeSelection={this.props.onChangeSelection}
                   />
                   : <EmptyCollection />}
+          </div>
+          <div className="pt6 nl5">
+            <div>
+              <Button>Save group</Button>
+              <Button>Cancel</Button>
+            </div>
           </div>
         </div>
       </Card>

@@ -8,6 +8,8 @@ import reduce from 'lodash/reduce'
 import Button from '@vtex/styleguide/lib/Button'
 import Config from './components/Config'
 import Items from './components/Items'
+import NewGroup from './components/NewGroup'
+import DynamicGroup from './components/DynamicGroup'
 import withNavigate from './components/withNavigate'
 
 class Collection extends Component {
@@ -152,9 +154,7 @@ class Collection extends Component {
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
         <div className="w-90 center">
-          <div
-            className="flex justify-between items-center bb b--light-gray pb6"
-          >
+          <div className="flex justify-between items-center bb b--light-gray pb6 mb6">
             <div className="fw7 f2">
               Collections
             </div>
@@ -170,38 +170,50 @@ class Collection extends Component {
             </div>
           </div>
 
-          <div>
+          <div className="flex justify-between">
+            <div className="w-25">
             {this.props.collectionData.loading
               ? null
               : <Config
                 collection={this.state.config}
                 onChange={this.handleChangeConfig}
               />}
-            <Items
-              loading={
-                this.props.products.loading || this.props.collectionData.loading
-              }
-              selectedSkus={
-                (!this.props.collectionData.loading &&
-                  this.props.collectionData.collection &&
-                  this.props.collectionData.collection.conditions &&
-                  this.props.collectionData.collection.conditions.items &&
-                  this.props.collectionData.collection.conditions.items.reduce(
-                    (items, condition) =>
-                      items.concat(
-                        condition.skus.reduce((ids, sku) => ids.concat(sku), [])
-                      ),
-                    []
-                  )) || []
-              }
-              selections={this.state.selections}
-              query={this.state.searchQuery}
-              currentPage={this.state.currentPage}
-              products={this.props.products}
-              onChangeSelection={this.handleChangeSelection}
-              onChangePage={this.handleChangePage}
-              onChangeSearch={this.handleChangeSearch}
-            />
+            </div>
+            <div className="w-75 ml5">
+              <div className="mb5">
+                <Items
+                  loading={
+                    this.props.products.loading || this.props.collectionData.loading
+                  }
+                  selectedSkus={
+                    (!this.props.collectionData.loading &&
+                      this.props.collectionData.collection &&
+                      this.props.collectionData.collection.conditions &&
+                      this.props.collectionData.collection.conditions.items &&
+                      this.props.collectionData.collection.conditions.items.reduce(
+                        (items, condition) =>
+                          items.concat(
+                            condition.skus.reduce((ids, sku) => ids.concat(sku), [])
+                          ),
+                        []
+                      )) || []
+                  }
+                  selections={this.state.selections}
+                  query={this.state.searchQuery}
+                  currentPage={this.state.currentPage}
+                  products={this.props.products}
+                  onChangeSelection={this.handleChangeSelection}
+                  onChangePage={this.handleChangePage}
+                  onChangeSearch={this.handleChangeSearch}
+                />
+              </div>
+              <div className="mb5">
+                <NewGroup />
+              </div>
+              <div className="mb5">
+                <DynamicGroup />
+              </div>
+            </div>
           </div>
         </div>
       </div>
