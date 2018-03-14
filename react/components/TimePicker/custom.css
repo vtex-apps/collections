@@ -1,0 +1,37 @@
+.rc-time-picker input[type=text] {
+  padding: 8px;
+  font-size: 14px;
+  top: 2px;
+  height: 38px;
+  border: 2px solid #e3e4e6;
+  letter-spacing: -0.4px;
+}
+
+.rc-time-picker .rc-time-picker-panel-inner {
+  width: 10em;
+  display: inline-block;
+  top: 55px;
+  position: relative;
+  outline: none;
+  list-style: none;
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  border-radius: 4px;
+  background-clip: padding-box;
+  border: 1px solid #e3e4e6;
+  line-height: 1.5;
+  box-shadow: none;
+}
+
+.rc-time-picker-input {
+  width: 5em;
+  text-align: center;
+}
+
+.rc-time-picker .rc-time-picker-panel-input-wrap {
+  box-sizing: border-box;
+  position: relative;
+  padding: 8px;
+  border-bottom: 1px solid #e3e4e6;
+}
