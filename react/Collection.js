@@ -54,8 +54,8 @@ class Collection extends Component {
 
     return {
       name: collection.name || '',
-      dateFrom: collection.dateFrom || new Date(),
-      dateTo: collection.dateTo || new Date(),
+      dateFrom: collection.dateFrom || new Date().toISOString(),
+      dateTo: collection.dateTo || new Date().toISOString(),
       highlight: collection.highlight !== undefined && collection.highlight !== null
         ? collection.highlight
         : false,
