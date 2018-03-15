@@ -15,75 +15,75 @@ class Items extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      currentPage: 1,
-      queryFrom: 0,
-      queryTo: 9,
-      query: '',
-    }
+    // this.state = {
+    //   currentPage: 1,
+    //   queryFrom: 0,
+    //   queryTo: 9,
+    //   query: '',
+    // }
   }
 
   getCurrentPage() {
     return this.hasData()
-      ? this.state.query
+      ? this.props.query
         ? this.props.search.products.paging.pages
-        : Math.ceil(this.state.queryFrom / 10) + 1
+        : Math.ceil(this.props.queryFrom / 10) + 1
       : 1
   }
 
   getPages() {
     return this.hasData()
-      ? this.state.query
+      ? this.props.query
         ? this.props.search.products.paging.pages
-        : Math.ceil(this.props.skus.length / 10)
+        : Math.ceil(this.props.skus.length / 10) === 0 ? 1 : Math.ceil(this.props.skus.length / 10)
       : Infinity
   }
 
   getFrom() {
     return this.hasData()
-      ? this.state.query
+      ? this.props.query
         ? this.props.search.products.paging._from
-        : this.state.queryFrom
+        : this.props.queryFrom
       : null
   }
 
   getTo() {
     return this.hasData()
-      ? this.state.query
+      ? this.props.query
         ? this.props.search.products.paging._to
-        : this.state.queryTo
+        : this.props.queryTo
       : null
   }
 
   hasData() {
-    return (this.state.query && !this.props.search.loading) ||
-      (!this.state.query && !this.props.collection.loading)
+    return (this.props.query && !this.props.search.loading) ||
+      (!this.props.query && !this.props.collection.loading)
   }
 
   handleChangeSearch = e => {
     const query = e.target.value
     const newState = { query, queryFrom: 0, queryTo: 9 }
 
-    this.props.search.refetch(newState)
-    this.setState(newState)
+    // this.props.search.refetch(newState)
+    this.props.onChange(newState)
   };
 
   handleChangePage = (page, from, to) => {
-    if (this.state.query) {
-      this.props.search.refetch({
-        query: this.state.query,
-        queryFrom: from,
-        queryTo: to,
-      })
-    } else {
-      this.props.collection.refetch({
-        ids: this.props.skus.slice(from, to),
-        queryFrom: from,
-        queryTo: to,
-      })
-    }
+    // if (this.state.query) {
+    //   this.props.search.refetch({
+    //     query: this.state.query,
+    //     queryFrom: from,
+    //     queryTo: to,
+    //   })
+    // } else {
+    //   this.props.collection.refetch({
+    //     ids: this.props.skus.slice(from, to),
+    //     queryFrom: from,
+    //     queryTo: to,
+    //   })
+    // }
 
-    this.setState({ currentPage: page, queryFrom: from, queryTo: to })
+    this.props.onChange({ currentPage: page, queryFrom: from, queryTo: to })
   };
 
   render() {
@@ -92,7 +92,7 @@ class Items extends Component {
         <div className="flex items-end w-100 justify-between pt6">
           <div className="flex-auto">
             <Search
-              value={this.state.query}
+              value={this.props.query}
               placeholder="Search by collection name…"
               onChange={this.handleChangeSearch}
             />
@@ -108,7 +108,7 @@ class Items extends Component {
           </div>
         </div>
         <div className="pt6">
-          {this.state.query
+          {this.props.query
             ? this.props.search.loading
               ? <div className="flex flex-column items-center pa10">
                 <Loading />
@@ -226,6 +226,10 @@ const contains = gql`
     }
   }
 `
+
+Items.defaultProps = {
+  skus: [],
+}
 
 Items.propTypes = {
   skus: PropTypes.array.isRequired,

@@ -9,23 +9,29 @@ class ManualGroup extends Component {
     super(props)
 
     this.state = {
-      name: props.name,
-      skus: props.skus,
-      type: 'I',
-      preSale: false,
-      release: false,
-      brands: [],
-      categories: [],
+      group: {
+        name: props.name,
+        skus: props.skus,
+        type: 'I',
+        preSale: false,
+        release: false,
+        brands: [],
+        categories: [],
+      },
+      currentPage: 1,
+      queryFrom: 0,
+      queryTo: 9,
+      query: '',
     }
   }
 
   handleChangeName = e => {
     const name = e.target.value
-    this.setState({ name })
+    this.setState(prevState => ({ group: {...prevState.group, name} }))
   };
 
   handleSave = () => {
-    this.props.onSave(this.state)
+    this.props.onSave(this.state.group)
   };
 
   handleCancel = () => {};
@@ -41,11 +47,15 @@ class ManualGroup extends Component {
         }
         return acc
       },
-      this.state.skus
+      this.state.group.skus
     )
 
-    this.setState({ skus })
+    this.setState(prevState => ({ group: {...prevState.group, skus} }))
   };
+
+  handleChangeSearch = newState => {
+    this.setState(newState)
+  }
 
   removeSku(skus, skuId) {
     return skus.filter(sku => sku === skuId)
@@ -64,8 +74,13 @@ class ManualGroup extends Component {
         onCancel={this.handleCancel}
       >
         <Items
+          query={this.state.query}
+          currentPage={this.state.currentPage}
+          queryFrom={this.state.queryFrom}
+          queryTo={this.state.queryTo}
           collectionId={this.props.collectionId}
-          skus={this.state.skus}
+          skus={this.state.group.skus}
+          onChange={this.handleChangeSearch}
           onChangeSkus={this.handleChangeSkus}
         />
       </BaseGroup>
