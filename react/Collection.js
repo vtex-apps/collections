@@ -88,7 +88,7 @@ class Collection extends Component {
           },
         })
         .then(() => {
-          this.props.navigate({ to: '/admin/collections' })
+          this.props.navigate({ to: '/admin/collections/' })
         })
     } else {
       // TODO update
@@ -116,7 +116,7 @@ class Collection extends Component {
         if (index === groupIndex) return group
       })
 
-      if (!group) {
+      if (!group || !this.props.params.id) {
         console.log('Opa')
         return
       }
@@ -211,7 +211,7 @@ Collection.propTypes = {
   products: PropTypes.object,
   params: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
-  saveCollection: PropTypes.func.isRequired,
+  createCollection: PropTypes.func.isRequired,
 }
 
 const createCollection = gql`
@@ -221,6 +221,7 @@ const createCollection = gql`
     $highlight: Boolean
     $dateFrom: String
     $dateTo: String
+    $groups: [GroupInput]
   ) {
     createCollection(
       name: $name
