@@ -29,17 +29,14 @@ class Product extends Component {
     return props.productState
       ? filter(props.productState.skus, sku => sku.checked).length ===
           props.product.items.length
-      : props.selectedSkus.filter(
-        skuId => !!props.product.items.find(sku => sku.itemId === `${skuId}`)
-      ).length === props.product.items.length
+      : props.selectedSkus.filter(sku => sku.contains).length ===
+          props.product.items.length
   };
 
   hasOneChecked = props => {
     return props.productState
       ? filter(props.productState.skus, sku => sku.checked).length > 0
-      : props.selectedSkus.filter(
-        skuId => !!props.product.items.find(sku => sku.itemId === `${skuId}`)
-      ).length > 0
+      : props.selectedSkus.filter(sku => sku.contains).length > 0
   };
 
   handleClickArrow = () => {
@@ -116,7 +113,7 @@ class Product extends Component {
               inCollection={
                 productState && productState.skus[item.itemId]
                   ? productState.skus[item.itemId].checked
-                  : !!selectedSkus.find(skuId => item.itemId === `${skuId}`)
+                  : !!selectedSkus.find(sku => item.itemId === `${sku.id}`)
               }
             />
           ))

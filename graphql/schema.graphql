@@ -11,6 +11,11 @@ type Query {
     pageSize: Int
   ): Collection
 
+  collectionContains(
+    collectionId: Int
+    skus: [SkuContainsInput]
+  ): ContainsResult
+
   categoriesAutocomplete(
     name: String
   ): [Category]

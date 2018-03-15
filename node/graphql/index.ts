@@ -5,6 +5,7 @@ import {
   getCollections,
   createCollection,
   createGroup,
+  collectionContains,
 } from './collectionAPI';
 import { getCategories, getBrands } from './catalogAPI';
 
@@ -47,6 +48,16 @@ export const resolvers = {
       }
 
       return collections;
+    },
+
+    collectionContains: async function(_, data, { vtex: ioContext, request }) {
+      const result = await collectionContains({
+        ioContext,
+        collectionId: data.collectionId,
+        skus: data.skus,
+      });
+
+      return result;
     },
 
     categoriesAutocomplete: async function(

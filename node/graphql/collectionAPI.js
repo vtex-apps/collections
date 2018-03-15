@@ -88,3 +88,16 @@ export function createGroup(
     },
   }).then(({ data }) => data)
 }
+
+export function collectionContains({ ioContext, collectionId, skus }) {
+  return axios({
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/${collectionId}/contains`,
+    method: 'post',
+    headers: {
+      Authorization: ioContext.authToken,
+    },
+    data: {
+      skus,
+    },
+  }).then(({ data }) => data)
+}

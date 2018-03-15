@@ -1,0 +1,12 @@
+type ContainsResult {
+  skus: [SkuContains]
+}
+
+type SkuContains {
+  id: Int
+  contains: Boolean
+}
+
+input SkuContainsInput {
+  id: String
+}

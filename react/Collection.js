@@ -203,7 +203,15 @@ class Collection extends Component {
                   </div>
                   : <div>
                     {this.props.collectionData.collection.groups.items.map(
-                      group => <Group key={group.id} data={group} />
+                      group => (
+                        <Group
+                          key={group.id}
+                          data={group}
+                          collectionId={
+                            this.props.collectionData.collection.id
+                          }
+                        />
+                      )
                     )}
                   </div>}
             </div>

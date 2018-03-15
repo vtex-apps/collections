@@ -117,7 +117,7 @@ class Items extends Component {
                 : <Result
                   isSearch
                   products={this.props.search.products.items}
-                  selectedSkus={this.props.skus}
+                  selectedSkus={[]}
                   selectionState={this.props.selections}
                   onChangeSelection={this.props.onChangeSelection}
                 />
@@ -130,7 +130,10 @@ class Items extends Component {
                 : <Result
                   isCollection
                   products={this.props.collection.products.items}
-                  selectedSkus={this.props.skus}
+                  selectedSkus={this.props.skus.map(skuId => ({
+                    id: parseInt(skuId),
+                    contains: true,
+                  }))}
                   selectionState={this.props.selections}
                   onChangeSelection={this.props.onChangeSelection}
                 />}
@@ -211,10 +214,28 @@ const search = gql`
   }
 `
 
+const contains = gql`
+  query Products(
+    $collectionId: Int
+    $skus: [SkuContainsInput]
+  ) {
+    collectionContains(
+      collectionId: $collectionId
+      skus: $skus
+    ) {
+      skus {
+        id
+        contains
+      }
+    }
+  }
+`
+
 Items.propTypes = {
   skus: PropTypes.array.isRequired,
   selections: PropTypes.object,
   query: PropTypes.string,
+  contains: PropTypes.object,
   search: PropTypes.object,
   collection: PropTypes.object,
   onChangeSelection: PropTypes.func.isRequired,
@@ -235,6 +256,27 @@ const ItemsContainer = compose(
           query,
           queryFrom,
           queryTo,
+        },
+      }
+    },
+  }),
+  graphql(contains, {
+    name: 'contains',
+    options({ collectionId, search }) {
+      return {
+        variables: {
+          collectionId,
+          skus: search.loading
+            ? []
+            : search.products.items.reduce(
+              (acc, product) =>
+                product.items.reduce(
+                  (skuIds, sku) =>
+                    skuIds.concat({ id: parseInt(sku.itemId) }),
+                  acc
+                ),
+              []
+            ),
         },
       }
     },

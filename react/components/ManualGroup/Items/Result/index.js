@@ -19,7 +19,11 @@ class Result extends Component {
             <Product
               key={`${product.productId}-${JSON.stringify(productState) || ''}`}
               product={product}
-              selectedSkus={selectedSkus}
+              selectedSkus={selectedSkus.filter(sku =>
+                product.items.find(
+                  item =>
+                    parseInt(item.itemId) === parseInt(sku.id) && sku.contains
+                ))}
               productState={selectionState.product[product.productId]}
               onChangeSelection={onChangeSelection}
             />

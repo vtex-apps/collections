@@ -24,6 +24,7 @@ class ManualGroup extends Component {
         onCancel={this.handleCancel}
       >
         <Items
+          collectionId={this.props.collectionId}
           selections={{ product: {} }}
           skus={this.props.skus}
           onChangeSelection={this.handleChangeSelection}
@@ -34,6 +35,7 @@ class ManualGroup extends Component {
 }
 
 ManualGroup.propTypes = {
+  collectionId: PropTypes.string.isRequired,
   name: PropTypes.string,
   skus: PropTypes.array.isRequired,
   onSave: PropTypes.func.isRequired,
