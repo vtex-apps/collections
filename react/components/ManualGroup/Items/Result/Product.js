@@ -95,7 +95,7 @@ class Product extends Component {
               key={item.itemId}
               sku={item}
               onChange={this.handleChangeSkuSelection}
-              inCollection={selectedSkus.includes(parseInt(item.itemId))}
+              inCollection={selectedSkus.includes(item.itemId) || selectedSkus.includes(parseInt(item.itemId))}
             />
           ))
           : null}

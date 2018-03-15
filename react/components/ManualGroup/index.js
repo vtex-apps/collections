@@ -58,7 +58,7 @@ class ManualGroup extends Component {
   }
 
   removeSku(skus, skuId) {
-    return skus.filter(sku => sku === skuId)
+    return skus.filter(sku => sku !== skuId)
   }
 
   addSku(skus, skuId) {
