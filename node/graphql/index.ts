@@ -12,6 +12,8 @@ import { getCategories, getBrands } from './catalogAPI';
 export const resolvers = {
   Query: {
     collection: async function(_, data, { vtex: ioContext, request }) {
+      if (!data.id) return {};
+
       const collection = await getCollection({ ioContext, id: data.id });
       const groups = await getGroups({
         ioContext,

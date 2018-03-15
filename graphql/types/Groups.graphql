@@ -13,7 +13,6 @@ type Group {
   brands: [Int]
   categories: [Int]
   skus: [Int]
-  products: [Int]
 }
 
 input GroupInput {

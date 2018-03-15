@@ -4,12 +4,12 @@ type CollectionsList {
 }
 
 type Collection {
-  id: ID!
-  name: String!
-  searchable: Boolean!
-  highlight: Boolean!
-  dateFrom: String!
-  dateTo: String!
+  id: ID
+  name: String
+  searchable: Boolean
+  highlight: Boolean
+  dateFrom: String
+  dateTo: String
   groups: GroupsList
 }
 

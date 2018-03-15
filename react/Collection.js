@@ -21,15 +21,30 @@ class Collection extends Component {
       currentPage: 1,
       searchQuery: props.searchQuery,
       selections: { product: {} },
-      category: '',
+      groups: this.getGroups(props),
       config: this.mapCollectionConfig(props),
     }
     this.productsRefetch = debounce(this.productsRefetch.bind(this), 400)
   }
 
+  getGroups(props) {
+    return !props.collectionData.loading && props.collectionData.collection && props.collectionData.collection.id
+      ? props.collectionData.collection.groups
+      : { items: [{
+        name: '',
+        type: 'I',
+        preSale: false,
+        release: false,
+        brands: [],
+        categories: [],
+        skus: [],
+      }] }
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       config: this.mapCollectionConfig(nextProps),
+      groups: this.getGroups(nextProps),
     })
   }
 
@@ -156,6 +171,10 @@ class Collection extends Component {
     this.setState({ category })
   };
 
+  hasNoGroup = () => {
+    return !(this.props.collectionData && this.props.collectionData.collection && this.props.collectionData.collection.groups && this.props.collectionData.collection.groups.items.length > 0)
+  }
+
   render() {
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
@@ -192,34 +211,31 @@ class Collection extends Component {
                 ? <div className="flex flex-column items-center pa10">
                   <Loading />
                 </div>
-                : this.props.collectionData.collection.groups.items.length === 0
-                  ? <div>
-                    <div className="mb5 ba b--blue br2">
-                      <Alert>
-                            Products are added to the collection by groups of conditions.
-                      </Alert>
-                    </div>
-                  </div>
-                  : <div>
-                    {this.props.collectionData.collection.groups.items.map(
-                      group => (
-                        <Group
-                          key={group.id}
-                          data={group}
-                          collectionId={
-                            this.props.collectionData.collection.id
-                          }
-                        />
-                      )
-                    )}
+                : <div>
+                  {this.hasNoGroup() && <div className="mb5 ba b--blue br2">
+                    <Alert>
+                      Products are added to the collection by groups of conditions.
+                    </Alert>
                   </div>}
-                <div className="tc mt7">
-                  <Button secondary>
-                    <div className="flex items-center">
-                      <AddIcon /> <span className="ml2">Add new group</span>
-                    </div>
-                  </Button>
-                </div>
+                  {this.state.groups.items.map(
+                    (group, index) => (
+                      <Group
+                        key={group.id || index}
+                        data={group}
+                        collectionId={
+                          this.props.collectionData.collection && this.props.collectionData.collection.id || null
+                        }
+                      />
+                    )
+                  )}
+                  <div className="tc mt7">
+                    <Button secondary>
+                      <div className="flex items-center">
+                        <AddIcon /> <span className="ml2">Add new group</span>
+                      </div>
+                    </Button>
+                  </div>
+                </div>}
             </div>
           </div>
         </div>
@@ -290,7 +306,6 @@ const collectionQuery = gql`
           brands
           categories
           skus
-          products
         }
       }
     }
@@ -302,6 +317,7 @@ const CollectionContainer = compose(
     name: 'collectionData',
     options({ params }) {
       return {
+        errorPolicy: params.id ? 'all' : 'none',
         variables: {
           id: parseInt(params.id, 10),
           page: 1,

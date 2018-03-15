@@ -10,7 +10,7 @@ class Group extends Component {
   render() {
     const { data, collectionId } = this.props
 
-    return data.skus.length > 0
+    return true // eslint-disable-line
       ? <ManualGroup
         collectionId={collectionId}
         name={data.name}
