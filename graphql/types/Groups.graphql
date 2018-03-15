@@ -1,0 +1,27 @@
+type GroupsList {
+  paging: Paging!,
+  items: [Group]!
+}
+
+type Group {
+  id: ID
+  collectionId: Int
+  name: String
+  type: String
+  preSale: Boolean
+  release: Boolean
+  brands: [Int]
+  categories: [Int]
+  skus: [Int]
+  products: [Int]
+}
+
+input GroupInput {
+  name: String
+  type: String
+  preSale: Boolean
+  release: Boolean
+  brands: [Int]
+  categories: [Int]
+  skus: [Int]
+}

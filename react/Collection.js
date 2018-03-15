@@ -117,7 +117,7 @@ class Collection extends Component {
       .saveCollection({
         variables: {
           ...this.state.config,
-          conditions: [
+          groups: [
             {
               name: 'Foobar I',
               type: 'I',
@@ -247,7 +247,7 @@ const collectionMutation = gql`
     $highlight: Boolean
     $dateFrom: String
     $dateTo: String
-    $conditions: [ConditionInput]
+    $groups: [GroupInput]
   ) {
     collection(
       name: $name
@@ -255,7 +255,7 @@ const collectionMutation = gql`
       highlight: $highlight
       dateFrom: $dateFrom
       dateTo: $dateTo
-      conditions: $conditions
+      groups: $groups
     )
   }
 `
@@ -277,7 +277,7 @@ const collectionQuery = gql`
       highlight
       dateFrom
       dateTo
-      conditions {
+      groups {
         paging {
           page
           perPage
@@ -404,12 +404,12 @@ const CollectionContainer = compose(
       return {
         variables: {
           ids: collectionData && collectionData.collection
-            ? collectionData.collection.conditions.items
+            ? collectionData.collection.groups.items
               .slice(collectionFrom, collectionTo)
               .reduce(
-                (items, condition) =>
+                (items, group) =>
                   items.concat(
-                    condition.skus.reduce((ids, sku) => ids.concat(sku), [])
+                    group.skus.reduce((ids, sku) => ids.concat(sku), [])
                   ),
                 []
               )

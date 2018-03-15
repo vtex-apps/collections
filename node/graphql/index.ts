@@ -1,29 +1,27 @@
+import find from 'lodash/find';
 import {
   getCollection,
-  getConditions,
+  getGroups,
   getCollections,
   createCollection,
   createCondition,
 } from './collectionAPI';
+import { getCategories, getBrands } from './catalogAPI';
 
 export const resolvers = {
   Query: {
-    collection: async function(_, info, { vtex: ioContext, request }, query) {
-      console.log({ info });
-      if (!query.variableValues || !query.variableValues.id) {
-        return null;
-      }
-
-      const id = query.variableValues.id;
-      const page = query.variableValues.page;
-      const pageSize = query.variableValues.pageSize;
-
-      const collection = await getCollection({ ioContext, id });
-      const conditions = await getConditions({ ioContext, id, page, pageSize });
+    collection: async function(_, data, { vtex: ioContext, request }) {
+      const collection = await getCollection({ ioContext, id: data.id });
+      const groups = await getGroups({
+        ioContext,
+        collectionId: data.id,
+        page: data.page,
+        pageSize: data.pageSize,
+      });
 
       return {
         ...collection,
-        conditions,
+        groups,
       };
     },
 
@@ -50,30 +48,45 @@ export const resolvers = {
 
       return collections;
     },
+
+    categoriesAutocomplete: async function(
+      _,
+      data,
+      { vtex: ioContext, request }
+    ) {
+      const categories = await getCategories({
+        ioContext,
+        name: data.name || '',
+      });
+
+      console.log({ categories });
+
+      return categories;
+    },
+
+    brandsAutocomplete: async function(_, data, { vtex: ioContext, request }) {
+      const brands = await getBrands({
+        ioContext,
+        name: data.name || '',
+      });
+
+      return brands;
+    },
   },
   Mutation: {
-    collection: async function(_, info, { vtex: ioContext, request }, input) {
-      const {
-        name,
-        searchable,
-        highlight,
-        dateFrom,
-        dateTo,
-        conditions,
-      } = info;
-
+    collection: async function(_, data, { vtex: ioContext, request }) {
       const collectionId = await createCollection({
         ioContext,
-        name,
-        searchable,
-        highlight,
-        dateFrom,
-        dateTo,
+        name: data.name,
+        searchable: data.searchable,
+        highlight: data.searchable,
+        dateFrom: data.dateFrom,
+        dateTo: data.dateTo,
       });
 
       await Promise.all(
-        conditions.map(condition =>
-          createCondition({ ioContext, collectionId, ...condition }))
+        data.groups.map(group =>
+          createCondition({ ioContext, collectionId, ...group }))
       );
 
       return true;

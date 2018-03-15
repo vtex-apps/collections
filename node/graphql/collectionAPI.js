@@ -10,9 +10,9 @@ export function getCollection({ ioContext, id }) {
   }).then(({ data }) => data)
 }
 
-export function getConditions({ ioContext, id, page, pageSize }) {
+export function getGroups({ ioContext, collectionId, page, pageSize }) {
   return axios({
-    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/${id}/conditions`,
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/${collectionId}/groups`,
     method: 'get',
     headers: {
       Authorization: `${ioContext.authToken}`,

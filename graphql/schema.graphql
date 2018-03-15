@@ -4,11 +4,20 @@ type Query {
     page: Int
     pageSize: Int
   ): CollectionsList
+
   collection(
     id: Int
     page: Int
     pageSize: Int
   ): Collection
+
+  categoriesAutocomplete(
+    name: String
+  ): [Category]
+
+  brandsAutocomplete(
+    name: String
+  ): [Brand]
 }
 
 type Mutation {
@@ -18,56 +27,6 @@ type Mutation {
     highlight: Boolean
     dateFrom: String
     dateTo: String
-    conditions: [ConditionInput]
+    groups: [GroupInput]
   ) : Boolean
-}
-
-input ConditionInput {
-  name: String
-  type: String
-  preSale: Boolean
-  release: Boolean
-  brands: [Int]
-  categories: [Int]
-  skus: [Int]
-}
-
-type CollectionsList {
-  paging: Paging!
-  items: [Collection]!
-}
-
-type Paging {
-  page: Int!
-  perPage: Int!
-  total: Int!
-  pages: Int!
-}
-
-type Collection {
-  id: ID!
-  name: String!
-  searchable: Boolean!
-  highlight: Boolean!
-  dateFrom: String!
-  dateTo: String!
-  conditions: ConditionsList
-}
-
-type ConditionsList {
-  paging: Paging!,
-  items: [Condition]!
-}
-
-type Condition {
-  id: ID
-  collectionId: Int
-  name: String
-  type: String
-  preSale: Boolean
-  release: Boolean
-  brands: [Int]
-  categories: [Int]
-  skus: [Int]
-  products: [Int]
 }

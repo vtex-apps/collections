@@ -1,0 +1,16 @@
+type CollectionsList {
+  paging: Paging!
+  items: [Collection]!
+}
+
+type Collection {
+  id: ID!
+  name: String!
+  searchable: Boolean!
+  highlight: Boolean!
+  dateFrom: String!
+  dateTo: String!
+  groups: GroupsList
+}
+
+
