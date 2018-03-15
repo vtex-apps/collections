@@ -6,6 +6,7 @@ import {
   createCollection,
   createGroup,
   collectionContains,
+  updateGroup,
 } from './collectionAPI';
 import { getCategories, getBrands } from './catalogAPI';
 
@@ -53,6 +54,8 @@ export const resolvers = {
     },
 
     collectionContains: async function(_, data, { vtex: ioContext, request }) {
+      if (!data.collectionId) return {};
+
       const result = await collectionContains({
         ioContext,
         collectionId: data.collectionId,
@@ -87,7 +90,7 @@ export const resolvers = {
     },
   },
   Mutation: {
-    collection: async function(_, data, { vtex: ioContext, request }) {
+    createCollection: async function(_, data, { vtex: ioContext, request }) {
       const collectionId = await createCollection({
         ioContext,
         name: data.name,
@@ -97,11 +100,25 @@ export const resolvers = {
         dateTo: data.dateTo,
       });
 
+      await Promise.all(
+        data.groups.map(group => createGroup({
+          ioContext,
+          collectionId: collectionId,
+          name: group.name,
+          type: group.type,
+          preSale: group.preSale,
+          release: group.release,
+          brands: group.brands,
+          categories: group.categories,
+          skus: group.skus,
+        }))
+      );
+
       return collectionId;
     },
 
-    group: async function(_, data, { vtex: ioContext, request }) {
-      const groupId = await createGroup({
+    updateGroup: async function(_, data, { vtex: ioContext, request }) {
+      const groupId = await updateGroup({
         ioContext,
         collectionId: data.collectionId,
         name: data.name,
@@ -113,7 +130,7 @@ export const resolvers = {
         skus: data.skus,
       });
 
-      return groupId;
+      return true;
     },
   },
 };

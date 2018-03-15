@@ -7,25 +7,27 @@ class Result extends Component {
     const {
       selectedSkus,
       products,
-      selectionState,
-      onChangeSelection,
+      onChange,
     } = this.props
 
     return (
       <div>
         {products.map(product => {
-          const productState = selectionState.product[product.productId]
+          const productSelectedSkus = selectedSkus.filter(
+            skuId =>
+              product.items.find(
+                item => parseInt(item.itemId) === parseInt(skuId)
+              )
+          )
+
           return (
             <Product
-              key={`${product.productId}-${JSON.stringify(productState) || ''}`}
+              key={
+                `${product.productId}-${JSON.stringify(productSelectedSkus) || ''}`
+              }
               product={product}
-              selectedSkus={selectedSkus.filter(sku =>
-                product.items.find(
-                  item =>
-                    parseInt(item.itemId) === parseInt(sku.id) && sku.contains
-                ))}
-              productState={selectionState.product[product.productId]}
-              onChangeSelection={onChangeSelection}
+              selectedSkus={productSelectedSkus}
+              onChange={onChange}
             />
           )
         })}
@@ -37,8 +39,7 @@ class Result extends Component {
 Result.propTypes = {
   selectedSkus: PropTypes.array,
   products: PropTypes.array.isRequired,
-  selectionState: PropTypes.object,
-  onChangeSelection: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default Result

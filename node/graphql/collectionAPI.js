@@ -89,6 +89,38 @@ export function createGroup(
   }).then(({ data }) => data)
 }
 
+export function updateGroup(
+  {
+    ioContext,
+    collectionId,
+    name,
+    type,
+    preSale,
+    release,
+    brands,
+    categories,
+    skus,
+  }
+) {
+  return axios({
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/group`,
+    method: 'put',
+    headers: {
+      Authorization: ioContext.authToken,
+    },
+    data: {
+      collectionId,
+      name,
+      type,
+      preSale,
+      release,
+      brands,
+      categories,
+      skus,
+    },
+  }).then(({ data }) => data)
+}
+
 export function collectionContains({ ioContext, collectionId, skus }) {
   return axios({
     url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/${collectionId}/contains`,

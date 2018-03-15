@@ -93,6 +93,7 @@ class Items extends Component {
           <div className="flex-auto">
             <Search
               value={this.state.query}
+              placeholder="Search by collection name…"
               onChange={this.handleChangeSearch}
             />
           </div>
@@ -117,25 +118,20 @@ class Items extends Component {
                 : <Result
                   isSearch
                   products={this.props.search.products.items}
-                  selectedSkus={[]}
-                  selectionState={this.props.selections}
-                  onChangeSelection={this.props.onChangeSelection}
+                  selectedSkus={this.props.skus}
+                  onChange={this.props.onChangeSkus}
                 />
             : this.props.collection.loading
               ? <div className="flex flex-column items-center pa10">
                 <Loading />
               </div>
-              : this.props.collection.products.items.length === 0
+              : this.props.skus.length === 0
                 ? <EmptyCollection />
                 : <Result
                   isCollection
                   products={this.props.collection.products.items}
-                  selectedSkus={this.props.skus.map(skuId => ({
-                    id: parseInt(skuId),
-                    contains: true,
-                  }))}
-                  selectionState={this.props.selections}
-                  onChangeSelection={this.props.onChangeSelection}
+                  selectedSkus={this.props.skus}
+                  onChange={this.props.onChangeSkus}
                 />}
         </div>
       </div>
@@ -233,12 +229,11 @@ const contains = gql`
 
 Items.propTypes = {
   skus: PropTypes.array.isRequired,
-  selections: PropTypes.object,
   query: PropTypes.string,
   contains: PropTypes.object,
   search: PropTypes.object,
   collection: PropTypes.object,
-  onChangeSelection: PropTypes.func.isRequired,
+  onChangeSkus: PropTypes.func.isRequired,
 }
 
 const ItemsContainer = compose(
@@ -292,9 +287,5 @@ const ItemsContainer = compose(
     },
   })
 )(Items)
-
-ItemsContainer.defaultProps = {
-  query: '',
-}
 
 export default ItemsContainer

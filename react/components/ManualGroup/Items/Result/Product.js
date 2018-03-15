@@ -26,17 +26,11 @@ class Product extends Component {
   }
 
   areAllSkusSelected = props => {
-    return props.productState
-      ? filter(props.productState.skus, sku => sku.checked).length ===
-          props.product.items.length
-      : props.selectedSkus.filter(sku => sku.contains).length ===
-          props.product.items.length
+    return props.selectedSkus.length === props.product.items.length
   };
 
   hasOneChecked = props => {
-    return props.productState
-      ? filter(props.productState.skus, sku => sku.checked).length > 0
-      : props.selectedSkus.filter(sku => sku.contains).length > 0
+    return props.selectedSkus.length > 0
   };
 
   handleClickArrow = () => {
@@ -44,21 +38,12 @@ class Product extends Component {
   };
 
   handleChangeSkuSelection = ({ skuId, checked }) => {
-    this.props.onChangeSelection([
-      {
-        type: 'SKU',
-        productId: this.props.product.productId,
-        skuId,
-        checked,
-      },
-    ])
+    this.props.onChange([{ skuId, checked }])
   };
 
   handleChangeProductSelection = () => {
-    this.props.onChangeSelection(
+    this.props.onChange(
       this.props.product.items.map(item => ({
-        type: 'SKU',
-        productId: this.props.product.productId,
         skuId: item.itemId,
         checked: !this.state.allSkusChecked,
       }))
@@ -110,11 +95,7 @@ class Product extends Component {
               key={item.itemId}
               sku={item}
               onChange={this.handleChangeSkuSelection}
-              inCollection={
-                productState && productState.skus[item.itemId]
-                  ? productState.skus[item.itemId].checked
-                  : !!selectedSkus.find(sku => item.itemId === `${sku.id}`)
-              }
+              inCollection={selectedSkus.includes(item.itemId)}
             />
           ))
           : null}
@@ -130,8 +111,7 @@ Product.defaultProps = {
 Product.propTypes = {
   product: PropTypes.object.isRequired,
   selectedSkus: PropTypes.array.isRequired,
-  productState: PropTypes.object,
-  onChangeSelection: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default Product

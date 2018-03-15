@@ -24,7 +24,6 @@ class Collection extends Component {
       groups: this.getGroups(props),
       config: this.mapCollectionConfig(props),
     }
-    this.productsRefetch = debounce(this.productsRefetch.bind(this), 400)
   }
 
   getGroups(props) {
@@ -57,10 +56,10 @@ class Collection extends Component {
       name: collection.name || '',
       dateFrom: collection.dateFrom || new Date(),
       dateTo: collection.dateTo || new Date(),
-      highlight: collection.highlight !== undefined
+      highlight: collection.highlight !== undefined && collection.highlight !== null
         ? collection.highlight
         : false,
-      searchable: collection.searchable !== undefined
+      searchable: collection.searchable !== undefined && collection.searchable !== null
         ? collection.searchable
         : false,
     }
@@ -75,104 +74,64 @@ class Collection extends Component {
     }))
   };
 
-  handleChangeSearch = e => {
-    const searchQuery = e.target.value
-    const newState = { searchQuery, queryFrom: 0, queryTo: 9 }
-
-    this.productsRefetch({
-      ...this.props.products.variables,
-      ...newState,
-    })
-
-    this.setState(newState)
-  };
-
-  productsRefetch(variables) {
-    this.props.products.refetch(variables)
-  }
-
-  handleChangePage = (page, from, to) => {
-    this.props.products.refetch({
-      ...this.props.products.variables,
-      ...(this.state.searchQuery
-        ? { queryFrom: from, queryTo: to }
-        : { collectionFrom: from, collectionTo: to }),
-    })
-    this.setState({ currentPage: page })
-  };
-
-  handleChangeSelection = changes => {
-    this.setState(prevState => changes.reduce(this.doChange, prevState))
-  };
-
-  doChange = (prevState, change) => {
-    return {
-      ...prevState,
-      selections: {
-        ...prevState.selections,
-        product: {
-          ...prevState.selections.product,
-          [change.productId]: {
-            ...(prevState.selections.product[change.productId] || {}),
-            skus: {
-              ...((prevState.selections.product[change.productId] &&
-                prevState.selections.product[change.productId].skus) || {}),
-              ...(change.type === 'SKU'
-                ? { [change.skuId]: { checked: change.checked } }
-                : {}),
-            },
-          },
-        },
-      },
-    }
-  };
-
-  save = () => {
-    this.props
-      .saveCollection({
-        variables: {
-          ...this.state.config,
-          groups: [
-            {
-              name: 'Foobar I',
-              type: 'I',
-              preSale: false,
-              release: false,
-              brands: [],
-              categories: [],
-              skus: reduce(
-                this.state.selections.product,
-                (acc, product) => {
-                  return acc.concat(
-                    reduce(product.skus, (acc, _, skuId) => acc.concat(skuId), [
-                    ])
-                  )
-                },
-                []
-              ),
-            },
-          ],
-        },
-      })
-      .then(() => {
-        this.props.collectionData.refetch()
-      })
-  };
-
   handleCancel = () => {
     this.props.navigate({ to: '/admin/collections' })
   };
 
   handleSave = () => {
-    this.save()
-  };
-
-  handleChangeCategory = category => {
-    this.setState({ category })
+    if (!this.props.params.id) {
+      this.props
+        .createCollection({
+          variables: {
+            ...this.state.config,
+            groups: this.state.groups.items,
+          },
+        })
+        .then(() => {
+          this.props.navigate({ to: '/admin/collections' })
+        })
+    } else {
+      // TODO update
+      this.props.navigate({ to: '/admin/collections' })
+    }
   };
 
   hasNoGroup = () => {
     return !(this.props.collectionData && this.props.collectionData.collection && this.props.collectionData.collection.groups && this.props.collectionData.collection.groups.items.length > 0)
+  }
+
+  handleChangeGroup = (groupIndex, data) => {
+    this.setState(prevState => ({
+      groups: {
+        ...prevState.groups,
+        items: prevState.groups.items.map((group, index) => {
+          if (index === groupIndex) {
+            return data
+          }
+          return group
+        }),
+      },
+    }), () => {
+      const group = this.state.groups.items.find((group, index) => {
+        if (index === groupIndex) return group
+      })
+
+      if (!group) {
+        console.log('Opa')
+        return
+      }
+
+      this.props
+        .updateGroup({
+          variables: {
+            collectionId: this.props.params.id,
+            ...group,
+          },
+        })
+        .then(() => {
+          this.props.navigate({ to: '/admin/collections' })
+        })
+    })
   }
 
   render() {
@@ -221,10 +180,12 @@ class Collection extends Component {
                     (group, index) => (
                       <Group
                         key={group.id || index}
+                        index={index}
                         data={group}
                         collectionId={
                           this.props.collectionData.collection && this.props.collectionData.collection.id || null
                         }
+                        onChange={this.handleChangeGroup}
                       />
                     )
                   )}
@@ -253,22 +214,45 @@ Collection.propTypes = {
   saveCollection: PropTypes.func.isRequired,
 }
 
-const collectionMutation = gql`
-  mutation collection(
+const createCollection = gql`
+  mutation createCollection(
     $name: String
     $searchable: Boolean
     $highlight: Boolean
     $dateFrom: String
     $dateTo: String
-    $groups: [GroupInput]
   ) {
-    collection(
+    createCollection(
       name: $name
       searchable: $searchable
       highlight: $highlight
       dateFrom: $dateFrom
       dateTo: $dateTo
       groups: $groups
+    )
+  }
+`
+
+const updateGroup = gql`
+  mutation updateGroup(
+    $collectionId: Int
+    $name: String
+    $type: String
+    $preSale: Boolean
+    $release: Boolean
+    $brands: [Int]
+    $categories: [Int]
+    $skus: [Int]
+  ) {
+    updateGroup(
+      collectionId: $collectionId
+      name: $name
+      type: $type
+      preSale: $preSale
+      release: $release
+      brands: $brands
+      categories: $categories
+      skus: $skus
     )
   }
 `
@@ -326,7 +310,8 @@ const CollectionContainer = compose(
       }
     },
   }),
-  graphql(collectionMutation, { name: 'saveCollection' }),
+  graphql(createCollection, { name: 'createCollection' }),
+  graphql(updateGroup, { name: 'updateGroup' }),
   withNavigate()
 )(Collection)
 

@@ -5,29 +5,68 @@ import BaseGroup from '../BaseGroup'
 import Items from './Items'
 
 class ManualGroup extends Component {
-  handleChangeSelection = data => {
-    console.log(data)
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      name: props.name,
+      skus: props.skus,
+      type: 'I',
+      preSale: false,
+      release: false,
+      brands: [],
+      categories: [],
+    }
+  }
+
+  handleChangeName = e => {
+    const name = e.target.value
+    this.setState({ name })
   };
 
-  handleChangeName = () => {};
-
-  handleSave = () => {};
+  handleSave = () => {
+    this.props.onSave(this.state)
+  };
 
   handleCancel = () => {};
+
+  handleChangeSkus = changes => {
+    const skus = changes.reduce(
+      (acc, change) => {
+        if (change.checked && !acc.includes(change.skuId)) {
+          return this.addSku(acc, change.skuId)
+        }
+        if (!change.checked && acc.includes(change.skuId)) {
+          return this.removeSku(acc, change.skuId)
+        }
+        return acc
+      },
+      this.state.skus
+    )
+
+    this.setState({ skus })
+  };
+
+  removeSku(skus, skuId) {
+    return skus.filter(sku => sku === skuId)
+  }
+
+  addSku(skus, skuId) {
+    return skus.concat(skuId)
+  }
 
   render() {
     return (
       <BaseGroup
-        name={this.props.name}
+        name={this.state.name}
         onChangeName={this.handleChangeName}
         onSave={this.handleSave}
         onCancel={this.handleCancel}
       >
         <Items
           collectionId={this.props.collectionId}
-          selections={{ product: {} }}
-          skus={this.props.skus}
-          onChangeSelection={this.handleChangeSelection}
+          skus={this.state.skus}
+          onChangeSkus={this.handleChangeSkus}
         />
       </BaseGroup>
     )
@@ -35,11 +74,10 @@ class ManualGroup extends Component {
 }
 
 ManualGroup.propTypes = {
-  collectionId: PropTypes.string.isRequired,
+  collectionId: PropTypes.string,
   name: PropTypes.string,
   skus: PropTypes.array.isRequired,
   onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
 }
 
 export default ManualGroup

@@ -15,11 +15,42 @@ class EmptySearchIcon extends Component {
         width="16"
         height="16"
       >
-        <g class="nc-icon-wrapper" fill="#368df7">
-          <circle fill="none" stroke="#368df7" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="8.5" cy="8.5" r="7"></circle> <line data-color="color-2"
-            fill="none" stroke="#368df7" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="8.5" y1="4.5" x2="8.5" y2="12.5">
-          </line>
-          <line data-color="color-2" fill="none" stroke="#368df7" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="4.5" y1="8.5" x2="12.5" y2="8.5"></line>
+        <g className="nc-icon-wrapper" fill="#368df7">
+          <circle
+            fill="none"
+            stroke="#368df7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            cx="8.5"
+            cy="8.5"
+            r="7"
+          />
+          {' '}
+          <line
+            data-color="color-2"
+            fill="none"
+            stroke="#368df7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            x1="8.5"
+            y1="4.5"
+            x2="8.5"
+            y2="12.5"
+          />
+          <line
+            data-color="color-2"
+            fill="none"
+            stroke="#368df7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            x1="4.5"
+            y1="8.5"
+            x2="12.5"
+            y2="8.5"
+          />
         </g>
       </svg>
     )
