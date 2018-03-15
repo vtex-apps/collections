@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import config from 'vtex-tachyons/config.json'
 
-class EmptySearchIcon extends Component {
+class AddIcon extends Component {
   render() {
     return (
       <svg
@@ -57,15 +57,15 @@ class EmptySearchIcon extends Component {
   }
 }
 
-EmptySearchIcon.defaultProps = {
+AddIcon.defaultProps = {
   stroke: config.colors['rebel-pink'],
 }
 
-EmptySearchIcon.propTypes = {
+AddIcon.propTypes = {
   stroke: PropTypes.string.isRequired,
   fill: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
 }
 
-export default EmptySearchIcon
+export default AddIcon
