@@ -13,7 +13,7 @@ class BaseGroup extends Component {
               <input
                 className="w-auto bn f3 fw7 near-black"
                 type="text"
-                placeholder="Name your collection"
+                placeholder="Name this group"
                 value={this.props.name}
                 style={{ width: '10em' }}
                 onChange={this.props.onChangeName}
