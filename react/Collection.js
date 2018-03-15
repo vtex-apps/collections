@@ -11,6 +11,7 @@ import withNavigate from './components/withNavigate'
 import Alert from '@vtex/styleguide/lib/Alert'
 import Loading from './components/Loading'
 import Group from './components/Group'
+import AddIcon from './AddIcon'
 
 class Collection extends Component {
   constructor(props) {
@@ -212,6 +213,13 @@ class Collection extends Component {
                       )
                     )}
                   </div>}
+                <div className="tc mt7">
+                  <Button secondary>
+                    <div className="flex items-center">
+                      <AddIcon /> <span className="ml2">Add new group</span>
+                    </div>
+                  </Button>
+                </div>
             </div>
           </div>
         </div>
