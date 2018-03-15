@@ -17,6 +17,7 @@ type Group {
 }
 
 input GroupInput {
+  collectionId: Int,
   name: String
   type: String
   preSale: Boolean

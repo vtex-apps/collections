@@ -57,7 +57,7 @@ export function createCollection(
   }).then(({ data }) => data)
 }
 
-export function createCondition(
+export function createGroup(
   {
     ioContext,
     collectionId,
@@ -71,7 +71,7 @@ export function createCondition(
   }
 ) {
   return axios({
-    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/condition`,
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/collection/group`,
     method: 'post',
     headers: {
       Authorization: ioContext.authToken,

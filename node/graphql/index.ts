@@ -4,7 +4,7 @@ import {
   getGroups,
   getCollections,
   createCollection,
-  createCondition,
+  createGroup,
 } from './collectionAPI';
 import { getCategories, getBrands } from './catalogAPI';
 
@@ -84,12 +84,23 @@ export const resolvers = {
         dateTo: data.dateTo,
       });
 
-      await Promise.all(
-        data.groups.map(group =>
-          createCondition({ ioContext, collectionId, ...group }))
-      );
+      return collectionId;
+    },
 
-      return true;
+    group: async function(_, data, { vtex: ioContext, request }) {
+      const groupId = await createGroup({
+        ioContext,
+        collectionId: data.collectionId,
+        name: data.name,
+        type: data.type,
+        preSale: data.preSale,
+        release: data.release,
+        brands: data.brands,
+        categories: data.categories,
+        skus: data.skus,
+      });
+
+      return groupId;
     },
   },
 };

@@ -28,5 +28,16 @@ type Mutation {
     dateFrom: String
     dateTo: String
     groups: [GroupInput]
-  ) : Boolean
+  ) : Int
+
+  group(
+    collectionId: Int
+    name: String
+    type: String
+    preSale: Boolean
+    release: Boolean
+    brands: [Int]
+    categories: [Int]
+    skus: [Int]
+  ) : Int
 }
