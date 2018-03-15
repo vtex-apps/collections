@@ -139,6 +139,10 @@ dom-align@1.x:
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/dom-align/-/dom-align-1.6.7.tgz#6858138efb6b77405ce99146d0be5e4f7282813f"
 
+downshift@^1.30.0:
+  version "1.30.0"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.30.0.tgz#02ccb586375af7ed36819e32449bcbc5fcb27127"
+
 encoding@^0.1.11:
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"

@@ -5,7 +5,7 @@ import filter from 'lodash/filter'
 import IconArrowDown from './IconArrowDown'
 import IconArrowUp from './IconArrowUp'
 import Sku from './Sku'
-import Checkbox from '../../Checkbox'
+import Checkbox from '../../../Checkbox'
 
 class Product extends Component {
   constructor(props) {

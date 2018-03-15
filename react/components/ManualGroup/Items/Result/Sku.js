@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Checkbox from '../../Checkbox'
+import Checkbox from '../../../Checkbox'
 
 class Sku extends Component {
   handleChange = () => {

@@ -7,12 +7,12 @@ import reduce from 'lodash/reduce'
 
 import Button from '@vtex/styleguide/lib/Button'
 import Config from './components/Config'
-import Items from './components/Items'
-import NewGroup from './components/NewGroup'
-import DynamicGroup from './components/DynamicGroup'
-import CollapsedGroup from './components/CollapsedGroup'
 import withNavigate from './components/withNavigate'
-import Alert from '@vtex/styleguide/lib/Alert';
+import Alert from '@vtex/styleguide/lib/Alert'
+import Autocomplete from './components/Autocomplete'
+import Category from './components/Autocomplete/Category'
+import Loading from './components/Loading'
+import Group from './components/Group'
 
 class Collection extends Component {
   constructor(props) {
@@ -22,6 +22,7 @@ class Collection extends Component {
       currentPage: 1,
       searchQuery: props.searchQuery,
       selections: { product: {} },
+      category: '',
       config: this.mapCollectionConfig(props),
     }
     this.productsRefetch = debounce(this.productsRefetch.bind(this), 400)
@@ -152,11 +153,17 @@ class Collection extends Component {
     this.save()
   };
 
+  handleChangeCategory = category => {
+    this.setState({ category })
+  };
+
   render() {
     return (
       <div className="pv8 ph3 near-black bg-near-white w-100 h-100">
         <div className="w-90 center">
-          <div className="flex justify-between items-center bb b--light-gray pb6 mb6">
+          <div
+            className="flex justify-between items-center bb b--light-gray pb6 mb6"
+          >
             <div className="fw7 f2">
               Collections
             </div>
@@ -174,58 +181,39 @@ class Collection extends Component {
 
           <div className="flex justify-between">
             <div className="w-25">
-            {this.props.collectionData.loading
-              ? null
-              : <Config
-                collection={this.state.config}
-                onChange={this.handleChangeConfig}
-              />}
+              {this.props.collectionData.loading
+                ? null
+                : <Config
+                  collection={this.state.config}
+                  onChange={this.handleChangeConfig}
+                />}
             </div>
-            <div className="w-75 ml5">
-              <div className="mb5 ba b--blue br2">
-                <Alert>
-                  Products are added to the collection by groups of conditions.
-                </Alert>
-              </div>
-              <div className="mb5">
-                <Items
-                  loading={
-                    this.props.products.loading || this.props.collectionData.loading
-                  }
-                  selectedSkus={
-                    (!this.props.collectionData.loading &&
-                      this.props.collectionData.collection &&
-                      this.props.collectionData.collection.conditions &&
-                      this.props.collectionData.collection.conditions.items &&
-                      this.props.collectionData.collection.conditions.items.reduce(
-                        (items, condition) =>
-                          items.concat(
-                            condition.skus.reduce((ids, sku) => ids.concat(sku), [])
-                          ),
-                        []
-                      )) || []
-                  }
-                  selections={this.state.selections}
-                  query={this.state.searchQuery}
-                  currentPage={this.state.currentPage}
-                  products={this.props.products}
-                  onChangeSelection={this.handleChangeSelection}
-                  onChangePage={this.handleChangePage}
-                  onChangeSearch={this.handleChangeSearch}
-                />
-              </div>
-              <div className="mb5">
-                <NewGroup />
-              </div>
-              <div className="mb5">
-                <DynamicGroup />
-              </div>
-              <div className="mb5">
-                <CollapsedGroup />
-              </div>
+            <div className="w-75 ml5 mb5">
+              {this.props.collectionData.loading
+                ? <div className="flex flex-column items-center pa10">
+                  <Loading />
+                </div>
+                : this.props.collectionData.collection.groups.items.length === 0
+                  ? <div>
+                    <div className="mb5 ba b--blue br2">
+                      <Alert>
+                            Products are added to the collection by groups of conditions.
+                      </Alert>
+                    </div>
+                  </div>
+                  : <div>
+                    {this.props.collectionData.collection.groups.items.map(
+                      group => <Group key={group.id} data={group} />
+                    )}
+                  </div>}
             </div>
           </div>
         </div>
+        <Autocomplete
+          DataSource={Category}
+          value={this.state.category}
+          onChange={this.handleChangeCategory}
+        />
       </div>
     )
   }
@@ -300,82 +288,6 @@ const collectionQuery = gql`
   }
 `
 
-const collectionProducts = gql`
-  query Products(
-    $searchQuery: String,
-    $queryFrom: Int,
-    $queryTo: Int,
-    $ids: [Int],
-    $collectionFrom: Int,
-    $collectionTo: Int,
-  ) {
-    collection: skus(
-      ids: $ids,
-      from: $collectionFrom,
-      to: $collectionTo,
-    ) {
-      items {
-        productId
-        productName
-        productReference
-        items {
-          images {
-            imageUrl
-          }
-          itemId
-          name
-          nameComplete
-          complementName
-          referenceId {
-            Key
-            Value
-          }
-        }
-      }
-      paging {
-        pages
-        perPage
-        total
-        page
-        _to
-        _from
-      }
-    }
-    search: products(
-      query: $searchQuery,
-      from: $queryFrom,
-      to: $queryTo,
-    ) {
-      items {
-        productId
-        productName
-        productReference
-        items {
-          images {
-            imageUrl
-          }
-          itemId
-          name
-          nameComplete
-          complementName
-          referenceId {
-            Key
-            Value
-          }
-        }
-      }
-      paging {
-        pages
-        perPage
-        total
-        page
-        _to
-        _from
-      }
-    }
-  }
-`
-
 const CollectionContainer = compose(
   graphql(collectionQuery, {
     name: 'collectionData',
@@ -385,40 +297,6 @@ const CollectionContainer = compose(
           id: parseInt(params.id, 10),
           page: 1,
           pageSize: 10,
-        },
-      }
-    },
-  }),
-  graphql(collectionProducts, {
-    name: 'products',
-    options(
-      {
-        collectionData,
-        collectionFrom,
-        collectionTo,
-        searchQuery = '',
-        queryFrom,
-        queryTo,
-      }
-    ) {
-      return {
-        variables: {
-          ids: collectionData && collectionData.collection
-            ? collectionData.collection.groups.items
-              .slice(collectionFrom, collectionTo)
-              .reduce(
-                (items, group) =>
-                  items.concat(
-                    group.skus.reduce((ids, sku) => ids.concat(sku), [])
-                  ),
-                []
-              )
-            : [],
-          collectionFrom,
-          collectionTo,
-          searchQuery,
-          queryFrom,
-          queryTo,
         },
       }
     },
