@@ -173,7 +173,7 @@ class Collection extends Component {
                 : <div>
                   {this.hasNoGroup() && <div className="mb5 ba b--blue br2">
                     <Alert>
-                      Products are added to the collection by groups of conditions.
+                      Products are added to a collection by groups of conditions.
                     </Alert>
                   </div>}
                   {this.state.groups.items.map(

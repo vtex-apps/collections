@@ -93,7 +93,7 @@ class Items extends Component {
           <div className="flex-auto">
             <Search
               value={this.props.query}
-              placeholder="Search by collection name…"
+              placeholder="Search by product or sku name…"
               onChange={this.handleChangeSearch}
             />
           </div>

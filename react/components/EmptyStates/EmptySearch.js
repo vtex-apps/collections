@@ -12,7 +12,7 @@ class EmptySearch extends Component {
           There's no product or SKU with that name
         </div>
         <div className="pt4 f6">
-          Try another name or check if your product is added to the catalog
+          Try another name or check if your product is in your catalog
         </div>
       </div>
     )
