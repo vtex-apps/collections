@@ -23,6 +23,7 @@
   "dependencies": {
     "vtex.store-graphql": "2.x"
   },
+  "credentialType": "absolute",
   "policies": [
     {
       "name": "outbound-access",
