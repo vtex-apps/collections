@@ -9,8 +9,6 @@ import Button from '@vtex/styleguide/lib/Button'
 import Config from './components/Config'
 import withNavigate from './components/withNavigate'
 import Alert from '@vtex/styleguide/lib/Alert'
-import Autocomplete from './components/Autocomplete'
-import Category from './components/Autocomplete/Category'
 import Loading from './components/Loading'
 import Group from './components/Group'
 
@@ -217,11 +215,6 @@ class Collection extends Component {
             </div>
           </div>
         </div>
-        <Autocomplete
-          DataSource={Category}
-          value={this.state.category}
-          onChange={this.handleChangeCategory}
-        />
       </div>
     )
   }
