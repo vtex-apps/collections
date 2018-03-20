@@ -1,4 +1,4 @@
-fragment ProductInfo on Product {
+fragment ProductInfo on ProductC {
   productId
   productName
   productReference

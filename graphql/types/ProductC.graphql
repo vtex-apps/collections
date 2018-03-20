@@ -1,4 +1,4 @@
-type Product {
+type ProductC {
   brand: String
   categoryId: ID
   categories: [String]
@@ -13,7 +13,6 @@ type Product {
   properties: [Property]
   propertyGroups: [PropertyGroup]
   productReference: String
-  recommendations: Recommendation
 }
 
 type ClusterHighlight {
@@ -27,11 +26,6 @@ type Seller {
   addToCartLink: String
   sellerDefault: Boolean
   commertialOffer: Offer
-}
-
-type Recommendation {
-  buy: [Product]
-  view: [Product]
 }
 
 type SKU {
