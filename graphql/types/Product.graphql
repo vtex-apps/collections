@@ -1,0 +1,130 @@
+type Product {
+  brand: String
+  categoryId: ID
+  categories: [String]
+  categoriesIds: [String]
+  clusterHighlights: [ClusterHighlight]
+  description: String
+  items: [SKU]
+  link: String
+  linkText: String
+  productId: ID
+  productName: String
+  properties: [Property]
+  propertyGroups: [PropertyGroup]
+  productReference: String
+  recommendations: Recommendation
+}
+
+type ClusterHighlight {
+  id: ID
+  name: String
+}
+
+type Seller {
+  sellerId: ID
+  sellerName: String
+  addToCartLink: String
+  sellerDefault: Boolean
+  commertialOffer: Offer
+}
+
+type Recommendation {
+  buy: [Product]
+  view: [Product]
+}
+
+type SKU {
+  itemId: ID
+  name: String
+  nameComplete: String
+  complementName: String
+  ean: String
+  referenceId: [Reference]
+  measurementUnit: String
+  unitMultiplier: Float
+  images: [Image]
+  sellers: [Seller]
+  variations: [Property]
+  attachments: [Attachment]
+}
+
+type Attachment {
+  id: ID
+  name: String
+  required: Boolean
+  domainValues: [DomainValues]
+}
+
+type DomainValues {
+  FieldName: String
+  MaxCaracters: String
+  DomainValues: String
+}
+
+type Offer {
+  Installments: [Installment]
+  Price: Float
+  ListPrice: Float
+  PriceWithoutDiscount: Float
+  RewardValue: Float
+  PriceValidUntil: String
+  AvailableQuantity: Float
+  Tax: Float
+  CacheVersionUsedToCallCheckout: String
+  DeliverySlaSamples: [DeliverySlaSamples]
+}
+
+type DeliverySlaSamples {
+  DeliverySlaPerTypes: [DeliverySlaPerTypes]
+  Region: Region
+}
+
+type DeliverySlaPerTypes {
+  TypeName: String
+  Price: Float
+  EstimatedTimeSpanToDelivery: String
+}
+
+type Region {
+  IsPersisted: Boolean
+  IsRemoved: Boolean
+  Id: ID
+  Name: String
+  CountryCode: String
+  ZipCode: String
+  CultureInfoName: String
+}
+
+type Image {
+  imageId: ID
+  imageLabel: String
+  imageTag: String
+  imageUrl: String
+  imageText: String
+}
+
+type Property {
+  name: String
+  values: [String]
+}
+
+type PropertyGroup {
+  name: String
+  properties: [String]
+}
+
+type Installment {
+  Value: Float
+  InterestRate: Float
+  TotalValuePlusInterestRate: Float
+  NumberOfInstallments: Int
+  PaymentSystemName: String
+  PaymentSystemGroupName: String
+  Name: String
+}
+
+type Reference {
+  Key: String
+  Value: String
+}

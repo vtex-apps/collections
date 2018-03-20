@@ -23,6 +23,24 @@ type Query {
   brandsAutocomplete(
     name: String
   ): [Brand]
+
+  getProductsBySku(
+    ids: [Int]
+    from: Int = 0
+    to: Int = 9
+  ): ProductResult
+
+  getProducts(
+    query: String = "",
+    category: String = "",
+    specificationFilters: [String],
+    priceRange: String = "",
+    collection: String = "",
+    salesChannel: String = "",
+    orderBy: String = "OrderByPriceDESC",
+    from: Int = 0,
+    to: Int = 9
+  ): ProductResult
 }
 
 type Mutation {

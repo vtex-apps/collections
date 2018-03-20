@@ -8,11 +8,21 @@ import {
   collectionContains,
   updateGroup,
 } from './collectionAPI';
-import { getCategories, getBrands } from './catalogAPI';
+import {
+  getCategories,
+  getBrands,
+  getProducts,
+  getProductsBySku,
+} from './catalogAPI';
+import { ColossusContext } from 'colossus';
 
 export const resolvers = {
   Query: {
-    collection: async function(_, data, { vtex: ioContext, request }) {
+    collection: async function(
+      _,
+      data,
+      { vtex: ioContext, request }: ColossusContext
+    ) {
       if (!data.id) return {};
 
       const collection = await getCollection({ ioContext, id: data.id });
@@ -29,7 +39,12 @@ export const resolvers = {
       };
     },
 
-    collections: async function(_, info, { vtex: ioContext, request }, query) {
+    collections: async function(
+      _,
+      info,
+      { vtex: ioContext, request }: ColossusContext,
+      query
+    ) {
       let collections;
       try {
         collections = await getCollections({
@@ -53,7 +68,11 @@ export const resolvers = {
       return collections;
     },
 
-    collectionContains: async function(_, data, { vtex: ioContext, request }) {
+    collectionContains: async function(
+      _,
+      data,
+      { vtex: ioContext, request }: ColossusContext
+    ) {
       if (!data.collectionId) return {};
 
       const result = await collectionContains({
@@ -68,7 +87,7 @@ export const resolvers = {
     categoriesAutocomplete: async function(
       _,
       data,
-      { vtex: ioContext, request }
+      { vtex: ioContext, request }: ColossusContext
     ) {
       const categories = await getCategories({
         ioContext,
@@ -80,7 +99,11 @@ export const resolvers = {
       return categories;
     },
 
-    brandsAutocomplete: async function(_, data, { vtex: ioContext, request }) {
+    brandsAutocomplete: async function(
+      _,
+      data,
+      { vtex: ioContext, request }: ColossusContext
+    ) {
       const brands = await getBrands({
         ioContext,
         name: data.name || '',
@@ -88,9 +111,41 @@ export const resolvers = {
 
       return brands;
     },
+
+    getProductsBySku: async (_, data, { vtex: ioContext }: ColossusContext) => {
+      const response = await getProductsBySku({
+        ioContext,
+        ids: data.ids,
+        from: data.from,
+        to: data.to,
+      });
+
+      return response;
+    },
+
+    getProducts: async (_, data, { vtex: ioContext }: ColossusContext) => {
+      const response = await getProducts({
+        ioContext,
+        query: data.query,
+        category: data.category,
+        specificationFilters: data.specificationFilters,
+        priceRange: data.priceRange,
+        collection: data.collection,
+        salesChannel: data.salesChannel,
+        orderBy: data.orderBy,
+        from: data.from,
+        to: data.to,
+      });
+
+      return response;
+    },
   },
   Mutation: {
-    createCollection: async function(_, data, { vtex: ioContext, request }) {
+    createCollection: async function(
+      _,
+      data,
+      { vtex: ioContext, request }: ColossusContext
+    ) {
       const collectionId = await createCollection({
         ioContext,
         name: data.name,
@@ -117,7 +172,11 @@ export const resolvers = {
       return collectionId;
     },
 
-    updateGroup: async function(_, data, { vtex: ioContext, request }) {
+    updateGroup: async function(
+      _,
+      data,
+      { vtex: ioContext, request }: ColossusContext
+    ) {
       const groupId = await updateGroup({
         ioContext,
         collectionId: data.collectionId,
