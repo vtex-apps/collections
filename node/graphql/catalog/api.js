@@ -1,4 +1,5 @@
-import axios from 'axios'
+import { parse as parseCookie } from 'cookie'
+import axios from '../axios'
 
 export function getCategories({ ioContext, name }) {
   console.log(
@@ -13,12 +14,36 @@ export function getCategories({ ioContext, name }) {
   }).then(({ data }) => data)
 }
 
+export function getCategory({ ioContext, id }) {
+  return axios({
+    url: `http://${ioContext.account}.vtexcommercestable.com.br/api/catalog_system/pub/category/${id}`,
+    method: 'get',
+    headers: {
+      Authorization: ioContext.authToken,
+    },
+  }).then(({ data }) => data)
+}
+
 export function getBrands({ ioContext, name }) {
   return axios({
     url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/brand/list/${name}`,
     method: 'get',
     headers: {
       Authorization: ioContext.authToken,
+    },
+  }).then(({ data }) => data)
+}
+
+export function getBrand({ ioContext, cookie, id }) {
+  const parsedCookie = parseCookie(cookie)
+
+  return axios({
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/brand/${id}`,
+    method: 'get',
+    headers: {
+      Authorization: ioContext.authToken,
+      'Proxy-Authorization': ioContext.authToken,
+      VtexIdclientAutCookie: parsedCookie.VtexIdclientAutCookie,
     },
   }).then(({ data }) => data)
 }

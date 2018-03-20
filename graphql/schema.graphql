@@ -24,6 +24,14 @@ type Query {
     name: String
   ): [Brand]
 
+  getBrands(
+    ids: [Int]
+  ): [Brand]
+
+  getCategories(
+    ids: [Int]
+  ): [Category]
+
   getProductsBySku(
     ids: [Int]
     from: Int = 0
