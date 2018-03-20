@@ -1,0 +1,21 @@
+mutation UpdateGroup(
+  $collectionId: Int
+  $name: String
+  $type: String
+  $preSale: Boolean
+  $release: Boolean
+  $brands: [Int]
+  $categories: [Int]
+  $skus: [Int]
+) {
+  updateGroup(
+    collectionId: $collectionId
+    name: $name
+    type: $type
+    preSale: $preSale
+    release: $release
+    brands: $brands
+    categories: $categories
+    skus: $skus
+  )
+}

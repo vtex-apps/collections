@@ -1,0 +1,14 @@
+query CollectionContains(
+  $collectionId: Int
+  $skus: [SkuContainsInput]
+) {
+  collectionContains(
+    collectionId: $collectionId
+    skus: $skus
+  ) {
+    skus {
+      id
+      contains
+    }
+  }
+}

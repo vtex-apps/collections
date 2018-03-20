@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+
+import CreateCollection from './graphql/CreateCollection.gql'
+import GetCollection from './graphql/GetCollection.gql'
+import UpdateGroup from './graphql/UpdateGroup.gql'
 
 import Button from '@vtex/styleguide/lib/Button'
 import Config from './components/Config'
@@ -206,91 +209,8 @@ Collection.propTypes = {
   createCollection: PropTypes.func.isRequired,
 }
 
-const createCollection = gql`
-  mutation createCollection(
-    $name: String
-    $searchable: Boolean
-    $highlight: Boolean
-    $dateFrom: String
-    $dateTo: String
-    $groups: [GroupInput]
-  ) {
-    createCollection(
-      name: $name
-      searchable: $searchable
-      highlight: $highlight
-      dateFrom: $dateFrom
-      dateTo: $dateTo
-      groups: $groups
-    )
-  }
-`
-
-const updateGroup = gql`
-  mutation updateGroup(
-    $collectionId: Int
-    $name: String
-    $type: String
-    $preSale: Boolean
-    $release: Boolean
-    $brands: [Int]
-    $categories: [Int]
-    $skus: [Int]
-  ) {
-    updateGroup(
-      collectionId: $collectionId
-      name: $name
-      type: $type
-      preSale: $preSale
-      release: $release
-      brands: $brands
-      categories: $categories
-      skus: $skus
-    )
-  }
-`
-
-const collectionQuery = gql`
-  query Collection(
-    $id: Int,
-    $page: Int,
-    $pageSize: Int,
-  ) {
-    collection(
-      id: $id,
-      page: $page,
-      pageSize: $pageSize,
-    ) {
-      id
-      name
-      searchable
-      highlight
-      dateFrom
-      dateTo
-      groups {
-        paging {
-          page
-          perPage
-          total
-          pages
-        }
-        items {
-          id
-          name
-          type
-          preSale
-          release
-          brands
-          categories
-          skus
-        }
-      }
-    }
-  }
-`
-
 const CollectionContainer = compose(
-  graphql(collectionQuery, {
+  graphql(GetCollection, {
     name: 'collectionData',
     options({ params }) {
       return {
@@ -303,8 +223,8 @@ const CollectionContainer = compose(
       }
     },
   }),
-  graphql(createCollection, { name: 'createCollection' }),
-  graphql(updateGroup, { name: 'updateGroup' }),
+  graphql(CreateCollection, { name: 'createCollection' }),
+  graphql(UpdateGroup, { name: 'updateGroup' }),
   withNavigate()
 )(Collection)
 

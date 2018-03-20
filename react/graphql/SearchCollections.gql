@@ -1,0 +1,26 @@
+query Collections(
+  $searchKey: String
+  $page: Int
+  $pageSize: Int
+) {
+  collections(
+    searchKey: $searchKey
+    page: $page
+    pageSize: $pageSize
+  ) {
+    paging {
+      page
+      perPage
+      total
+      pages
+    }
+    items {
+      id,
+      name,
+      searchable,
+      highlight,
+      dateFrom,
+      dateTo,
+    }
+  }
+}

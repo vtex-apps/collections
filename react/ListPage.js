@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedDate } from 'react-intl'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import withNavigate from './components/withNavigate'
+
+import SearchCollections from './graphql/SearchCollections.gql'
 
 import Button from '@vtex/styleguide/lib/Button'
 import Input from '@vtex/styleguide/lib/Input'
@@ -193,35 +194,6 @@ ListPage.propTypes = {
   navigate: PropTypes.func.isRequired,
 }
 
-const query = gql`
-  query Collections(
-    $searchKey: String
-    $page: Int
-    $pageSize: Int
-  ) {
-    collections(
-      searchKey: $searchKey
-      page: $page
-      pageSize: $pageSize
-    ) {
-      paging {
-        page
-        perPage
-        total
-        pages
-      }
-      items {
-        id,
-        name,
-        searchable,
-        highlight,
-        dateFrom,
-        dateTo,
-      }
-    }
-  }
-`
-
 const options = {
   options: ({ query }) => ({
     variables: {
@@ -232,4 +204,6 @@ const options = {
   }),
 }
 
-export default compose(graphql(query, options), withNavigate())(ListPage)
+export default compose(graphql(SearchCollections, options), withNavigate())(
+  ListPage
+)

@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+
+import SearchProducts from './SearchProducts.gql'
+import SearchCollectionSkus from './SearchCollectionSkus.gql'
+import CollectionContains from './CollectionContains.gql'
 
 import Search from './Search'
 import Result from './Result/index'
@@ -12,17 +15,6 @@ import EmptySearch from '../../EmptyStates/EmptySearch'
 import Loading from '../../Loading'
 
 class Items extends Component {
-  constructor(props) {
-    super(props)
-
-    // this.state = {
-    //   currentPage: 1,
-    //   queryFrom: 0,
-    //   queryTo: 9,
-    //   query: '',
-    // }
-  }
-
   getCurrentPage() {
     return this.hasData()
       ? this.props.query
@@ -35,7 +27,9 @@ class Items extends Component {
     return this.hasData()
       ? this.props.query
         ? this.props.search.products.paging.pages
-        : Math.ceil(this.props.skus.length / 10) === 0 ? 1 : Math.ceil(this.props.skus.length / 10)
+        : Math.ceil(this.props.skus.length / 10) === 0
+          ? 1
+          : Math.ceil(this.props.skus.length / 10)
       : Infinity
   }
 
@@ -63,26 +57,10 @@ class Items extends Component {
   handleChangeSearch = e => {
     const query = e.target.value
     const newState = { query, queryFrom: 0, queryTo: 9 }
-
-    // this.props.search.refetch(newState)
     this.props.onChange(newState)
   };
 
   handleChangePage = (page, from, to) => {
-    // if (this.state.query) {
-    //   this.props.search.refetch({
-    //     query: this.state.query,
-    //     queryFrom: from,
-    //     queryTo: to,
-    //   })
-    // } else {
-    //   this.props.collection.refetch({
-    //     ids: this.props.skus.slice(from, to),
-    //     queryFrom: from,
-    //     queryTo: to,
-    //   })
-    // }
-
     this.props.onChange({ currentPage: page, queryFrom: from, queryTo: to })
   };
 
@@ -139,109 +117,25 @@ class Items extends Component {
   }
 }
 
-const collection = gql`
-  query Products(
-    $ids: [Int],
-  ) {
-    products: skus(
-      ids: $ids,
-      from: 0,
-      to: 9,
-    ) {
-      items {
-        productId
-        productName
-        productReference
-        items {
-          images {
-            imageUrl
-          }
-          itemId
-          name
-          nameComplete
-          complementName
-          referenceId {
-            Key
-            Value
-          }
-        }
-      }
-    }
-  }
-`
-const search = gql`
-  query Products(
-    $query: String,
-    $queryFrom: Int,
-    $queryTo: Int,
-  ) {
-    products: products(
-      query: $query,
-      from: $queryFrom,
-      to: $queryTo,
-    ) {
-      items {
-        productId
-        productName
-        productReference
-        items {
-          images {
-            imageUrl
-          }
-          itemId
-          name
-          nameComplete
-          complementName
-          referenceId {
-            Key
-            Value
-          }
-        }
-      }
-      paging {
-        pages
-        perPage
-        total
-        page
-        _to
-        _from
-      }
-    }
-  }
-`
-
-const contains = gql`
-  query Products(
-    $collectionId: Int
-    $skus: [SkuContainsInput]
-  ) {
-    collectionContains(
-      collectionId: $collectionId
-      skus: $skus
-    ) {
-      skus {
-        id
-        contains
-      }
-    }
-  }
-`
-
 Items.defaultProps = {
   skus: [],
 }
 
 Items.propTypes = {
-  skus: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
   query: PropTypes.string,
+  queryFrom: PropTypes.number.isRequired,
+  queryTo: PropTypes.number.isRequired,
+  collection: PropTypes.object,
+  skus: PropTypes.array.isRequired,
   contains: PropTypes.object,
   search: PropTypes.object,
-  collection: PropTypes.object,
   onChangeSkus: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 const ItemsContainer = compose(
-  graphql(search, {
+  graphql(SearchProducts, {
     name: 'search',
     options(
       {
@@ -259,7 +153,7 @@ const ItemsContainer = compose(
       }
     },
   }),
-  graphql(contains, {
+  graphql(CollectionContains, {
     name: 'contains',
     options({ collectionId, search }) {
       return {
@@ -280,7 +174,7 @@ const ItemsContainer = compose(
       }
     },
   }),
-  graphql(collection, {
+  graphql(SearchCollectionSkus, {
     name: 'collection',
     options({ skus = [], queryFrom, queryTo }) {
       return {

@@ -1,0 +1,18 @@
+fragment ProductInfo on Product {
+  productId
+  productName
+  productReference
+  items {
+    images {
+      imageUrl
+    }
+    itemId
+    name
+    nameComplete
+    complementName
+    referenceId {
+      Key
+      Value
+    }
+  }
+}

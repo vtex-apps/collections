@@ -1,0 +1,17 @@
+mutation CreateCollection(
+  $name: String
+  $searchable: Boolean
+  $highlight: Boolean
+  $dateFrom: String
+  $dateTo: String
+  $groups: [GroupInput]
+) {
+  createCollection(
+    name: $name
+    searchable: $searchable
+    highlight: $highlight
+    dateFrom: $dateFrom
+    dateTo: $dateTo
+    groups: $groups
+  )
+}

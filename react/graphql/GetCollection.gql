@@ -1,0 +1,36 @@
+query Collection(
+  $id: Int,
+  $page: Int,
+  $pageSize: Int,
+) {
+  collection(
+    id: $id,
+    page: $page,
+    pageSize: $pageSize,
+  ) {
+    id
+    name
+    searchable
+    highlight
+    dateFrom
+    dateTo
+    groups {
+      paging {
+        page
+        perPage
+        total
+        pages
+      }
+      items {
+        id
+        name
+        type
+        preSale
+        release
+        brands
+        categories
+        skus
+      }
+    }
+  }
+}
