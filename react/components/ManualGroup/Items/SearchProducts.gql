@@ -4,7 +4,7 @@ query SearchProducts(
   $query: String,
   $queryFrom: Int,
   $queryTo: Int,
-) {
+) @context(provider: "vtex.collections") {
   products: getProducts(
     query: $query,
     from: $queryFrom,

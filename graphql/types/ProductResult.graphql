@@ -1,4 +1,4 @@
 type ProductResult {
   paging: Paging
-  items: [ProductC]
+  items: [Product]
 }
