@@ -15,10 +15,10 @@ class AddIcon extends Component {
         width="16"
         height="16"
       >
-        <g className="nc-icon-wrapper" fill="#368df7">
+        <g className="nc-icon-wrapper" fill={this.props.color}>
           <circle
             fill="none"
-            stroke="#368df7"
+            stroke={this.props.color}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeMiterlimit="10"
@@ -30,7 +30,7 @@ class AddIcon extends Component {
           <line
             data-color="color-2"
             fill="none"
-            stroke="#368df7"
+            stroke={this.props.color}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeMiterlimit="10"
@@ -42,7 +42,7 @@ class AddIcon extends Component {
           <line
             data-color="color-2"
             fill="none"
-            stroke="#368df7"
+            stroke={this.props.color}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeMiterlimit="10"
@@ -58,12 +58,11 @@ class AddIcon extends Component {
 }
 
 AddIcon.defaultProps = {
-  stroke: config.colors['rebel-pink'],
+  color: config.colors.blue,
 }
 
 AddIcon.propTypes = {
-  stroke: PropTypes.string.isRequired,
-  fill: PropTypes.string,
+  color: PropTypes.string.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
 }

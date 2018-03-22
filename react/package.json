@@ -2,7 +2,7 @@
   "name": "vtex.collections",
   "version": "0.0.0",
   "dependencies": {
-    "@vtex/styleguide": "^2.0.0-rc.28",
+    "@vtex/styleguide": "^2.0.0-rc.31",
     "debounce": "^1.1.0",
     "downshift": "^1.30.0",
     "lodash": "^4.17.5",
