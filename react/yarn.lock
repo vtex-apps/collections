@@ -2,10 +2,11 @@
 # yarn lockfile v1
 
 
-"@vtex/styleguide@^2.0.0-rc.31":
-  version "2.0.0-rc.31"
-  resolved "https://registry.yarnpkg.com/@vtex/styleguide/-/styleguide-2.0.0-rc.31.tgz#10a04cdbd3a8fa50c373a36a67312567d236268b"
+"@vtex/styleguide@^2.0.0-rc.32":
+  version "2.0.0-rc.33"
+  resolved "https://registry.yarnpkg.com/@vtex/styleguide/-/styleguide-2.0.0-rc.33.tgz#6fed121ce49b2c62c1e5a7eb10029ae0f6db0319"
   dependencies:
+    react-modal "^3.3.2"
     vtex-tachyons "^2.3.0"
 
 add-dom-event-listener@1.x:
@@ -166,6 +167,10 @@ es-to-primitive@^1.1.1:
     is-callable "^1.1.1"
     is-date-object "^1.0.1"
     is-symbol "^1.0.1"
+
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
 
 fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.16"
@@ -474,6 +479,14 @@ react-dom@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-modal@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.3.2.tgz#b13da9490653a7c76bc0e9600323eb1079c620e7"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    warning "^3.0.0"
+
 react-moment-proptypes@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/react-moment-proptypes/-/react-moment-proptypes-1.5.0.tgz#4a448cd6479efc5dd509283f361f3753c3abe60e"
@@ -561,6 +574,12 @@ ua-parser-js@^0.7.9:
 vtex-tachyons@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vtex-tachyons/-/vtex-tachyons-2.3.0.tgz#f778f6be0f17cd5dcdf0c886584bc14a8f4a2262"
+
+warning@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
 
 whatwg-fetch@>=0.10.0:
   version "2.0.3"

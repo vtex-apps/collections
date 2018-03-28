@@ -1,66 +1,30 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Downshift from 'downshift'
+import AutocompleteSuggestion from './AutocompleteSuggestion'
+import Autocomplete from './Autocomplete'
 
-class Autocomplete extends Component {
-  constructor(props) {
-    super(props)
+function createAutocomplete({ graphql: { suggestion, name } }) {
+  const AutocompleteSugestionContainer = suggestion(AutocompleteSuggestion)
+  const AutocompleteContainer = name(Autocomplete)
 
-    this.state = { value: '' }
+  class AutocompleteWrapper extends Component {
+    render() {
+      return (
+        <AutocompleteContainer
+          values={this.props.values}
+          DataSource={AutocompleteSugestionContainer}
+          onChange={this.props.onChange}
+        />
+      )
+    }
   }
 
-  handleChangeValue = e => {
-    const value = e.target.value
-    this.setState({ value })
-  };
-
-  handleChange = item => {
-    this.setState({ value: '' })
-    this.props.onChange([...this.props.values, item])
-  };
-
-  render() {
-    const { DataSource, values, onChange } = this.props
-
-    return (
-      <Downshift
-        selectedItem={values}
-        inputValue={this.state.value}
-        onChange={onChange}
-        render={(
-          {
-            getInputProps,
-            getItemProps,
-            isOpen,
-            inputValue,
-            selectedItem,
-            highlightedIndex,
-          }
-        ) => (
-          <div>
-            <input {...getInputProps()} onChange={this.handleChangeValue} />
-            {isOpen
-              ? <DataSource
-                {...{
-                  inputValue,
-                  getItemProps,
-                  selectedItem,
-                  highlightedIndex,
-                  isOpen,
-                }}
-              />
-              : null}
-          </div>
-        )}
-      />
-    )
+  AutocompleteWrapper.propTypes = {
+    values: PropTypes.array,
+    onChange: PropTypes.func,
   }
+
+  return AutocompleteWrapper
 }
 
-Autocomplete.propTypes = {
-  values: PropTypes.array,
-  DataSource: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
-}
-
-export default Autocomplete
+export default createAutocomplete

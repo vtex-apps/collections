@@ -1,0 +1,8 @@
+query BrandsAutocomplete(
+  $name: String!
+) {
+  suggestions: brandsAutocomplete(name: $name) {
+    id,
+    name
+  }
+}

@@ -1,0 +1,10 @@
+query CategoryName(
+  $categories: [Int]
+) {
+  names: getCategories(
+    ids: $categories
+  ) {
+    id
+    name
+  }
+}

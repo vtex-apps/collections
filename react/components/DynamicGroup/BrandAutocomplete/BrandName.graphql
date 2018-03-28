@@ -1,0 +1,10 @@
+query BrandName(
+  $brands: [Int]
+) {
+  names: getBrands(
+    ids: $brands
+  ) {
+    id
+    name
+  }
+}

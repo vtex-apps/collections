@@ -1,0 +1,8 @@
+query CategoriesAutocomplete(
+  $name: String!
+) {
+  suggestions: categoriesAutocomplete(name: $name) {
+    id,
+    name
+  }
+}
