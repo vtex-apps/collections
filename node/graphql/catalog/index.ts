@@ -1,7 +1,7 @@
 import { ColossusContext } from 'colossus';
 import {
-  getCategories,
-  getBrands,
+  getCategoryByName,
+  getBrandByName,
   getProducts,
   getProductsBySku,
   getBrand,
@@ -14,12 +14,10 @@ export const Query = {
     data,
     { vtex: ioContext }: ColossusContext
   ) {
-    const categories = await getCategories({
+    const categories = await getCategoryByName({
       ioContext,
       name: data.name || '',
     });
-
-    console.log({ categories });
 
     return categories;
   },
@@ -29,7 +27,7 @@ export const Query = {
     data,
     { vtex: ioContext }: ColossusContext
   ) {
-    const brands = await getBrands({
+    const brands = await getBrandByName({
       ioContext,
       name: data.name || '',
     });

@@ -1,12 +1,9 @@
 import { parse as parseCookie } from 'cookie'
 import axios from '../axios'
 
-export function getCategories({ ioContext, name }) {
-  console.log(
-    `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pub/category/list?filter=${name}&parent=`
-  )
+export function getCategoryByName({ ioContext, name }) {
   return axios({
-    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pub/category/list?filter=${name}&parent=`,
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pub/category/list?filter=${encodeURIComponent(name)}&parent=`,
     method: 'get',
     headers: {
       Authorization: ioContext.authToken,
@@ -24,9 +21,9 @@ export function getCategory({ ioContext, id }) {
   }).then(({ data }) => data)
 }
 
-export function getBrands({ ioContext, name }) {
+export function getBrandByName({ ioContext, name }) {
   return axios({
-    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/brand/list/${name}`,
+    url: `http://${ioContext.account}.vtexcommercebeta.com.br/api/catalog_system/pvt/brand/list/${encodeURIComponent(name)}`,
     method: 'get',
     headers: {
       Authorization: ioContext.authToken,
